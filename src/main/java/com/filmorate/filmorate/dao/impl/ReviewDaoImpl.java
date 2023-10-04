@@ -1,0 +1,75 @@
+package com.filmorate.filmorate.dao.impl;
+
+import com.filmorate.filmorate.dao.ReviewDao;
+import com.filmorate.filmorate.dao.mapper.ReviewMapper;
+import com.filmorate.filmorate.model.Review;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    @Override
+    public void create(Review review) {
+        String sql = "insert into reviews (id, content, is_positive, user_id, film_id, useful) values (?, ?, ?, ?, ?, ?)";
+        review.setId(getNextId());
+
+        jdbcTemplate.update(sql, review.getId(), review.getContent(), review.getIsPositive(), review.getUserId(), review.getFilmId(), review.getUseful());
+    }
+
+    @Override
+    public void update(Review review) {
+        String sql = "update reviews set content = ?, is_positive = ?, user_id = ?, film_id = ?, useful = ? where id = ?";
+
+        jdbcTemplate.update(sql, review.getContent(), review.getIsPositive(), review.getUserId(), review.getFilmId(), review.getUseful(), review.getId());
+    }
+
+    @Override
+    public Review findById(int id) {
+        try {
+            return jdbcTemplate.queryForObject("select * from reviews where id = ?", new ReviewMapper(), id);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с указанным идентификатором не найден.");
+        }
+    }
+
+    @Override
+    public List<Review> findAll(Optional<Integer> filmId, int count) {
+        String filmCondition = filmId.isPresent() ? String.format("where film_id = %s", filmId.get()) : "";
+
+        return jdbcTemplate.query(String.format("select * from reviews %s order by useful desc limit %s", filmCondition, count), new ReviewMapper());
+    }
+
+    @Override
+    public void deleteById(int id) {
+        jdbcTemplate.update("delete from reviews where id = ?", id);
+    }
+
+    @Override
+    public void addMark(int id, int userId, Review.MarkType markType) {
+        Integer oldUseful = jdbcTemplate.queryForObject("select useful from reviews where id = ?", Integer.class, id);
+        Integer useful = markType == Review.MarkType.LIKE ? ++oldUseful : --oldUseful;
+
+        jdbcTemplate.update("insert into review_marks (review_id, user_id, mark_type) values (?, ?, ?)", id, userId, markType.toString());
+        jdbcTemplate.update("update reviews set useful = ? where id = ?", useful, id);
+    }
+
+    @Override
+    public void deleteMark(int id, int userId, Review.MarkType markType) {
+        Integer oldUseful = jdbcTemplate.queryForObject("select useful from reviews where id = ?", Integer.class, id);
+        Integer useful = markType == Review.MarkType.DISLIKE ? ++oldUseful : --oldUseful;
+
+        jdbcTemplate.update("delete into review_marks (review_id, user_id, mark_type) values (?, ?, ?)", id, userId, markType.toString());
+        jdbcTemplate.update("update reviews set useful = ? where id = ?", useful, id);
+    }
+}
