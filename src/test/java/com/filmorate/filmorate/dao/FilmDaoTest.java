@@ -1,6 +1,5 @@
-package com.filmorate.filmorate.storage;
+package com.filmorate.filmorate.dao;
 
-import com.filmorate.filmorate.dao.FilmDao;
 import com.filmorate.filmorate.model.Film;
 import com.filmorate.filmorate.model.Genre;
 import com.filmorate.filmorate.model.Mpa;

@@ -1,6 +1,5 @@
-package com.filmorate.filmorate.storage;
+package com.filmorate.filmorate.dao;
 
-import com.filmorate.filmorate.dao.UserDao;
 import com.filmorate.filmorate.model.User;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
