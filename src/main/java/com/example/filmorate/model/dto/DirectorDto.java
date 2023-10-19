@@ -8,6 +8,6 @@ import javax.validation.constraints.NotNull;
 public class DirectorDto {
     private final Integer id;
 
-    @NotNull
+    @NotNull(message = "Имя режиссера не может быть пустым.")
     private final String name;
 }

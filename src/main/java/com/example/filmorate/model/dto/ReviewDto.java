@@ -8,16 +8,16 @@ import javax.validation.constraints.NotNull;
 public class ReviewDto {
     private final Integer reviewId;
 
-    @NotNull
+    @NotNull(message = "Содержимое отзыва не может быть пустым.")
     private final String content;
 
-    @NotNull
+    @NotNull(message = "Оценка отзыва не может быть пустой.")
     private final Boolean isPositive;
 
-    @NotNull
+    @NotNull(message = "Идентификатор пользователя не может быть пустым.")
     private final Integer userId;
 
-    @NotNull
+    @NotNull(message = "Идентификатор фильма не может быть пустым.")
     private final Integer filmId;
     private final Integer useful;
 }

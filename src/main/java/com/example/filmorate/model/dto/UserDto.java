@@ -10,14 +10,14 @@ import java.util.List;
 public class UserDto {
     private final Integer id;
 
-    @NotNull
+    @NotNull(message = "Электронная почта пользователя не может быть пустой.")
     private final String email;
 
-    @NotNull
+    @NotNull(message = "Login пользователя не может быть пустым.")
     private final String login;
     private final String name;
 
-    @NotNull
+    @NotNull(message = "Дата рождения пользователя не может быть пустой.")
     private final LocalDate birthday;
     private final List<Integer> friends;
 }

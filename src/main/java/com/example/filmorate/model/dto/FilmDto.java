@@ -13,19 +13,19 @@ import java.util.List;
 public class FilmDto {
     private final Integer id;
 
-    @NotNull
+    @NotNull(message = "Название фильма не может быть пустым.")
     private final String name;
 
-    @NotNull
+    @NotNull(message = "Описание фильма не может быть пустым.")
     private final String description;
 
-    @NotNull
+    @NotNull(message = "Дата выхода фильма не может быть пустой.")
     private final LocalDate releaseDate;
 
-    @NotNull
+    @NotNull(message = "Длительность фильма не может быть пустой.")
     private final Integer duration;
 
-    @NotNull
+    @NotNull(message = "Жанр фильма не может быть пустым.")
     private final Mpa mpa;
     private final List<Genre> genres;
     private final List<Integer> likingUsers;
