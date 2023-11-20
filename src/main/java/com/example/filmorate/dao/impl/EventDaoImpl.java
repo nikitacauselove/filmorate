@@ -1,7 +1,7 @@
 package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.EventDao;
-import com.example.filmorate.dao.mapper.EventMapper;
+import com.example.filmorate.dao.mapper.EventRowMapper;
 import com.example.filmorate.model.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,6 @@ public class EventDaoImpl extends DaoImpl implements EventDao {
 
     @Override
     public List<Event> findAllByUserId(int userId) {
-        return jdbcTemplate.query("select * from events where user_id = ?", new EventMapper(), userId);
+        return jdbcTemplate.query("select * from events where user_id = ?", new EventRowMapper(), userId);
     }
 }

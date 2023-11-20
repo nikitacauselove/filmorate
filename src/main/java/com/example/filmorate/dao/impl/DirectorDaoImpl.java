@@ -1,7 +1,7 @@
 package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.DirectorDao;
-import com.example.filmorate.dao.mapper.DirectorMapper;
+import com.example.filmorate.dao.mapper.DirectorRowMapper;
 import com.example.filmorate.model.Director;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
     @Override
     public Director findById(int id) {
         try {
-            return jdbcTemplate.queryForObject("select * from directors where id = ?", new DirectorMapper(), id);
+            return jdbcTemplate.queryForObject("select * from directors where id = ?", new DirectorRowMapper(), id);
         } catch (EmptyResultDataAccessException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден.");
         }
@@ -46,7 +46,7 @@ public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
 
     @Override
     public List<Director> findAll() {
-        return jdbcTemplate.query("select * from directors", new DirectorMapper());
+        return jdbcTemplate.query("select * from directors", new DirectorRowMapper());
     }
 
     @Override

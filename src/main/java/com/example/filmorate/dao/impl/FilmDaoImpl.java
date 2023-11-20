@@ -1,8 +1,8 @@
 package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.FilmDao;
-import com.example.filmorate.dao.mapper.DirectorMapper;
-import com.example.filmorate.dao.mapper.FilmMapper;
+import com.example.filmorate.dao.mapper.DirectorRowMapper;
+import com.example.filmorate.dao.mapper.FilmRowMapper;
 import com.example.filmorate.model.Director;
 import com.example.filmorate.model.Film;
 import com.example.filmorate.model.Genre;
@@ -84,7 +84,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
     @Override
     public Film findById(int id) {
         try {
-            return jdbcTemplate.queryForObject("select * from films where id = ?", new FilmMapper(this), id);
+            return jdbcTemplate.queryForObject("select * from films where id = ?", new FilmRowMapper(this), id);
         } catch (EmptyResultDataAccessException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден.");
         }
@@ -97,7 +97,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
 
     @Override
     public List<Film> findAll() {
-        return jdbcTemplate.query("select * from films", new FilmMapper(this));
+        return jdbcTemplate.query("select * from films", new FilmRowMapper(this));
     }
 
     @Override
@@ -107,9 +107,9 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
         if (sortBy == Film.SortBy.LIKES) {
             String sql = "select * from films left join (select film_id, count(user_id) as count from film_likes group by film_id) as like_counts on films.id = like_counts.film_id where id in (%s) order by like_counts.count desc";
 
-            return jdbcTemplate.query(String.format(sql, inSql(listOfId)), new FilmMapper(this));
+            return jdbcTemplate.query(String.format(sql, inSql(listOfId)), new FilmRowMapper(this));
         } else {
-            return jdbcTemplate.query(String.format("select * from films where id in (%s) order by extract(year from release_date)", inSql(listOfId)), new FilmMapper(this));
+            return jdbcTemplate.query(String.format("select * from films where id in (%s) order by extract(year from release_date)", inSql(listOfId)), new FilmRowMapper(this));
         }
     }
 
@@ -132,7 +132,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
     public List<Film> findCommon(int userId, int friendId) {
         List<Integer> listOfId = jdbcTemplate.queryForList("select film_id from film_likes where user_id = ? intersect select film_id from film_likes where user_id = ?", Integer.class, userId, friendId);
 
-        return jdbcTemplate.query(String.format("select * from films where id in (%s)", inSql(listOfId)), new FilmMapper(this));
+        return jdbcTemplate.query(String.format("select * from films where id in (%s)", inSql(listOfId)), new FilmRowMapper(this));
     }
 
     @Override
@@ -149,7 +149,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
         String conditions = listOfCondition.isEmpty() ? "" : String.format("where %s", String.join(" and ", listOfCondition));
         String sql = String.format("select * from films left join (select film_id, count(user_id) as count from film_likes group by film_id) as like_counts on films.id = like_counts.film_id %s order by like_counts.count desc limit ?", conditions);
 
-        return jdbcTemplate.query(sql, new FilmMapper(this), count);
+        return jdbcTemplate.query(sql, new FilmRowMapper(this), count);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
         List<Integer> listOfUserId = jdbcTemplate.queryForList(String.format("select user_id from (%s)", mostRelevantUsersSql), Integer.class);
         List<Integer> listOfFilmId = jdbcTemplate.queryForList(String.format("select film_id from film_likes where user_id in (%s) except %s", inSql(listOfUserId), likedFilmsSql), Integer.class);
 
-        return jdbcTemplate.query(String.format("select * from films where id in (%s)", inSql(listOfFilmId)), new FilmMapper(this));
+        return jdbcTemplate.query(String.format("select * from films where id in (%s)", inSql(listOfFilmId)), new FilmRowMapper(this));
     }
 
     @Override
@@ -181,7 +181,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
         String conditions = listOfCondition.isEmpty() ? "" : String.format("where %s", String.join(" or ", listOfCondition));
         String sql = String.format("select * from films left join (select film_id, count(user_id) as count from film_likes group by film_id) as like_counts on films.id = like_counts.film_id %s order by like_counts.count desc", conditions);
 
-        return jdbcTemplate.query(sql, new FilmMapper(this));
+        return jdbcTemplate.query(sql, new FilmRowMapper(this));
     }
 
     @Override
@@ -202,6 +202,6 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
     public List<Director> findDirectorsByFilmId(int filmId) {
         List<Integer> listOfId = jdbcTemplate.queryForList("select director_id from film_directors where film_id = ?", Integer.class, filmId);
 
-        return jdbcTemplate.query(String.format("select * from directors where id in (%s)", inSql(listOfId)), new DirectorMapper());
+        return jdbcTemplate.query(String.format("select * from directors where id in (%s)", inSql(listOfId)), new DirectorRowMapper());
     }
 }

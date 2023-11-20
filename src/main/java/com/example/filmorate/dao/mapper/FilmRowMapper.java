@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class FilmMapper implements RowMapper<Film> {
+public class FilmRowMapper implements RowMapper<Film> {
     private final FilmDao filmDao;
 
     @Override

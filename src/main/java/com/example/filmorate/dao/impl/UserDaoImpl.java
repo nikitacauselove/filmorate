@@ -1,7 +1,7 @@
 package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.UserDao;
-import com.example.filmorate.dao.mapper.UserMapper;
+import com.example.filmorate.dao.mapper.UserRowMapper;
 import com.example.filmorate.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
     @Override
     public User findById(int id) {
         try {
-            return jdbcTemplate.queryForObject("select * from users where id = ?", new UserMapper(this), id);
+            return jdbcTemplate.queryForObject("select * from users where id = ?", new UserRowMapper(this), id);
         } catch (EmptyResultDataAccessException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
         }
@@ -51,7 +51,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() {
-        return jdbcTemplate.query("select * from users", new UserMapper(this));
+        return jdbcTemplate.query("select * from users", new UserRowMapper(this));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
     public List<User> findAllFriends(int id) {
         List<Integer> listOfId = findAllFriends(id, true);
 
-        return jdbcTemplate.query(String.format("select * from users where id in (%s)", inSql(listOfId)), new UserMapper(this));
+        return jdbcTemplate.query(String.format("select * from users where id in (%s)", inSql(listOfId)), new UserRowMapper(this));
     }
 
     @Override
@@ -85,6 +85,6 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
     public List<User> findCommonFriends(int id, int otherId) {
         List<Integer> listOfId = jdbcTemplate.queryForList(String.format("%s intersect %s", FIND_ALL_FRIENDS_SQL, FIND_ALL_FRIENDS_SQL), Integer.class, id, otherId);
 
-        return jdbcTemplate.query(String.format("select * from users where id in (%s)", inSql(listOfId)), new UserMapper(this));
+        return jdbcTemplate.query(String.format("select * from users where id in (%s)", inSql(listOfId)), new UserRowMapper(this));
     }
 }

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class UserMapper implements RowMapper<User> {
+public class UserRowMapper implements RowMapper<User> {
     private final UserDao userDao;
 
     @Override

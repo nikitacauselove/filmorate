@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS films (
     release_date DATE        NOT NULL,
     duration     INT         NOT NULL,
     mpa_id       INT         NOT NULL,
-                 FOREIGN KEY (mpa_id) REFERENCES mpa(id)
+                 FOREIGN KEY (mpa_id) REFERENCES mpa(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS film_genres (
     film_id  INT NOT NULL,
     genre_id INT NOT NULL,
              FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
-             FOREIGN KEY (genre_id) REFERENCES genres(id)
+             FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS film_likes (

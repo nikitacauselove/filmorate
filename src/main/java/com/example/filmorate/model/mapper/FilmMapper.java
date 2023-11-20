@@ -5,7 +5,8 @@ import com.example.filmorate.model.Film;
 import com.example.filmorate.model.Genre;
 import com.example.filmorate.model.dto.FilmDto;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class FilmMapper {

@@ -1,7 +1,7 @@
 package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.ReviewDao;
-import com.example.filmorate.dao.mapper.ReviewMapper;
+import com.example.filmorate.dao.mapper.ReviewRowMapper;
 import com.example.filmorate.model.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
     @Override
     public Review findById(int id) {
         try {
-            return jdbcTemplate.queryForObject("select * from reviews where id = ?", new ReviewMapper(), id);
+            return jdbcTemplate.queryForObject("select * from reviews where id = ?", new ReviewRowMapper(), id);
         } catch (EmptyResultDataAccessException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с указанным идентификатором не найден.");
         }
@@ -47,7 +47,7 @@ public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
     public List<Review> findAll(Optional<Integer> filmId, int count) {
         String filmCondition = filmId.isPresent() ? String.format("where film_id = %s", filmId.get()) : "";
 
-        return jdbcTemplate.query(String.format("select * from reviews %s order by useful desc limit %s", filmCondition, count), new ReviewMapper());
+        return jdbcTemplate.query(String.format("select * from reviews %s order by useful desc limit %s", filmCondition, count), new ReviewRowMapper());
     }
 
     @Override
