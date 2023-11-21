@@ -49,17 +49,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public UserDto addFriend(@PathVariable int id, @PathVariable int friendId) {
+    public void addFriend(@PathVariable int id, @PathVariable int friendId) {
         userService.addFriend(id, friendId);
-
-        return UserMapper.toUserDto(userService.findById(id));
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public UserDto deleteFriend(@PathVariable int id, @PathVariable int friendId) {
+    public void deleteFriend(@PathVariable int id, @PathVariable int friendId) {
         userService.deleteFriend(id, friendId);
-
-        return UserMapper.toUserDto(userService.findById(id));
     }
 
     @GetMapping("/{id}/friends")

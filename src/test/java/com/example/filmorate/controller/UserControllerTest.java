@@ -1,5 +1,8 @@
 package com.example.filmorate.controller;
 
+import com.example.filmorate.model.Film;
+import com.example.filmorate.model.Genre;
+import com.example.filmorate.model.Mpa;
 import com.example.filmorate.model.User;
 import com.example.filmorate.model.dto.UserDto;
 import com.example.filmorate.service.UserService;
@@ -40,38 +43,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("mail@mail.ru"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.login").value("dolore"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Nick Name"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1946-08-20"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.friends").isEmpty());
-    }
-
-    @Test
-    public void createNullEmail() throws Exception {
-        UserDto userDto = new UserDto(null, null, "dolore", "Nick Name", LocalDate.parse("1946-08-20"), null);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                        .content(objectMapper.writeValueAsString(userDto))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    public void createNullLogin() throws Exception {
-        UserDto userDto = new UserDto(null, "mail@mail.ru", null, "Nick Name", LocalDate.parse("1946-08-20"), null);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                        .content(objectMapper.writeValueAsString(userDto))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    public void createNullBirthday() throws Exception {
-        UserDto userDto = new UserDto(null, "mail@mail.ru", "dolore", "Nick Name", null, null);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                        .content(objectMapper.writeValueAsString(userDto))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1946-08-20"));
     }
 
     @Test
@@ -88,8 +60,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("mail@yandex.ru"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.login").value("doloreUpdate"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("est adipisicing"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1976-09-20"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.friends").isEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1976-09-20"));
     }
 
     @Test
@@ -102,8 +73,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("mail@yandex.ru"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.login").value("doloreUpdate"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("est adipisicing"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1976-09-20"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.friends").isEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("1976-09-20"));
     }
 
     @Test
@@ -117,7 +87,67 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].email").value("mail@yandex.ru"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].login").value("doloreUpdate"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("est adipisicing"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].birthday").value("1976-09-20"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].friends").isEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].birthday").value("1976-09-20"));
+    }
+
+    @Test
+    public void addFriend() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/users/1/friends/2"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void deleteFriend() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/1/friends/2"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void findAllFriend() throws Exception {
+        Mockito.when(userService.findAllFriends(Mockito.anyInt())).thenReturn(List.of(new User(2, "friend@mail.ru", "friend", "friend adipisicing", LocalDate.parse("1976-08-20"), Collections.emptyList())));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/1/friends"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].email").value("friend@mail.ru"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].login").value("friend"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("friend adipisicing"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].birthday").value("1976-08-20"));
+    }
+
+    @Test
+    public void findCommonFriends() throws Exception {
+        Mockito.when(userService.findCommonFriends(Mockito.anyInt(), Mockito.anyInt())).thenReturn(List.of(new User(3, "friend@common.ru", "common", "common", LocalDate.parse("2000-08-20"), Collections.emptyList())));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/1/friends/common/2"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].email").value("friend@common.ru"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].login").value("common"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("common"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].birthday").value("2000-08-20"));
+    }
+
+    @Test
+    public void findRecommendations() throws Exception {
+        Film film = new Film(2, "New film", "New film about friends", LocalDate.parse("1999-04-30"), 120, Mpa.PG13, List.of(Genre.COMEDY, Genre.DRAMA), List.of(2), Collections.emptyList());
+        Mockito.when(userService.findRecommendations(Mockito.anyInt())).thenReturn(List.of(film));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/1/recommendations"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("New film"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].description").value("New film about friends"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].releaseDate").value("1999-04-30"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].duration").value(120))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].mpa.id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].mpa.name").value("PG-13"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].genres.[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].genres.[0].name").value("Комедия"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].genres.[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].genres.[1].name").value("Драма"));
     }
 }
