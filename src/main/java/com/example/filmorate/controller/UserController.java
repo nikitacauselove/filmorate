@@ -1,13 +1,12 @@
 package com.example.filmorate.controller;
 
-import com.example.filmorate.service.UserService;
-import com.example.filmorate.model.User;
-import com.example.filmorate.model.dto.FilmDto;
-import com.example.filmorate.model.dto.UserDto;
-import com.example.filmorate.model.mapper.FilmMapper;
-import com.example.filmorate.model.mapper.UserMapper;
+import com.example.filmorate.service.impl.UserServiceImpl;
+import com.example.filmorate.entity.User;
+import com.example.filmorate.dto.FilmDto;
+import com.example.filmorate.dto.UserDto;
+import com.example.filmorate.mapper.FilmMapper;
+import com.example.filmorate.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,9 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "users")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @PostMapping
     public UserDto create(@RequestBody @Valid UserDto userDto) {

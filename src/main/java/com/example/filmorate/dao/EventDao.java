@@ -1,6 +1,6 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.Event;
+import com.example.filmorate.entity.Event;
 
 import java.util.List;
 

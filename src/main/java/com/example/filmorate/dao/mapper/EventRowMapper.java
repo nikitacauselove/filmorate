@@ -1,6 +1,6 @@
 package com.example.filmorate.dao.mapper;
 
-import com.example.filmorate.model.Event;
+import com.example.filmorate.entity.Event;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

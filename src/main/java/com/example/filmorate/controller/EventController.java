@@ -1,10 +1,9 @@
 package com.example.filmorate.controller;
 
-import com.example.filmorate.model.dto.EventDto;
-import com.example.filmorate.model.mapper.EventMapper;
-import com.example.filmorate.service.EventService;
+import com.example.filmorate.dto.EventDto;
+import com.example.filmorate.mapper.EventMapper;
+import com.example.filmorate.service.impl.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class EventController {
-    private final EventService eventService;
+    private final EventServiceImpl eventService;
 
     @GetMapping("users/{id}/feed")
     public List<EventDto> findAllByUserId(@PathVariable int id) {

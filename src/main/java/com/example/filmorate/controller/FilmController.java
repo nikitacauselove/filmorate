@@ -1,11 +1,10 @@
 package com.example.filmorate.controller;
 
-import com.example.filmorate.service.FilmService;
-import com.example.filmorate.model.Film;
-import com.example.filmorate.model.dto.FilmDto;
-import com.example.filmorate.model.mapper.FilmMapper;
+import com.example.filmorate.service.impl.FilmServiceImpl;
+import com.example.filmorate.entity.Film;
+import com.example.filmorate.dto.FilmDto;
+import com.example.filmorate.mapper.FilmMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,9 +13,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "films")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class FilmController {
-    private final FilmService filmService;
+    private final FilmServiceImpl filmService;
 
     @PostMapping
     public FilmDto create(@RequestBody @Valid FilmDto filmDto) {

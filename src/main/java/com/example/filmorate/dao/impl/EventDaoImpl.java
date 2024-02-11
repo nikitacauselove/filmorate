@@ -2,7 +2,7 @@ package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.EventDao;
 import com.example.filmorate.dao.mapper.EventRowMapper;
-import com.example.filmorate.model.Event;
+import com.example.filmorate.entity.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

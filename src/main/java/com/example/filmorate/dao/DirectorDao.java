@@ -1,6 +1,6 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.Director;
+import com.example.filmorate.entity.Director;
 
 import java.util.List;
 

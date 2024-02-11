@@ -1,8 +1,8 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.Film;
-import com.example.filmorate.model.Genre;
-import com.example.filmorate.model.Mpa;
+import com.example.filmorate.entity.Film;
+import com.example.filmorate.entity.Genre;
+import com.example.filmorate.entity.Mpa;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

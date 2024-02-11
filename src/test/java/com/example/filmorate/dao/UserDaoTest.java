@@ -1,6 +1,6 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.User;
+import com.example.filmorate.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

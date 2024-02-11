@@ -1,4 +1,4 @@
-package com.example.filmorate.model;
+package com.example.filmorate.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

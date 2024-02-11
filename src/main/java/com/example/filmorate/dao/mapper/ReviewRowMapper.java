@@ -1,6 +1,6 @@
 package com.example.filmorate.dao.mapper;
 
-import com.example.filmorate.model.Review;
+import com.example.filmorate.entity.Review;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

@@ -1,7 +1,7 @@
-package com.example.filmorate.model.mapper;
+package com.example.filmorate.mapper;
 
-import com.example.filmorate.model.Director;
-import com.example.filmorate.model.dto.DirectorDto;
+import com.example.filmorate.entity.Director;
+import com.example.filmorate.dto.DirectorDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

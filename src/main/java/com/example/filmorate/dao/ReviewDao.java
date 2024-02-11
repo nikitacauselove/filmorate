@@ -1,6 +1,6 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.Review;
+import com.example.filmorate.entity.Review;
 
 import java.util.List;
 import java.util.Optional;

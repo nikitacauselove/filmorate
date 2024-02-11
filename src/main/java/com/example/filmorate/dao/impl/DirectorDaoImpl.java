@@ -2,7 +2,7 @@ package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.DirectorDao;
 import com.example.filmorate.dao.mapper.DirectorRowMapper;
-import com.example.filmorate.model.Director;
+import com.example.filmorate.entity.Director;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

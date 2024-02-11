@@ -1,7 +1,7 @@
-package com.example.filmorate.model.mapper;
+package com.example.filmorate.mapper;
 
-import com.example.filmorate.model.User;
-import com.example.filmorate.model.dto.UserDto;
+import com.example.filmorate.entity.User;
+import com.example.filmorate.dto.UserDto;
 
 import java.util.Collections;
 import java.util.List;

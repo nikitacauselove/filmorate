@@ -1,11 +1,10 @@
 package com.example.filmorate.controller;
 
-import com.example.filmorate.model.Review;
-import com.example.filmorate.model.dto.ReviewDto;
-import com.example.filmorate.model.mapper.ReviewMapper;
-import com.example.filmorate.service.ReviewService;
+import com.example.filmorate.entity.Review;
+import com.example.filmorate.dto.ReviewDto;
+import com.example.filmorate.mapper.ReviewMapper;
+import com.example.filmorate.service.impl.ReviewServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,9 +13,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "reviews")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class ReviewController {
-    private final ReviewService reviewService;
+    private final ReviewServiceImpl reviewService;
 
     @PostMapping
     public ReviewDto create(@RequestBody @Valid ReviewDto reviewDto) {

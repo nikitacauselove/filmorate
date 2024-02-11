@@ -1,8 +1,8 @@
-package com.example.filmorate.model.dto;
+package com.example.filmorate.dto;
 
-import com.example.filmorate.model.Director;
-import com.example.filmorate.model.Genre;
-import com.example.filmorate.model.Mpa;
+import com.example.filmorate.entity.Director;
+import com.example.filmorate.entity.Genre;
+import com.example.filmorate.entity.Mpa;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

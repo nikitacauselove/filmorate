@@ -2,7 +2,7 @@ package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.ReviewDao;
 import com.example.filmorate.dao.mapper.ReviewRowMapper;
-import com.example.filmorate.model.Review;
+import com.example.filmorate.entity.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

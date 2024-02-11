@@ -1,11 +1,10 @@
 package com.example.filmorate.controller;
 
-import com.example.filmorate.model.Director;
-import com.example.filmorate.model.dto.DirectorDto;
-import com.example.filmorate.model.mapper.DirectorMapper;
-import com.example.filmorate.service.DirectorService;
+import com.example.filmorate.entity.Director;
+import com.example.filmorate.dto.DirectorDto;
+import com.example.filmorate.mapper.DirectorMapper;
+import com.example.filmorate.service.impl.DirectorServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "directors")
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class DirectorController {
-    private final DirectorService directorService;
+    private final DirectorServiceImpl directorService;
 
     @PostMapping
     public DirectorDto create(@RequestBody @Valid DirectorDto directorDto) {

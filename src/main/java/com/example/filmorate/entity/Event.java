@@ -1,4 +1,4 @@
-package com.example.filmorate.model;
+package com.example.filmorate.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.filmorate.model.dto;
+package com.example.filmorate.dto;
 
 import lombok.Data;
 

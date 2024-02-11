@@ -1,85 +1,29 @@
 package com.example.filmorate.service;
 
-import com.example.filmorate.dao.EventDao;
-import com.example.filmorate.dao.FilmDao;
-import com.example.filmorate.dao.UserDao;
-import com.example.filmorate.model.Event;
-import com.example.filmorate.model.Film;
-import com.example.filmorate.model.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+import com.example.filmorate.entity.Film;
+import com.example.filmorate.entity.User;
 
 import java.util.List;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
-@Service
-public class UserService {
-    private final EventDao eventDao;
-    private final FilmDao filmDao;
-    private final UserDao userDao;
+public interface UserService {
 
-    @Transactional
-    public User create(User user) {
-        if (user.isValid()) {
-            userDao.create(user);
-        }
-        return findById(user.getId());
-    }
+    User create(User user);
 
-    @Transactional
-    public User update(User user) {
-        if (user.isValid()) {
-            userDao.update(user);
-        }
-        return findById(user.getId());
-    }
+    User update(User user);
 
-    public User findById(int id) {
-        return userDao.findById(id);
-    }
+    User findById(int id);
 
-    public List<User> findAll() {
-        return userDao.findAll();
-    }
+    List<User> findAll();
 
-    @Transactional
-    public void deleteById(int userId) {
-        userDao.deleteById(userId);
-    }
+    void deleteById(int userId);
 
-    @Transactional
-    public void addFriend(int id, int friendId) {
-        if (userDao.existsById(id) & userDao.existsById(friendId)) {
-            userDao.addFriend(id, friendId);
-            eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-        }
-    }
+    void addFriend(int id, int friendId);
 
-    @Transactional
-    public void deleteFriend(int id, int friendId) {
-        userDao.deleteFriend(id, friendId);
-        eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
-    }
+    void deleteFriend(int id, int friendId);
 
-    public List<User> findAllFriends(int id) {
-        if (userDao.existsById(id)) {
-            return userDao.findAllFriends(id);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-        }
-    }
+    List<User> findAllFriends(int id);
 
-    public List<User> findCommonFriends(int id, int otherId) {
-        return userDao.findCommonFriends(id, otherId);
-    }
+    List<User> findCommonFriends(int id, int otherId);
 
-    public List<Film> findRecommendations(int id) {
-        return filmDao.findRecommendations(id);
-    }
+    List<Film> findRecommendations(int id);
 }

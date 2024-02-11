@@ -1,7 +1,7 @@
-package com.example.filmorate.model.mapper;
+package com.example.filmorate.mapper;
 
-import com.example.filmorate.model.Review;
-import com.example.filmorate.model.dto.ReviewDto;
+import com.example.filmorate.entity.Review;
+import com.example.filmorate.dto.ReviewDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

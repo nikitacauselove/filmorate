@@ -1,7 +1,7 @@
 package com.example.filmorate.dao.mapper;
 
 import com.example.filmorate.dao.UserDao;
-import com.example.filmorate.model.User;
+import com.example.filmorate.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 

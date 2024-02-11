@@ -1,8 +1,8 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.Director;
-import com.example.filmorate.model.Film;
-import com.example.filmorate.model.Genre;
+import com.example.filmorate.entity.Director;
+import com.example.filmorate.entity.Film;
+import com.example.filmorate.entity.Genre;
 
 import java.util.List;
 import java.util.Optional;

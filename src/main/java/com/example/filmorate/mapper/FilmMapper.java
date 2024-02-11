@@ -1,9 +1,9 @@
-package com.example.filmorate.model.mapper;
+package com.example.filmorate.mapper;
 
-import com.example.filmorate.model.Director;
-import com.example.filmorate.model.Film;
-import com.example.filmorate.model.Genre;
-import com.example.filmorate.model.dto.FilmDto;
+import com.example.filmorate.entity.Director;
+import com.example.filmorate.entity.Film;
+import com.example.filmorate.entity.Genre;
+import com.example.filmorate.dto.FilmDto;
 
 import java.util.Collections;
 import java.util.List;

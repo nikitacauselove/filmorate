@@ -1,6 +1,6 @@
 package com.example.filmorate.dao;
 
-import com.example.filmorate.model.User;
+import com.example.filmorate.entity.User;
 
 import java.util.List;
 

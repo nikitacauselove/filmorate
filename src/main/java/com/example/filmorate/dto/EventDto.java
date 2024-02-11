@@ -1,6 +1,6 @@
-package com.example.filmorate.model.dto;
+package com.example.filmorate.dto;
 
-import com.example.filmorate.model.Event;
+import com.example.filmorate.entity.Event;
 import lombok.Data;
 
 @Data

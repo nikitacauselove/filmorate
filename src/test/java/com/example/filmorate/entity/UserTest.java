@@ -1,4 +1,4 @@
-package com.example.filmorate.model;
+package com.example.filmorate.entity;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

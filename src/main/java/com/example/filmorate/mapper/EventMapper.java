@@ -1,7 +1,7 @@
-package com.example.filmorate.model.mapper;
+package com.example.filmorate.mapper;
 
-import com.example.filmorate.model.Event;
-import com.example.filmorate.model.dto.EventDto;
+import com.example.filmorate.entity.Event;
+import com.example.filmorate.dto.EventDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

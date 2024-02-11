@@ -2,7 +2,7 @@ package com.example.filmorate.dao.impl;
 
 import com.example.filmorate.dao.UserDao;
 import com.example.filmorate.dao.mapper.UserRowMapper;
-import com.example.filmorate.model.User;
+import com.example.filmorate.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

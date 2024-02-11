@@ -1,45 +1,18 @@
 package com.example.filmorate.service;
 
-import com.example.filmorate.dao.DirectorDao;
-import com.example.filmorate.model.Director;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.example.filmorate.entity.Director;
 
 import java.util.List;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
-@Service
-public class DirectorService {
-    private final DirectorDao directorDao;
+public interface DirectorService {
 
-    @Transactional
-    public Director create(Director director) {
-        if (director.isValid()) {
-            directorDao.create(director);
-        }
-        return findById(director.getId());
-    }
+    Director create(Director director);
 
-    @Transactional
-    public Director update(Director director) {
-        if (director.isValid()) {
-            directorDao.update(director);
-        }
-        return findById(director.getId());
-    }
+    Director update(Director director);
 
-    public Director findById(int id) {
-        return directorDao.findById(id);
-    }
+    Director findById(int id);
 
-    public List<Director> findAll() {
-        return directorDao.findAll();
-    }
+    List<Director> findAll();
 
-    @Transactional
-    public void deleteById(int id) {
-        directorDao.deleteById(id);
-    }
+    void deleteById(int id);
 }
