@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "genres")
 public class GenresController {
+
     @GetMapping("/{id}")
     public Genre findById(@PathVariable int id) {
         return Genre.findById(id);

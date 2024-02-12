@@ -3,9 +3,19 @@ package com.example.filmorate.controller;
 import com.example.filmorate.entity.Review;
 import com.example.filmorate.dto.ReviewDto;
 import com.example.filmorate.mapper.ReviewMapper;
-import com.example.filmorate.service.impl.ReviewServiceImpl;
+import com.example.filmorate.service.impl.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,9 +25,11 @@ import java.util.Optional;
 @RequestMapping(path = "reviews")
 @RequiredArgsConstructor
 public class ReviewController {
-    private final ReviewServiceImpl reviewService;
+
+    private final ReviewService reviewService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ReviewDto create(@RequestBody @Valid ReviewDto reviewDto) {
         Review review = ReviewMapper.toReview(reviewDto);
 
@@ -42,6 +54,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable int id) {
         reviewService.deleteById(id);
     }

@@ -6,7 +6,6 @@ import com.example.filmorate.dao.ReviewDao;
 import com.example.filmorate.dao.UserDao;
 import com.example.filmorate.entity.Event;
 import com.example.filmorate.entity.Review;
-import com.example.filmorate.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
-public class ReviewServiceImpl implements ReviewService {
+public class ReviewService implements com.example.filmorate.service.ReviewService {
     private final EventDao eventDao;
     private final FilmDao filmDao;
     private final ReviewDao reviewDao;

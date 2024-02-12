@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "mpa")
 public class MpaController {
+
     @GetMapping("/{id}")
     public Mpa findById(@PathVariable int id) {
         return Mpa.findById(id);

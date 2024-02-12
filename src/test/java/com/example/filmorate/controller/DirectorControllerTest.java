@@ -2,7 +2,7 @@ package com.example.filmorate.controller;
 
 import com.example.filmorate.entity.Director;
 import com.example.filmorate.dto.DirectorDto;
-import com.example.filmorate.service.impl.DirectorServiceImpl;
+import com.example.filmorate.service.impl.DirectorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class DirectorControllerTest {
     @MockBean
-    private final DirectorServiceImpl directorService;
+    private final DirectorService directorService;
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
 
