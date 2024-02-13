@@ -2,7 +2,7 @@ package com.example.filmorate.controller;
 
 import com.example.filmorate.dto.EventDto;
 import com.example.filmorate.mapper.EventMapper;
-import com.example.filmorate.service.impl.EventService;
+import com.example.filmorate.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,6 +1,6 @@
 package com.example.filmorate.controller;
 
-import com.example.filmorate.service.impl.UserService;
+import com.example.filmorate.service.UserService;
 import com.example.filmorate.entity.User;
 import com.example.filmorate.dto.FilmDto;
 import com.example.filmorate.dto.UserDto;

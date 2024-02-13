@@ -3,7 +3,7 @@ package com.example.filmorate.controller;
 import com.example.filmorate.entity.Director;
 import com.example.filmorate.dto.DirectorDto;
 import com.example.filmorate.mapper.DirectorMapper;
-import com.example.filmorate.service.impl.DirectorService;
+import com.example.filmorate.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

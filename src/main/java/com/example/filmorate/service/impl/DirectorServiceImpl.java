@@ -2,6 +2,7 @@ package com.example.filmorate.service.impl;
 
 import com.example.filmorate.dao.DirectorDao;
 import com.example.filmorate.entity.Director;
+import com.example.filmorate.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
-public class DirectorService implements com.example.filmorate.service.DirectorService {
+public class DirectorServiceImpl implements DirectorService {
     private final DirectorDao directorDao;
 
     @Override

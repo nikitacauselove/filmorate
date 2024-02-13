@@ -6,6 +6,7 @@ import com.example.filmorate.dao.FilmDao;
 import com.example.filmorate.dao.UserDao;
 import com.example.filmorate.entity.Event;
 import com.example.filmorate.entity.Film;
+import com.example.filmorate.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
-public class FilmService implements com.example.filmorate.service.FilmService {
+public class FilmServiceImpl implements FilmService {
     private final DirectorDao directorDao;
     private final EventDao eventDao;
     private final FilmDao filmDao;

@@ -5,7 +5,7 @@ import com.example.filmorate.entity.Genre;
 import com.example.filmorate.entity.Mpa;
 import com.example.filmorate.entity.User;
 import com.example.filmorate.dto.UserDto;
-import com.example.filmorate.service.impl.UserService;
+import com.example.filmorate.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserControllerTest {
     @MockBean
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
 
