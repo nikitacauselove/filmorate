@@ -4,15 +4,15 @@ import com.example.filmorate.dao.DirectorDao;
 import com.example.filmorate.entity.Director;
 import com.example.filmorate.service.DirectorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class DirectorServiceImpl implements DirectorService {
+
     private final DirectorDao directorDao;
 
     @Override

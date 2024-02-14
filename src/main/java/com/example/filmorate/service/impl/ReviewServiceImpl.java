@@ -8,7 +8,6 @@ import com.example.filmorate.entity.Event;
 import com.example.filmorate.entity.Review;
 import com.example.filmorate.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +16,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class ReviewServiceImpl implements ReviewService {
+
     private final EventDao eventDao;
     private final FilmDao filmDao;
     private final ReviewDao reviewDao;

@@ -5,16 +5,16 @@ import com.example.filmorate.dao.UserDao;
 import com.example.filmorate.entity.Event;
 import com.example.filmorate.service.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class EventServiceImpl implements EventService {
+
     private final EventDao eventDao;
     private final UserDao userDao;
 
