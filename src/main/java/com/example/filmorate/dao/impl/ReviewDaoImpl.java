@@ -15,8 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     @Override

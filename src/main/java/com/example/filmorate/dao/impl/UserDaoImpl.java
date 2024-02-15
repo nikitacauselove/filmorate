@@ -14,8 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class UserDaoImpl extends DaoImpl implements UserDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     private static final String FIND_ALL_FRIENDS_SQL = "select receiving_user_id from friendship where requesting_user_id = ?";

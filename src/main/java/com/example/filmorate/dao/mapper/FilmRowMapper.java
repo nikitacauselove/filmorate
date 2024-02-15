@@ -14,6 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class FilmRowMapper implements RowMapper<Film> {
+
     private final FilmDao filmDao;
 
     @Override

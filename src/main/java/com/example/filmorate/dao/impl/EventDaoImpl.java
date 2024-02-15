@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class EventDaoImpl extends DaoImpl implements EventDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     @Override

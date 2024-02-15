@@ -11,6 +11,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class UserRowMapper implements RowMapper<User> {
+
     private final UserDao userDao;
 
     @Override

@@ -20,8 +20,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class FilmDaoImpl extends DaoImpl implements FilmDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     private void addGenres(int filmId, List<Genre> genres) {

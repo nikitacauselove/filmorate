@@ -14,8 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     @Override
