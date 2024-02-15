@@ -26,31 +26,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReviewController {
 
+    private final ReviewMapper reviewMapper;
     private final ReviewService reviewService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewDto create(@RequestBody @Valid ReviewDto reviewDto) {
-        Review review = ReviewMapper.toReview(reviewDto);
+        Review review = reviewMapper.toReview(reviewDto);
 
-        return ReviewMapper.toReviewDto(reviewService.create(review));
+        return reviewMapper.toReviewDto(reviewService.create(review));
     }
 
     @PutMapping
     public ReviewDto update(@RequestBody @Valid ReviewDto reviewDto) {
-        Review review = ReviewMapper.toReview(reviewDto, reviewService.findById(reviewDto.getReviewId()));
+        Review review = reviewMapper.toReview(reviewDto, reviewService.findById(reviewDto.getReviewId()));
 
-        return ReviewMapper.toReviewDto(reviewService.update(review));
+        return reviewMapper.toReviewDto(reviewService.update(review));
     }
 
     @GetMapping("/{id}")
     public ReviewDto findById(@PathVariable int id) {
-        return ReviewMapper.toReviewDto(reviewService.findById(id));
+        return reviewMapper.toReviewDto(reviewService.findById(id));
     }
 
     @GetMapping
     public List<ReviewDto> findAll(@RequestParam Optional<Integer> filmId, @RequestParam(defaultValue = "10") int count) {
-        return ReviewMapper.toReviewDto(reviewService.findAll(filmId, count));
+        return reviewMapper.toReviewDto(reviewService.findAll(filmId, count));
     }
 
     @DeleteMapping("/{id}")

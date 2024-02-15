@@ -33,7 +33,7 @@ public class DirectorControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/directors")
                         .content(objectMapper.writeValueAsString(directorDto))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Director"));
     }
@@ -86,6 +86,6 @@ public class DirectorControllerTest {
     @Test
     public void deleteById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/directors/2"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 }

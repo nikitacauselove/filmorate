@@ -1,10 +1,10 @@
 package com.example.filmorate.controller;
 
+import com.example.filmorate.mapper.FilmMapper;
 import com.example.filmorate.service.UserService;
 import com.example.filmorate.entity.User;
 import com.example.filmorate.dto.FilmDto;
 import com.example.filmorate.dto.UserDto;
-import com.example.filmorate.mapper.FilmMapper;
 import com.example.filmorate.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,30 +24,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final FilmMapper filmMapper;
+    private final UserMapper userMapper;
     private final UserService userService;
 
     @PostMapping
     public UserDto create(@RequestBody @Valid UserDto userDto) {
-        User user = UserMapper.toUser(userDto);
+        User user = userMapper.toUser(userDto);
 
-        return UserMapper.toUserDto(userService.create(user));
+        return userMapper.toUserDto(userService.create(user));
     }
 
     @PutMapping
     public UserDto update(@RequestBody @Valid UserDto userDto) {
-        User user = UserMapper.toUser(userDto, userService.findById(userDto.getId()));
+        User user = userMapper.toUser(userDto, userService.findById(userDto.getId()));
 
-        return UserMapper.toUserDto(userService.update(user));
+        return userMapper.toUserDto(userService.update(user));
     }
 
     @GetMapping("/{id}")
     public UserDto findById(@PathVariable int id) {
-        return UserMapper.toUserDto(userService.findById(id));
+        return userMapper.toUserDto(userService.findById(id));
     }
 
     @GetMapping
     public List<UserDto> findAll() {
-        return UserMapper.toUserDto(userService.findAll());
+        return userMapper.toUserDto(userService.findAll());
     }
 
     @DeleteMapping("/{userId}")
@@ -67,16 +69,16 @@ public class UserController {
 
     @GetMapping("/{id}/friends")
     public List<UserDto> findAllFriends(@PathVariable int id) {
-        return UserMapper.toUserDto(userService.findAllFriends(id));
+        return userMapper.toUserDto(userService.findAllFriends(id));
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
     public List<UserDto> findCommonFriends(@PathVariable int id, @PathVariable int otherId) {
-        return UserMapper.toUserDto(userService.findCommonFriends(id, otherId));
+        return userMapper.toUserDto(userService.findCommonFriends(id, otherId));
     }
 
     @GetMapping("/{id}/recommendations")
     public List<FilmDto> findRecommendations(@PathVariable int id) {
-        return FilmMapper.toFilmDto(userService.findRecommendations(id));
+        return filmMapper.toFilmDto(userService.findRecommendations(id));
     }
 }

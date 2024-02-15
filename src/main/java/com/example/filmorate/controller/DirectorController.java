@@ -24,31 +24,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DirectorController {
 
+    private final DirectorMapper directorMapper;
     private final DirectorService directorService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(@RequestBody @Valid DirectorDto directorDto) {
-        Director director = DirectorMapper.toDirector(directorDto);
+        Director director = directorMapper.toDirector(directorDto);
 
-        return DirectorMapper.toDirectorDto(directorService.create(director));
+        return directorMapper.toDirectorDto(directorService.create(director));
     }
 
     @PutMapping
     public DirectorDto update(@RequestBody @Valid DirectorDto directorDto) {
-        Director director = DirectorMapper.toDirector(directorDto, directorService.findById(directorDto.getId()));
+        Director director = directorMapper.toDirector(directorDto, directorService.findById(directorDto.getId()));
 
-        return DirectorMapper.toDirectorDto(directorService.update(director));
+        return directorMapper.toDirectorDto(directorService.update(director));
     }
 
     @GetMapping("/{id}")
     public DirectorDto findById(@PathVariable int id) {
-        return DirectorMapper.toDirectorDto(directorService.findById(id));
+        return directorMapper.toDirectorDto(directorService.findById(id));
     }
 
     @GetMapping
     public List<DirectorDto> findAll() {
-        return DirectorMapper.toDirectorDto(directorService.findAll());
+        return directorMapper.toDirectorDto(directorService.findAll());
     }
 
     @DeleteMapping("/{id}")

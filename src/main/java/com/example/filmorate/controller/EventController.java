@@ -14,10 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventController {
 
+    private final EventMapper eventMapper;
     private final EventService eventService;
 
     @GetMapping("users/{id}/feed")
     public List<EventDto> findAllByUserId(@PathVariable int id) {
-        return EventMapper.toEventDto(eventService.findAllByUserId(id));
+        return eventMapper.toEventDto(eventService.findAllByUserId(id));
     }
 }

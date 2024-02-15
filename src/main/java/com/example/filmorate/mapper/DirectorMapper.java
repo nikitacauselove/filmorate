@@ -1,27 +1,22 @@
 package com.example.filmorate.mapper;
 
-import com.example.filmorate.entity.Director;
 import com.example.filmorate.dto.DirectorDto;
+import com.example.filmorate.entity.Director;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class DirectorMapper {
-    public static Director toDirector(DirectorDto directorDto) {
-        return new Director(null, directorDto.getName());
-    }
+@Mapper(componentModel = "spring")
+public interface DirectorMapper {
 
-    public static Director toDirector(DirectorDto directorDto, Director director) {
-        return new Director(director.getId(), directorDto.getName());
-    }
+    Director toDirector(DirectorDto directorDto);
 
-    public static DirectorDto toDirectorDto(Director director) {
-        return new DirectorDto(director.getId(), director.getName());
-    }
+    @Mapping(target = "id", source = "director.id")
+    @Mapping(target = "name", source = "directorDto.name")
+    Director toDirector(DirectorDto directorDto, Director director);
 
-    public static List<DirectorDto> toDirectorDto(List<Director> directors) {
-        return directors.stream()
-                .map(DirectorMapper::toDirectorDto)
-                .collect(Collectors.toList());
-    }
+    DirectorDto toDirectorDto(Director director);
+
+    List<DirectorDto> toDirectorDto(List<Director> directors);
 }
