@@ -27,9 +27,5 @@ public abstract class UserMapper {
         return new UserDto(user.getId(), user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getFriends());
     }
 
-    public List<UserDto> toUserDto(List<User> users) {
-        return users.stream()
-                .map(this::toUserDto)
-                .collect(Collectors.toList());
-    }
+    public abstract List<UserDto> toUserDto(List<User> users);
 }

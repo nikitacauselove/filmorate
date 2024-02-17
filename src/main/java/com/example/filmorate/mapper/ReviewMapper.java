@@ -5,7 +5,6 @@ import com.example.filmorate.dto.ReviewDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class ReviewMapper {
@@ -22,9 +21,5 @@ public abstract class ReviewMapper {
         return new ReviewDto(review.getId(), review.getContent(), review.getIsPositive(), review.getUserId(), review.getFilmId(), review.getUseful());
     }
 
-    public List<ReviewDto> toReviewDto(List<Review> reviews) {
-        return reviews.stream()
-                .map(this::toReviewDto)
-                .collect(Collectors.toList());
-    }
+    public abstract List<ReviewDto> toReviewDto(List<Review> reviews);
 }
