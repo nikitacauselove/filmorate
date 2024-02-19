@@ -1,3 +1,16 @@
+DROP TABLE review_marks;
+DROP TABLE friendship;
+DROP TABLE film_directors;
+DROP TABLE film_likes;
+DROP TABLE film_genres;
+DROP TABLE reviews;
+DROP TABLE events;
+DROP TABLE users;
+DROP TABLE films;
+DROP TABLE directors;
+DROP TABLE mpa;
+DROP TABLE genres;
+
 CREATE TABLE IF NOT EXISTS genres (
     PRIMARY KEY (id),
     id   INT         NOT NULL,
