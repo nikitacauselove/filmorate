@@ -12,6 +12,9 @@ public abstract class DaoImpl {
     }
 
     protected String inSql(List<Integer> listOfId) {
+        if (listOfId.isEmpty()) {
+            return "NULL";
+        }
         return listOfId.stream().map(Object::toString).collect(Collectors.joining(","));
     }
 }
