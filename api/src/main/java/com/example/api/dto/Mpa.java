@@ -20,7 +20,7 @@ public enum Mpa {
     R(4, "R"),
     NC17(5, "NC-17");
 
-    private final int id;
+    private final Integer id;
     private final String name;
 
     @JsonCreator

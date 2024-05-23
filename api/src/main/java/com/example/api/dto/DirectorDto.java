@@ -1,12 +1,9 @@
 package com.example.api.dto;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class DirectorDto {
-    private final Integer id;
-
-    @NotNull
-    private final String name;
+@Schema(description = "Информация о режиссёре")
+public record DirectorDto(@Schema(description = "Идентификатор режиссёра") Integer id,
+                          @Schema(description = "Имя режиссёра") @NotBlank String name) {
 }

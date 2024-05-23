@@ -13,17 +13,17 @@ import java.util.List;
 public abstract class FilmMapper {
 
     public Film toFilm(FilmDto filmDto) {
-        List<Genre> genres = filmDto.getGenres() == null ? Collections.emptyList() : filmDto.getGenres();
-        List<Director> directors = filmDto.getDirectors() == null ? Collections.emptyList() : filmDto.getDirectors();
+        List<Genre> genres = filmDto.genres() == null ? Collections.emptyList() : filmDto.genres();
+        List<Director> directors = filmDto.directors() == null ? Collections.emptyList() : filmDto.directors();
 
-        return new Film(null, filmDto.getName(), filmDto.getDescription(), filmDto.getReleaseDate(), filmDto.getDuration(), filmDto.getMpa(), genres, Collections.emptyList(), directors);
+        return new Film(null, filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), filmDto.mpa(), genres, Collections.emptyList(), directors);
     }
 
     public Film toFilm(FilmDto filmDto, Film film) {
-        List<Genre> genres = filmDto.getGenres() == null ? Collections.emptyList() : filmDto.getGenres();
-        List<Director> directors = filmDto.getDirectors() == null ? Collections.emptyList() : filmDto.getDirectors();
+        List<Genre> genres = filmDto.genres() == null ? Collections.emptyList() : filmDto.genres();
+        List<Director> directors = filmDto.directors() == null ? Collections.emptyList() : filmDto.directors();
 
-        return new Film(film.getId(), filmDto.getName(), filmDto.getDescription(), filmDto.getReleaseDate(), filmDto.getDuration(), filmDto.getMpa(), genres, film.getLikingUsers(), directors);
+        return new Film(film.getId(), filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), filmDto.mpa(), genres, film.getLikingUsers(), directors);
     }
 
     public abstract FilmDto toFilmDto(Film film);

@@ -28,7 +28,7 @@ public class DirectorController implements DirectorApi {
     }
 
     public DirectorDto update(@Valid DirectorDto directorDto) {
-        Director director = directorMapper.toDirector(directorDto, directorService.findById(directorDto.getId()));
+        Director director = directorMapper.toDirector(directorDto, directorService.findById(directorDto.id()));
 
         return directorMapper.toDirectorDto(directorService.update(director));
     }

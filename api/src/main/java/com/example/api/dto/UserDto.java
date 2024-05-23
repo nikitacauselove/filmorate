@@ -1,23 +1,16 @@
 package com.example.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-public class UserDto {
-    private final Integer id;
-
-    @NotNull(message = "Электронная почта пользователя не может быть пустой.")
-    private final String email;
-
-    @NotNull(message = "Login пользователя не может быть пустым.")
-    private final String login;
-    private final String name;
-
-    @NotNull(message = "Дата рождения пользователя не может быть пустой.")
-    private final LocalDate birthday;
-    private final List<Integer> friends;
+@Schema(description = "Информация о пользователе")
+public record UserDto(@Schema(description = "Идентификатор пользователя") Integer id,
+                      @Schema(description = "Электронная почта пользователя") @NotNull String email,
+                      @Schema(description = "Login пользователя") @NotNull String login,
+                      @Schema(description = "Имя пользователя") String name,
+                      @Schema(description = "День рождения пользователя") @NotNull LocalDate birthday,
+                      @Schema(description = "Список друзей пользователя") List<Integer> friends) {
 }

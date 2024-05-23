@@ -29,7 +29,7 @@ public class ReviewController implements ReviewApi {
     }
 
     public ReviewDto update(@Valid ReviewDto reviewDto) {
-        Review review = reviewMapper.toReview(reviewDto, reviewService.findById(reviewDto.getReviewId()));
+        Review review = reviewMapper.toReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
 
         return reviewMapper.toReviewDto(reviewService.update(review));
     }

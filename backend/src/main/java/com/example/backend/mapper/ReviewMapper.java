@@ -10,11 +10,11 @@ import java.util.List;
 public abstract class ReviewMapper {
 
     public Review toReview(ReviewDto reviewDto) {
-        return new Review(reviewDto.getReviewId(), reviewDto.getContent(), reviewDto.getIsPositive(), reviewDto.getUserId(), reviewDto.getFilmId(), 0);
+        return new Review(reviewDto.reviewId(), reviewDto.content(), reviewDto.isPositive(), reviewDto.userId(), reviewDto.filmId(), 0);
     }
 
     public Review toReview(ReviewDto reviewDto, Review review) {
-        return new Review(review.getId(), reviewDto.getContent(), reviewDto.getIsPositive(), review.getUserId(), review.getFilmId(), review.getUseful());
+        return new Review(review.getId(), reviewDto.content(), reviewDto.isPositive(), review.getUserId(), review.getFilmId(), review.getUseful());
     }
 
     public ReviewDto toReviewDto(Review review) {

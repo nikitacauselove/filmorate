@@ -1,13 +1,12 @@
 package com.example.api.dto;
 
-import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Data
-public class EventDto {
-    private final Integer eventId;
-    private final Long timestamp;
-    private final Integer userId;
-    private final EventType eventType;
-    private final EventOperation operation;
-    private final Integer entityId;
+@Schema(description = "Информация о действии пользователя")
+public record EventDto(@Schema(description = "Идентификатор действия") Integer eventId,
+                       @Schema(description = "Время") Long timestamp,
+                       @Schema(description = "Идентификатор пользователя") Integer userId,
+                       @Schema(description = "Тип действия") EventType eventType,
+                       @Schema(description = "Тип операции") EventOperation operation,
+                       @Schema(description = "Идентификатор сущности") Integer entityId) {
 }

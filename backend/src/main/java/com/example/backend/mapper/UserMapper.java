@@ -11,15 +11,15 @@ import java.util.List;
 public abstract class UserMapper {
 
     public User toUser(UserDto userDto) {
-        String name = userDto.getName() == null || userDto.getName().isEmpty() ? userDto.getLogin() : userDto.getName();
+        String name = userDto.name() == null || userDto.name().isEmpty() ? userDto.login() : userDto.name();
 
-        return new User(null, userDto.getEmail(), userDto.getLogin(), name, userDto.getBirthday(), Collections.emptyList());
+        return new User(null, userDto.email(), userDto.login(), name, userDto.birthday(), Collections.emptyList());
     }
 
     public User toUser(UserDto userDto, User user) {
-        String name = userDto.getName() == null ? user.getName() : userDto.getName();
+        String name = userDto.name() == null ? user.getName() : userDto.name();
 
-        return new User(user.getId(), userDto.getEmail(), userDto.getLogin(), name, userDto.getBirthday(), user.getFriends());
+        return new User(user.getId(), userDto.email(), userDto.login(), name, userDto.birthday(), user.getFriends());
     }
 
     public UserDto toUserDto(User user) {

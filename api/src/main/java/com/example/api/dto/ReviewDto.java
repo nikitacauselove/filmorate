@@ -1,22 +1,13 @@
 package com.example.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-@Data
-public class ReviewDto {
-    private final Integer reviewId;
-
-    @NotNull(message = "Содержимое отзыва не может быть пустым.")
-    private final String content;
-
-    @NotNull(message = "Оценка отзыва не может быть пустой.")
-    private final Boolean isPositive;
-
-    @NotNull(message = "Идентификатор пользователя не может быть пустым.")
-    private final Integer userId;
-
-    @NotNull(message = "Идентификатор фильма не может быть пустым.")
-    private final Integer filmId;
-    private final Integer useful;
+@Schema(description = "Информация о рецензии")
+public record ReviewDto(@Schema(description = "Идентификатор рецензии") Integer reviewId,
+                        @Schema(description = "Содержимое рецензии") @NotNull String content,
+                        @Schema(description = "Является ли рецензия положительной") @NotNull Boolean isPositive,
+                        @Schema(description = "Идентификатор пользователя") @NotNull Integer userId,
+                        @Schema(description = "Идентификатор фильма") @NotNull Integer filmId,
+                        @Schema(description = "Количество пользователей, посчитавших рецензию полезной") Integer useful) {
 }

@@ -18,18 +18,14 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     @Transactional
     public Director create(Director director) {
-        if (director.isValid()) {
-            directorDao.create(director);
-        }
+        directorDao.create(director);
         return findById(director.getId());
     }
 
     @Override
     @Transactional
     public Director update(Director director) {
-        if (director.isValid()) {
-            directorDao.update(director);
-        }
+        directorDao.update(director);
         return findById(director.getId());
     }
 

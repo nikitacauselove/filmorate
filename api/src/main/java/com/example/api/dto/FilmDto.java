@@ -1,30 +1,19 @@
 package com.example.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-public class FilmDto {
-    private final Integer id;
-
-    @NotNull(message = "Название фильма не может быть пустым.")
-    private final String name;
-
-    @NotNull(message = "Описание фильма не может быть пустым.")
-    private final String description;
-
-    @NotNull(message = "Дата выхода фильма не может быть пустой.")
-    private final LocalDate releaseDate;
-
-    @NotNull(message = "Длительность фильма не может быть пустой.")
-    private final Integer duration;
-
-    @NotNull(message = "Жанр фильма не может быть пустым.")
-    private final Mpa mpa;
-    private final List<Genre> genres;
-    private final List<Integer> likingUsers;
-    private final List<Director> directors;
+@Schema(description = "Информация о фильме")
+public record FilmDto(@Schema(description = "Идентификатор фильма") Integer id,
+                      @Schema(description = "Название фильма") @NotNull String name,
+                      @Schema(description = "Описание фильма") @NotNull String description,
+                      @Schema(description = "Дата выхода фильма") @NotNull LocalDate releaseDate,
+                      @Schema(description = "Длительность фильма") @NotNull Integer duration,
+                      @Schema(description = "MPAA") @NotNull Mpa mpa,
+                      @Schema(description = "Список жанров фильма") List<Genre> genres,
+                      @Schema(description = "Список пользователей, которым понравился этот фильм") List<Integer> likingUsers,
+                      @Schema(description = "Список режиссёров") List<Director> directors) {
 }

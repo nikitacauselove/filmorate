@@ -28,7 +28,7 @@ public class UserController implements UserApi {
     }
 
     public UserDto update(@Valid UserDto userDto) {
-        User user = userMapper.toUser(userDto, userService.findById(userDto.getId()));
+        User user = userMapper.toUser(userDto, userService.findById(userDto.id()));
 
         return userMapper.toUserDto(userService.update(user));
     }
