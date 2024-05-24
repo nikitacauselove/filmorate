@@ -26,18 +26,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User create(User user) {
-        if (user.isValid()) {
-            userDao.create(user);
-        }
+        userDao.create(user);
         return findById(user.getId());
     }
 
     @Override
     @Transactional
     public User update(User user) {
-        if (user.isValid()) {
-            userDao.update(user);
-        }
+        userDao.update(user);
         return findById(user.getId());
     }
 

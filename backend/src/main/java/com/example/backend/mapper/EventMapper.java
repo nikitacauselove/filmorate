@@ -11,7 +11,7 @@ import java.util.List;
 public interface EventMapper {
 
     @Mapping(target = "eventId", source = "id")
-    EventDto toEventDto(Event event);
+    EventDto mapToEventDto(Event event);
 
-    List<EventDto> toEventDto(List<Event> events);
+    List<EventDto> mapToEventDto(List<Event> events);
 }

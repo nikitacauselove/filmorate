@@ -5,7 +5,6 @@ import com.example.api.dto.ReviewDto;
 import com.example.backend.entity.Review;
 import com.example.backend.mapper.ReviewMapper;
 import com.example.backend.service.ReviewService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,24 +21,24 @@ public class ReviewController implements ReviewApi {
     private final ReviewService reviewService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    public ReviewDto create(@Valid ReviewDto reviewDto) {
-        Review review = reviewMapper.toReview(reviewDto);
+    public ReviewDto create(ReviewDto reviewDto) {
+        Review review = reviewMapper.mapToReview(reviewDto);
 
-        return reviewMapper.toReviewDto(reviewService.create(review));
+        return reviewMapper.mapToReviewDto(reviewService.create(review));
     }
 
-    public ReviewDto update(@Valid ReviewDto reviewDto) {
-        Review review = reviewMapper.toReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
+    public ReviewDto update(ReviewDto reviewDto) {
+        Review review = reviewMapper.mapToReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
 
-        return reviewMapper.toReviewDto(reviewService.update(review));
+        return reviewMapper.mapToReviewDto(reviewService.update(review));
     }
 
     public ReviewDto findById(Integer id) {
-        return reviewMapper.toReviewDto(reviewService.findById(id));
+        return reviewMapper.mapToReviewDto(reviewService.findById(id));
     }
 
     public List<ReviewDto> findAll(Optional<Integer> filmId, Integer count) {
-        return reviewMapper.toReviewDto(reviewService.findAll(filmId, count));
+        return reviewMapper.mapToReviewDto(reviewService.findAll(filmId, count));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

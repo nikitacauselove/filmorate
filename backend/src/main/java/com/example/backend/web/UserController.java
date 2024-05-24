@@ -7,7 +7,6 @@ import com.example.backend.entity.User;
 import com.example.backend.mapper.FilmMapper;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,24 +20,24 @@ public class UserController implements UserApi {
     private final UserMapper userMapper;
     private final UserService userService;
 
-    public UserDto create(@Valid UserDto userDto) {
-        User user = userMapper.toUser(userDto);
+    public UserDto create(UserDto userDto) {
+        User user = userMapper.mapToUser(userDto);
 
-        return userMapper.toUserDto(userService.create(user));
+        return userMapper.mapToUserDto(userService.create(user));
     }
 
-    public UserDto update(@Valid UserDto userDto) {
-        User user = userMapper.toUser(userDto, userService.findById(userDto.id()));
+    public UserDto update(UserDto userDto) {
+        User user = userMapper.mapToUser(userDto, userService.findById(userDto.id()));
 
-        return userMapper.toUserDto(userService.update(user));
+        return userMapper.mapToUserDto(userService.update(user));
     }
 
     public UserDto findById(Integer id) {
-        return userMapper.toUserDto(userService.findById(id));
+        return userMapper.mapToUserDto(userService.findById(id));
     }
 
     public List<UserDto> findAll() {
-        return userMapper.toUserDto(userService.findAll());
+        return userMapper.mapToUserDto(userService.findAll());
     }
 
     public void deleteById(Integer userId) {
@@ -54,14 +53,14 @@ public class UserController implements UserApi {
     }
 
     public List<UserDto> findAllFriends(Integer id) {
-        return userMapper.toUserDto(userService.findAllFriends(id));
+        return userMapper.mapToUserDto(userService.findAllFriends(id));
     }
 
     public List<UserDto> findCommonFriends(Integer id, Integer otherId) {
-        return userMapper.toUserDto(userService.findCommonFriends(id, otherId));
+        return userMapper.mapToUserDto(userService.findCommonFriends(id, otherId));
     }
 
     public List<FilmDto> findRecommendations(Integer id) {
-        return filmMapper.toFilmDto(userService.findRecommendations(id));
+        return filmMapper.mapToFilmDto(userService.findRecommendations(id));
     }
 }

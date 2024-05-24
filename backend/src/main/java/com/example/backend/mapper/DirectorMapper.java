@@ -10,13 +10,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DirectorMapper {
 
-    Director toDirector(DirectorDto directorDto);
+    Director mapToDirector(DirectorDto directorDto);
 
     @Mapping(target = "id", source = "director.id")
     @Mapping(target = "name", source = "directorDto.name")
-    Director toDirector(DirectorDto directorDto, Director director);
+    Director mapToDirector(DirectorDto directorDto, Director director);
 
-    DirectorDto toDirectorDto(Director director);
+    DirectorDto mapToDirectorDto(Director director);
 
-    List<DirectorDto> toDirectorDto(List<Director> directors);
+    List<DirectorDto> mapToDirectorDto(List<Director> directors);
 }
