@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User create(User user) {
         userDao.create(user);
+
         return findById(user.getId());
     }
 
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User update(User user) {
         userDao.update(user);
+
         return findById(user.getId());
     }
 

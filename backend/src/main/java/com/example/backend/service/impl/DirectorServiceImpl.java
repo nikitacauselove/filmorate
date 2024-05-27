@@ -19,6 +19,7 @@ public class DirectorServiceImpl implements DirectorService {
     @Transactional
     public Director create(Director director) {
         directorDao.create(director);
+
         return findById(director.getId());
     }
 
@@ -26,6 +27,7 @@ public class DirectorServiceImpl implements DirectorService {
     @Transactional
     public Director update(Director director) {
         directorDao.update(director);
+
         return findById(director.getId());
     }
 
