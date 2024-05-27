@@ -1,8 +1,8 @@
 package com.example.backend.dao.impl;
 
-import com.example.api.dto.Director;
 import com.example.backend.dao.DirectorDao;
 import com.example.backend.dao.mapper.DirectorRowMapper;
+import com.example.backend.entity.Director;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;

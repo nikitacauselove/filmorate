@@ -1,7 +1,7 @@
 package com.example.backend.dao;
 
-import com.example.api.dto.Director;
 import com.example.api.dto.Genre;
+import com.example.backend.entity.Director;
 import com.example.backend.entity.Film;
 
 import java.util.List;

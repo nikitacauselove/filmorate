@@ -1,6 +1,5 @@
 package com.example.backend.entity;
 
-import com.example.api.dto.Director;
 import com.example.api.dto.Genre;
 import com.example.api.dto.Mpa;
 import lombok.AllArgsConstructor;

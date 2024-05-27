@@ -15,5 +15,5 @@ public record FilmDto(@Schema(description = "Идентификатор филь
                       @Schema(description = "MPAA") @NotNull Mpa mpa,
                       @Schema(description = "Список жанров фильма") List<Genre> genres,
                       @Schema(description = "Список пользователей, которым понравился этот фильм") List<Integer> likingUsers,
-                      @Schema(description = "Список режиссёров") List<Director> directors) {
+                      @Schema(description = "Список режиссёров") List<DirectorDto> directors) {
 }

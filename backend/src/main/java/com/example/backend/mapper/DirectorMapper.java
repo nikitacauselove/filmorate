@@ -1,7 +1,7 @@
 package com.example.backend.mapper;
 
-import com.example.api.dto.Director;
 import com.example.api.dto.DirectorDto;
+import com.example.backend.entity.Director;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,6 +11,8 @@ import java.util.List;
 public interface DirectorMapper {
 
     Director mapToDirector(DirectorDto directorDto);
+
+    List<Director> mapToDirector(List<DirectorDto> directorDto);
 
     @Mapping(target = "id", source = "director.id")
     @Mapping(target = "name", source = "directorDto.name")

@@ -1,4 +1,4 @@
-package com.example.api.dto;
+package com.example.backend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

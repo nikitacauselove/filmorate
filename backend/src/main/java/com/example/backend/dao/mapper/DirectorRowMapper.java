@@ -1,6 +1,6 @@
 package com.example.backend.dao.mapper;
 
-import com.example.api.dto.Director;
+import com.example.backend.entity.Director;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

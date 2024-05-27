@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.api.dto.Director;
+import com.example.backend.entity.Director;
 
 import java.util.List;
 

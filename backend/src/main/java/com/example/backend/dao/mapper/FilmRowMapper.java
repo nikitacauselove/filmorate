@@ -1,9 +1,9 @@
 package com.example.backend.dao.mapper;
 
-import com.example.api.dto.Director;
 import com.example.api.dto.Genre;
 import com.example.api.dto.Mpa;
 import com.example.backend.dao.FilmDao;
+import com.example.backend.entity.Director;
 import com.example.backend.entity.Film;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;

@@ -1,7 +1,7 @@
 package com.example.backend.service.impl;
 
-import com.example.api.dto.Director;
 import com.example.backend.dao.DirectorDao;
+import com.example.backend.entity.Director;
 import com.example.backend.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

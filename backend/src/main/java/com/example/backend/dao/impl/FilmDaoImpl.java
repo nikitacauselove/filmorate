@@ -1,10 +1,10 @@
 package com.example.backend.dao.impl;
 
-import com.example.api.dto.Director;
 import com.example.api.dto.Genre;
 import com.example.backend.dao.FilmDao;
 import com.example.backend.dao.mapper.DirectorRowMapper;
 import com.example.backend.dao.mapper.FilmRowMapper;
+import com.example.backend.entity.Director;
 import com.example.backend.entity.Film;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -97,7 +97,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
 
     @Override
     public List<Film> findAll() {
-        return jdbcTemplate.query("select * from films", new FilmRowMapper(this));
+        return jdbcTemplate.query("select * from films order by id", new FilmRowMapper(this));
     }
 
     @Override
@@ -120,7 +120,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
 
     @Override
     public void addLike(int id, int userId) {
-        jdbcTemplate.update("insert into film_likes (film_id, user_id) values (?, ?)", id, userId);
+        jdbcTemplate.update("insert into film_likes (film_id, user_id) values (?, ?) on conflict do nothing", id, userId);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class FilmDaoImpl extends DaoImpl implements FilmDao {
             listOfCondition.add(String.format("extract (year from films.release_date) = %d", year.get()));
         }
         String conditions = listOfCondition.isEmpty() ? "" : String.format("where %s", String.join(" and ", listOfCondition));
-        String sql = String.format("select * from films left join (select film_id, count(user_id) as count from film_likes group by film_id) as like_counts on films.id = like_counts.film_id %s order by like_counts.count desc limit ?", conditions);
+        String sql = String.format("select * from films left join (select film_id, count(user_id) as count from film_likes group by film_id) as like_counts on films.id = like_counts.film_id %s order by like_counts.count desc nulls last, id limit ?", conditions);
 
         return jdbcTemplate.query(sql, new FilmRowMapper(this), count);
     }
