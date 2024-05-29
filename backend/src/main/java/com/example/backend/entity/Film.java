@@ -38,20 +38,4 @@ public class Film {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Указанный тип сортировки не найден.");
         }
     }
-
-    public boolean isValid() {
-        if (name.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Название не может быть пустым.");
-        }
-        if (200 < description.length()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Максимальная длина описания — 200 символов.");
-        }
-        if (releaseDate.isBefore(DATE_OF_FIRST_FILM)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Дата релиза — не раньше 28 декабря 1895 года.");
-        }
-        if (duration < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Продолжительность фильма должна быть положительной.");
-        }
-        return true;
-    }
 }

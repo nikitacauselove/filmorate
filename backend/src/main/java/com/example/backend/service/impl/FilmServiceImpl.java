@@ -28,18 +28,16 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional
     public Film create(Film film) {
-        if (film.isValid()) {
-            filmDao.create(film);
-        }
+        filmDao.create(film);
+
         return findById(film.getId());
     }
 
     @Override
     @Transactional
     public Film update(Film film) {
-        if (film.isValid()) {
-            filmDao.update(film);
-        }
+        filmDao.update(film);
+
         return findById(film.getId());
     }
 
