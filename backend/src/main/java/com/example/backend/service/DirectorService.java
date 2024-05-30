@@ -10,9 +10,9 @@ public interface DirectorService {
 
     Director update(Director director);
 
-    Director findById(int id);
+    Director findById(Long id);
 
     List<Director> findAll();
 
-    void deleteById(int id);
+    void deleteById(Long id);
 }

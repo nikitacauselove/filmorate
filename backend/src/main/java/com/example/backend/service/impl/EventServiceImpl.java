@@ -19,7 +19,7 @@ public class EventServiceImpl implements EventService {
     private final UserDao userDao;
 
     @Override
-    public List<Event> findAllByUserId(int id) {
+    public List<Event> findAllByUserId(Long id) {
         if (userDao.existsById(id)) {
             return eventDao.findAllByUserId(id);
         } else {

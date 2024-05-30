@@ -1,7 +1,7 @@
 package com.example.backend.web;
 
 import com.example.api.GenreApi;
-import com.example.api.dto.Genre;
+import com.example.api.dto.enums.Genre;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 public class GenreController implements GenreApi {
 
-    public Genre findById(Integer id) {
+    public Genre findById(Long id) {
         return Genre.findById(id);
     }
 

@@ -1,7 +1,7 @@
 package com.example.backend.dao.mapper;
 
-import com.example.api.dto.Genre;
-import com.example.api.dto.Mpa;
+import com.example.api.dto.enums.Genre;
+import com.example.api.dto.enums.Mpa;
 import com.example.backend.dao.FilmDao;
 import com.example.backend.entity.Director;
 import com.example.backend.entity.Film;
@@ -19,10 +19,10 @@ public class FilmRowMapper implements RowMapper<Film> {
 
     @Override
     public Film mapRow(ResultSet rs, int rowNum) throws SQLException {
-        List<Genre> genres = filmDao.findGenresByFilmId(rs.getInt("id"));
-        List<Integer> likingUsers = filmDao.findLikingUsersByFilmId(rs.getInt("id"));
-        List<Director> directors = filmDao.findDirectorsByFilmId(rs.getInt("id"));
+        List<Genre> genreList = filmDao.findGenresByFilmId(rs.getLong("id"));
+        List<Long> likingUsers = filmDao.findLikingUsersByFilmId(rs.getLong("id"));
+        List<Director> directorList = filmDao.findDirectorsByFilmId(rs.getLong("id"));
 
-        return new Film(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDate("release_date").toLocalDate(), rs.getInt("duration"), Mpa.findById(rs.getInt("mpa_id")), genres, likingUsers, directors);
+        return new Film(rs.getLong("id"), rs.getString("name"), rs.getString("description"), rs.getDate("release_date").toLocalDate(), rs.getInt("duration"), Mpa.findById(rs.getLong("mpa_id")), genreList, likingUsers, directorList);
     }
 }

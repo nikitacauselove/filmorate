@@ -42,7 +42,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Film findById(int id) {
+    public Film findById(Long id) {
         return filmDao.findById(id);
     }
 
@@ -52,7 +52,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> findAllByDirectorId(int directorId, Film.SortBy sortBy) {
+    public List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy) {
         if (directorDao.existsById(directorId)) {
             return filmDao.findAllByDirectorId(directorId, sortBy);
         } else {
@@ -62,20 +62,20 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     @Transactional
-    public void deleteById(int filmId) {
-        filmDao.deleteById(filmId);
+    public void deleteById(Long id) {
+        filmDao.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void addLike(int id, int userId) {
+    public void addLike(Long id, Long userId) {
         filmDao.addLike(id, userId);
         eventDao.create(new Event(null, null, userId, Event.EventType.LIKE, Event.Operation.ADD, id));
     }
 
     @Override
     @Transactional
-    public void deleteLike(int id, int userId) {
+    public void deleteLike(Long id, Long userId) {
         if (userDao.existsById(userId)) {
             filmDao.deleteLike(id, userId);
             eventDao.create(new Event(null, null, userId, Event.EventType.LIKE, Event.Operation.REMOVE, id));
@@ -85,12 +85,12 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> findCommon(int userId, int friendId) {
+    public List<Film> findCommon(Long userId, Long friendId) {
         return filmDao.findCommon(userId, friendId);
     }
 
     @Override
-    public List<Film> findPopular(int count, Optional<Integer> genreId, Optional<Integer> year) {
+    public List<Film> findPopular(Integer count, Optional<Long> genreId, Optional<Integer> year) {
         return filmDao.findPopular(count, genreId, year);
     }
 

@@ -8,5 +8,5 @@ public interface EventDao {
 
     void create(Event event);
 
-    List<Event> findAllByUserId(int userId);
+    List<Event> findAllByUserId(Long userId);
 }

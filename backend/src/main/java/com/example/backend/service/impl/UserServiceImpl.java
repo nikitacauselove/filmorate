@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(Long id) {
         return userDao.findById(id);
     }
 
@@ -51,13 +51,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteById(int userId) {
+    public void deleteById(Long userId) {
         userDao.deleteById(userId);
     }
 
     @Override
     @Transactional
-    public void addFriend(int id, int friendId) {
+    public void addFriend(Long id, Long friendId) {
         if (userDao.existsById(id) & userDao.existsById(friendId)) {
             userDao.addFriend(id, friendId);
             eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
@@ -68,13 +68,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteFriend(int id, int friendId) {
+    public void deleteFriend(Long id, Long friendId) {
         userDao.deleteFriend(id, friendId);
         eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
     }
 
     @Override
-    public List<User> findAllFriends(int id) {
+    public List<User> findAllFriends(Long id) {
         if (userDao.existsById(id)) {
             return userDao.findAllFriends(id);
         } else {
@@ -83,12 +83,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findCommonFriends(int id, int otherId) {
-        return userDao.findCommonFriends(id, otherId);
+    public List<User> findCommonFriends(Long id, Long otherUserId) {
+        return userDao.findCommonFriends(id, otherUserId);
     }
 
     @Override
-    public List<Film> findRecommendations(int id) {
+    public List<Film> findRecommendations(Long id) {
         return filmDao.findRecommendations(id);
     }
 }

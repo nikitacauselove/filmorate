@@ -1,6 +1,6 @@
 package com.example.backend.dao;
 
-import com.example.api.dto.Genre;
+import com.example.api.dto.enums.Genre;
 import com.example.backend.entity.Director;
 import com.example.backend.entity.Film;
 
@@ -13,31 +13,31 @@ public interface FilmDao {
 
     void update(Film film);
 
-    Film findById(int id);
+    Film findById(Long id);
 
-    boolean existsById(int id);
+    boolean existsById(Long id);
 
     List<Film> findAll();
 
-    List<Film> findAllByDirectorId(int directorId, Film.SortBy sortBy);
+    List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy);
 
-    void deleteById(int filmId);
+    void deleteById(Long id);
 
-    void addLike(int id, int userId);
+    void addLike(Long id, Long userId);
 
-    void deleteLike(int id, int userId);
+    void deleteLike(Long id, Long userId);
 
-    List<Film> findCommon(int userId, int friendId);
+    List<Film> findCommon(Long userId, Long friendId);
 
-    List<Film> findPopular(int count, Optional<Integer> genreId, Optional<Integer> year);
+    List<Film> findPopular(Integer count, Optional<Long> genreId, Optional<Integer> year);
 
-    List<Film> findRecommendations(int id);
+    List<Film> findRecommendations(Long id);
 
     List<Film> search(String query, List<String> by);
 
-    List<Genre> findGenresByFilmId(int filmId);
+    List<Genre> findGenresByFilmId(Long filmId);
 
-    List<Integer> findLikingUsersByFilmId(int filmId);
+    List<Long> findLikingUsersByFilmId(Long filmId);
 
-    List<Director> findDirectorsByFilmId(int filmId);
+    List<Director> findDirectorsByFilmId(Long filmId);
 }

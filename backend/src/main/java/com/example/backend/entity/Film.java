@@ -1,7 +1,7 @@
 package com.example.backend.entity;
 
-import com.example.api.dto.Genre;
-import com.example.api.dto.Mpa;
+import com.example.api.dto.enums.Genre;
+import com.example.api.dto.enums.Mpa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -13,14 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class Film {
-    private Integer id;
+    private Long id;
     private final String name;
     private final String description;
     private final LocalDate releaseDate;
     private final Integer duration;
     private final Mpa mpa;
     private final List<Genre> genres;
-    private final List<Integer> likingUsers;
+    private final List<Long> likingUsers;
     private final List<Director> directors;
 
     private static final LocalDate DATE_OF_FIRST_FILM = LocalDate.of(1895, 12, 28);

@@ -26,5 +26,5 @@ public abstract class UserMapper {
         return new UserDto(user.getId(), user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getFriends());
     }
 
-    public abstract List<UserDto> mapToUserDto(List<User> users);
+    public abstract List<UserDto> mapToUserDto(List<User> userList);
 }

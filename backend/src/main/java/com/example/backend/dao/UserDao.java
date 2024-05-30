@@ -10,21 +10,21 @@ public interface UserDao {
 
     void update(User user);
 
-    User findById(int id);
+    User findById(Long id);
 
-    boolean existsById(int id);
+    boolean existsById(Long id);
 
     List<User> findAll();
 
-    void deleteById(int userId);
+    void deleteById(Long id);
 
-    void addFriend(int id, int friendId);
+    void addFriend(Long id, Long friendId);
 
-    void deleteFriend(int id, int friendId);
+    void deleteFriend(Long id, Long friendId);
 
-    List<User> findAllFriends(int id);
+    List<User> findAllFriends(Long id);
 
-    List<Integer> findAllFriends(int id, boolean idOnly);
+    List<Long> findAllFriends(Long id, Boolean idOnly);
 
-    List<User> findCommonFriends(int id, int otherId);
+    List<User> findCommonFriends(Long id, Long otherUserId);
 }

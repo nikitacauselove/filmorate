@@ -16,8 +16,8 @@ public class UserRowMapper implements RowMapper<User> {
 
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        List<Integer> friends = userDao.findAllFriends(rs.getInt("id"), true);
+        List<Long> friendList = userDao.findAllFriends(rs.getLong("id"), true);
 
-        return new User(rs.getInt("id"), rs.getString("email"), rs.getString("login"), rs.getString("name"),  rs.getDate("birthday").toLocalDate(), friends);
+        return new User(rs.getLong("id"), rs.getString("email"), rs.getString("login"), rs.getString("name"),  rs.getDate("birthday").toLocalDate(), friendList);
     }
 }

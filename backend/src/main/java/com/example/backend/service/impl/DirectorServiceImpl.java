@@ -32,7 +32,7 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public Director findById(int id) {
+    public Director findById(Long id) {
         return directorDao.findById(id);
     }
 
@@ -43,7 +43,7 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         directorDao.deleteById(id);
     }
 }

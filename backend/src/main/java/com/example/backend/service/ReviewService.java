@@ -11,13 +11,13 @@ public interface ReviewService {
 
     Review update(Review review);
 
-    Review findById(int id);
+    Review findById(Long id);
 
-    List<Review> findAll(Optional<Integer> filmId, int count);
+    List<Review> findAll(Optional<Long> filmId, Integer count);
 
-    void deleteById(int id);
+    void deleteById(Long id);
 
-    void addMark(int id, int userId, Review.MarkType markType);
+    void addMark(Long id, Long userId, Review.MarkType markType);
 
-    void deleteMark(int id, int userId, Review.MarkType markType);
+    void deleteMark(Long id, Long userId, Review.MarkType markType);
 }

@@ -35,7 +35,7 @@ public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
     }
 
     @Override
-    public Review findById(int id) {
+    public Review findById(Long id) {
         try {
             return jdbcTemplate.queryForObject("select * from reviews where id = ?", new ReviewRowMapper(), id);
         } catch (EmptyResultDataAccessException exception) {
@@ -44,19 +44,19 @@ public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
     }
 
     @Override
-    public List<Review> findAll(Optional<Integer> filmId, int count) {
+    public List<Review> findAll(Optional<Long> filmId, Integer count) {
         String filmCondition = filmId.isPresent() ? String.format("where film_id = %s", filmId.get()) : "";
 
         return jdbcTemplate.query(String.format("select * from reviews %s order by useful desc limit %s", filmCondition, count), new ReviewRowMapper());
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         jdbcTemplate.update("delete from reviews where id = ?", id);
     }
 
     @Override
-    public void addMark(int id, int userId, Review.MarkType markType) {
+    public void addMark(Long id, Long userId, Review.MarkType markType) {
         Integer oldUseful = jdbcTemplate.queryForObject("select useful from reviews where id = ?", Integer.class, id);
         Integer useful = markType == Review.MarkType.LIKE ? ++oldUseful : --oldUseful;
 
@@ -65,7 +65,7 @@ public class ReviewDaoImpl extends DaoImpl implements ReviewDao {
     }
 
     @Override
-    public void deleteMark(int id, int userId, Review.MarkType markType) {
+    public void deleteMark(Long id, Long userId, Review.MarkType markType) {
         Integer oldUseful = jdbcTemplate.queryForObject("select useful from reviews where id = ?", Integer.class, id);
         Integer useful = markType == Review.MarkType.DISLIKE ? ++oldUseful : --oldUseful;
 

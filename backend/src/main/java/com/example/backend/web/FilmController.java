@@ -33,7 +33,7 @@ public class FilmController implements FilmApi {
         return filmMapper.mapToFilmDto(filmService.update(film));
     }
 
-    public FilmDto findById(Integer id) {
+    public FilmDto findById(Long id) {
         return filmMapper.mapToFilmDto(filmService.findById(id));
     }
 
@@ -41,32 +41,32 @@ public class FilmController implements FilmApi {
         return filmMapper.mapToFilmDto(filmService.findAll());
     }
 
-    public List<FilmDto> findAllByDirectorId(Integer directorId, String sortBy) {
+    public List<FilmDto> findAllByDirectorId(Long directorId, String sortBy) {
         return filmMapper.mapToFilmDto(filmService.findAllByDirectorId(directorId, Film.SortBy.from(sortBy.toUpperCase())));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(Integer filmId) {
-        filmService.deleteById(filmId);
+    public void deleteById(Long id) {
+        filmService.deleteById(id);
     }
 
-    public FilmDto addLike(Integer id, Integer userId) {
+    public FilmDto addLike(Long id, Long userId) {
         filmService.addLike(id, userId);
 
         return filmMapper.mapToFilmDto(filmService.findById(id));
     }
 
-    public FilmDto deleteLike(Integer id, Integer userId) {
+    public FilmDto deleteLike(Long id, Long userId) {
         filmService.deleteLike(id, userId);
 
         return filmMapper.mapToFilmDto(filmService.findById(id));
     }
 
-    public List<FilmDto> findCommon(Integer userId, Integer friendId) {
+    public List<FilmDto> findCommon(Long userId, Long friendId) {
         return filmMapper.mapToFilmDto(filmService.findCommon(userId, friendId));
     }
 
-    public List<FilmDto> findPopular(Integer count, Optional<Integer> genreId, Optional<Integer> year) {
+    public List<FilmDto> findPopular(Integer count, Optional<Long> genreId, Optional<Integer> year) {
         return filmMapper.mapToFilmDto(filmService.findPopular(count, genreId, year));
     }
 

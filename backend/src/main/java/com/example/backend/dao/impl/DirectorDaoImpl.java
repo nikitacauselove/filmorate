@@ -31,7 +31,7 @@ public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
     }
 
     @Override
-    public Director findById(int id) {
+    public Director findById(Long id) {
         try {
             return jdbcTemplate.queryForObject("select * from directors where id = ?", new DirectorRowMapper(), id);
         } catch (EmptyResultDataAccessException exception) {
@@ -40,7 +40,7 @@ public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
     }
 
     @Override
-    public boolean existsById(int id) {
+    public boolean existsById(Long id) {
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject("select exists (select * from directors where id = ?)", Boolean.class, id));
     }
 
@@ -50,7 +50,7 @@ public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         jdbcTemplate.update("delete from directors where id = ?", id);
     }
 }

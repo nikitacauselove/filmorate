@@ -35,7 +35,7 @@ public interface FilmApi {
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о фильме")
     FilmDto findById(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 
     @GetMapping
@@ -45,42 +45,42 @@ public interface FilmApi {
     @GetMapping("/director/{directorId}")
     @Operation(description = "Получение списка всех фильмов определенного режиссёра")
     List<FilmDto> findAllByDirectorId(
-            @PathVariable Integer directorId,
+            @PathVariable Long directorId,
             @RequestParam String sortBy
     );
 
-    @DeleteMapping("/{filmId}")
+    @DeleteMapping("/{id}")
     @Operation(description = "Удаление фильма")
     void deleteById(
-            @PathVariable Integer filmId
+            @PathVariable Long id
     );
 
     @PutMapping("/{id}/like/{userId}")
     @Operation(description = "Добавление реакции")
     FilmDto addLike(
-            @PathVariable Integer id,
-            @PathVariable Integer userId
+            @PathVariable Long id,
+            @PathVariable Long userId
     );
 
     @DeleteMapping("/{id}/like/{userId}")
     @Operation(description = "Удаление реакции")
     FilmDto deleteLike(
-            @PathVariable Integer id,
-            @PathVariable Integer userId
+            @PathVariable Long id,
+            @PathVariable Long userId
     );
 
     @GetMapping("/common")
     @Operation(description = "Получение списка общих фильмов")
     List<FilmDto> findCommon(
-            @RequestParam Integer userId,
-            @RequestParam Integer friendId
+            @RequestParam Long userId,
+            @RequestParam Long friendId
     );
 
     @GetMapping("/popular")
     @Operation(description = "Получение списка популярных фильмов")
     List<FilmDto> findPopular(
             @RequestParam(defaultValue = "10") Integer count,
-            @RequestParam Optional<Integer> genreId,
+            @RequestParam Optional<Long> genreId,
             @RequestParam Optional<Integer> year
     );
 

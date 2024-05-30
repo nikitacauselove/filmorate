@@ -14,6 +14,6 @@ public interface EventApi {
     @GetMapping("/api/users/{id}/feed")
     @Operation(description = "Получение списка всех действий пользователя")
     List<EventDto> findAllByUserId(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 }

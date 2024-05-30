@@ -33,32 +33,32 @@ public class ReviewController implements ReviewApi {
         return reviewMapper.mapToReviewDto(reviewService.update(review));
     }
 
-    public ReviewDto findById(Integer id) {
+    public ReviewDto findById(Long id) {
         return reviewMapper.mapToReviewDto(reviewService.findById(id));
     }
 
-    public List<ReviewDto> findAll(Optional<Integer> filmId, Integer count) {
+    public List<ReviewDto> findAll(Optional<Long> filmId, Integer count) {
         return reviewMapper.mapToReviewDto(reviewService.findAll(filmId, count));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         reviewService.deleteById(id);
     }
 
-    public void addLike(Integer id, Integer userId) {
+    public void addLike(Long id, Long userId) {
         reviewService.addMark(id, userId, Review.MarkType.LIKE);
     }
 
-    public void deleteLike(Integer id, Integer userId) {
+    public void deleteLike(Long id, Long userId) {
         reviewService.deleteMark(id, userId, Review.MarkType.LIKE);
     }
 
-    public void addDislike(Integer id, Integer userId) {
+    public void addDislike(Long id, Long userId) {
         reviewService.addMark(id, userId, Review.MarkType.DISLIKE);
     }
 
-    public void deleteDislike(Integer id, Integer userId) {
+    public void deleteDislike(Long id, Long userId) {
         reviewService.deleteMark(id, userId, Review.MarkType.DISLIKE);
     }
 }

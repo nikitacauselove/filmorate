@@ -1,4 +1,4 @@
-package com.example.api.dto;
+package com.example.api.dto.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,25 +9,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @RequiredArgsConstructor
 public enum Genre {
-    COMEDY(1, "Комедия"),
-    DRAMA(2, "Драма"),
-    CARTOON(3, "Мультфильм"),
-    THRILLER(4, "Триллер"),
-    DOCUMENTARY(5, "Документальный"),
-    ACTION(6, "Боевик");
+    COMEDY(1L, "Комедия"),
+    DRAMA(2L, "Драма"),
+    CARTOON(3L, "Мультфильм"),
+    THRILLER(4L, "Триллер"),
+    DOCUMENTARY(5L, "Документальный"),
+    ACTION(6L, "Боевик");
 
-    private final Integer id;
+    private final Long id;
     private final String name;
 
     @JsonCreator
-    public static Genre findById(@JsonProperty("id") int id) {
+    public static Genre findById(@JsonProperty("id") Long id) {
         return Arrays.stream(Genre.values())
-                .filter(genre -> genre.getId() == id)
+                .filter(genre -> Objects.equals(genre.getId(), id))
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Жанр фильма с указанным идентификатором не найден."));
     }

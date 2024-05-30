@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 public abstract class DaoImpl {
 
-    private Integer entityCounter = 0;
+    private Long entityCounter = 0L;
 
-    protected Integer getNextId() {
+    protected Long getNextId() {
         return ++entityCounter;
     }
 
-    protected String inSql(List<Integer> listOfId) {
+    protected String inSql(List<Long> listOfId) {
         if (listOfId.isEmpty()) {
             return "NULL";
         }

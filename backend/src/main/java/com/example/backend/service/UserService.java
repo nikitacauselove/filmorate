@@ -11,19 +11,19 @@ public interface UserService {
 
     User update(User user);
 
-    User findById(int id);
+    User findById(Long id);
 
     List<User> findAll();
 
-    void deleteById(int userId);
+    void deleteById(Long id);
 
-    void addFriend(int id, int friendId);
+    void addFriend(Long id, Long friendId);
 
-    void deleteFriend(int id, int friendId);
+    void deleteFriend(Long id, Long friendId);
 
-    List<User> findAllFriends(int id);
+    List<User> findAllFriends(Long id);
 
-    List<User> findCommonFriends(int id, int otherId);
+    List<User> findCommonFriends(Long id, Long otherUserId);
 
-    List<Film> findRecommendations(int id);
+    List<Film> findRecommendations(Long id);
 }

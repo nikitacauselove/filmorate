@@ -6,12 +6,12 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class Event {
-    private Integer id;
+    private Long id;
     private final Long timestamp;
-    private final Integer userId;
+    private final Long userId;
     private final EventType eventType;
     private final Operation operation;
-    private final Integer entityId;
+    private final Long entityId;
 
     public enum EventType {
         FRIEND,

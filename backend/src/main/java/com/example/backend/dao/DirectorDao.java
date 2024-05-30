@@ -10,11 +10,11 @@ public interface DirectorDao {
 
     void update(Director director);
 
-    Director findById(int id);
+    Director findById(Long id);
 
-    boolean existsById(int id);
+    boolean existsById(Long id);
 
     List<Director> findAll();
 
-    void deleteById(int id);
+    void deleteById(Long id);
 }

@@ -13,5 +13,5 @@ public interface EventMapper {
     @Mapping(target = "eventId", source = "id")
     EventDto mapToEventDto(Event event);
 
-    List<EventDto> mapToEventDto(List<Event> events);
+    List<EventDto> mapToEventDto(List<Event> eventList);
 }

@@ -24,7 +24,7 @@ public class EventDaoImpl extends DaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> findAllByUserId(int userId) {
+    public List<Event> findAllByUserId(Long userId) {
         return jdbcTemplate.query("select * from events where user_id = ?", new EventRowMapper(), userId);
     }
 }

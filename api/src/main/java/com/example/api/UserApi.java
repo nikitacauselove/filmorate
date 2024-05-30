@@ -34,49 +34,49 @@ public interface UserApi {
     @GetMapping("/{id}")
     @Operation(description = "Получение пользователя")
     UserDto findById(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 
     @GetMapping
     @Operation(description = "Получение списка всех пользователей")
     List<UserDto> findAll();
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{id}")
     @Operation(description = "Удаление пользователя")
     void deleteById(
-            @PathVariable Integer userId
+            @PathVariable Long id
     );
 
     @PutMapping("/{id}/friends/{friendId}")
     @Operation(description = "Добавление пользователя в список друзей")
     void addFriend(
-            @PathVariable Integer id,
-            @PathVariable Integer friendId
+            @PathVariable Long id,
+            @PathVariable Long friendId
     );
 
     @DeleteMapping("/{id}/friends/{friendId}")
     @Operation(description = "Удаление пользователя из списка друзей")
     void deleteFriend(
-            @PathVariable Integer id,
-            @PathVariable Integer friendId
+            @PathVariable Long id,
+            @PathVariable Long friendId
     );
 
     @GetMapping("/{id}/friends")
     @Operation(description = "Получение списка всех друзей пользователя")
     List<UserDto> findAllFriends(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 
-    @GetMapping("/{id}/friends/common/{otherId}")
+    @GetMapping("/{id}/friends/common/{otherUserId}")
     @Operation(description = "Получение списка всех общих друзей")
     List<UserDto> findCommonFriends(
-            @PathVariable Integer id,
-            @PathVariable Integer otherId
+            @PathVariable Long id,
+            @PathVariable Long otherUserId
     );
 
     @GetMapping("/{id}/recommendations")
     @Operation(description = "Получение рекомендованных фильмов")
     List<FilmDto> findRecommendations(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 }

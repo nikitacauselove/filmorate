@@ -21,5 +21,5 @@ public abstract class ReviewMapper {
         return new ReviewDto(review.getId(), review.getContent(), review.getIsPositive(), review.getUserId(), review.getFilmId(), review.getUseful());
     }
 
-    public abstract List<ReviewDto> mapToReviewDto(List<Review> reviews);
+    public abstract List<ReviewDto> mapToReviewDto(List<Review> reviewList);
 }

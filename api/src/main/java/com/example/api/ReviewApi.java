@@ -35,47 +35,47 @@ public interface ReviewApi {
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о рецензии")
     ReviewDto findById(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
     List<ReviewDto> findAll(
-            @RequestParam Optional<Integer> filmId,
+            @RequestParam Optional<Long> filmId,
             @RequestParam(defaultValue = "10") Integer count
     );
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление рецензии")
     void deleteById(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 
     @PutMapping("/{id}/like/{userId}")
     @Operation(description = "Добавление положительной реакции")
     void addLike(
-            @PathVariable Integer id,
-            @PathVariable Integer userId
+            @PathVariable Long id,
+            @PathVariable Long userId
     );
 
     @DeleteMapping("/{id}/like/{userId}")
     @Operation(description = "Удаление положительной реакции")
     void deleteLike(
-            @PathVariable Integer id,
-            @PathVariable Integer userId
+            @PathVariable Long id,
+            @PathVariable Long userId
     );
 
     @PutMapping("/{id}/dislike/{userId}")
     @Operation(description = "Добавление отрицательной реакции")
     void addDislike(
-            @PathVariable Integer id,
-            @PathVariable Integer userId
+            @PathVariable Long id,
+            @PathVariable Long userId
     );
 
     @DeleteMapping("/{id}/dislike/{userId}")
     @Operation(description = "Удаление отрицательной реакции")
     void deleteDislike(
-            @PathVariable Integer id,
-            @PathVariable Integer userId
+            @PathVariable Long id,
+            @PathVariable Long userId
     );
 }

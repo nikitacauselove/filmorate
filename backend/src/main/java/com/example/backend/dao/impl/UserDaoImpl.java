@@ -36,7 +36,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(Long id) {
         try {
             return jdbcTemplate.queryForObject("select * from users where id = ?", new UserRowMapper(this), id);
         } catch (EmptyResultDataAccessException exception) {
@@ -45,7 +45,7 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
     }
 
     @Override
-    public boolean existsById(int id) {
+    public boolean existsById(Long id) {
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject("select exists (select * from users where id = ?)", Boolean.class, id));
     }
 
@@ -55,35 +55,35 @@ public class UserDaoImpl extends DaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteById(int userId) {
-        jdbcTemplate.update("delete from users where id = ?", userId);
+    public void deleteById(Long id) {
+        jdbcTemplate.update("delete from users where id = ?", id);
     }
 
     @Override
-    public void addFriend(int id, int friendId) {
+    public void addFriend(Long id, Long friendId) {
         jdbcTemplate.update("insert into friendship (requesting_user_id, receiving_user_id) values (?, ?)", id, friendId);
     }
 
     @Override
-    public void deleteFriend(int id, int friendId) {
+    public void deleteFriend(Long id, Long friendId) {
         jdbcTemplate.update("delete from friendship where requesting_user_id = ? and receiving_user_id = ?", id, friendId);
     }
 
     @Override
-    public List<User> findAllFriends(int id) {
-        List<Integer> listOfId = findAllFriends(id, true);
+    public List<User> findAllFriends(Long id) {
+        List<Long> listOfId = findAllFriends(id, true);
 
         return jdbcTemplate.query(String.format("select * from users where id in (%s)", inSql(listOfId)), new UserRowMapper(this));
     }
 
     @Override
-    public List<Integer> findAllFriends(int id, boolean idOnly) {
-        return jdbcTemplate.queryForList(FIND_ALL_FRIENDS_SQL, Integer.class, id);
+    public List<Long> findAllFriends(Long id, Boolean idOnly) {
+        return jdbcTemplate.queryForList(FIND_ALL_FRIENDS_SQL, Long.class, id);
     }
 
     @Override
-    public List<User> findCommonFriends(int id, int otherId) {
-        List<Integer> listOfId = jdbcTemplate.queryForList(String.format("%s intersect %s", FIND_ALL_FRIENDS_SQL, FIND_ALL_FRIENDS_SQL), Integer.class, id, otherId);
+    public List<User> findCommonFriends(Long id, Long otherUserId) {
+        List<Long> listOfId = jdbcTemplate.queryForList(String.format("%s intersect %s", FIND_ALL_FRIENDS_SQL, FIND_ALL_FRIENDS_SQL), Long.class, id, otherUserId);
 
         return jdbcTemplate.query(String.format("select * from users where id in (%s)", inSql(listOfId)), new UserRowMapper(this));
     }

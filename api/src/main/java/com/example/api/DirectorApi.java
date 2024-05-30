@@ -33,7 +33,7 @@ public interface DirectorApi {
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о режиссёре")
     DirectorDto findById(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 
     @GetMapping
@@ -43,6 +43,6 @@ public interface DirectorApi {
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление режиссёра")
     void deleteById(
-            @PathVariable Integer id
+            @PathVariable Long id
     );
 }

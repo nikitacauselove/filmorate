@@ -6,11 +6,11 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class Review {
-    private Integer id;
+    private Long id;
     private final String content;
     private final Boolean isPositive;
-    private final Integer userId;
-    private final Integer filmId;
+    private final Long userId;
+    private final Long filmId;
     private final Integer useful;
 
     public enum MarkType {

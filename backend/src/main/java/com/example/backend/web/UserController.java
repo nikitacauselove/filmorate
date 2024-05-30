@@ -32,7 +32,7 @@ public class UserController implements UserApi {
         return userMapper.mapToUserDto(userService.update(user));
     }
 
-    public UserDto findById(Integer id) {
+    public UserDto findById(Long id) {
         return userMapper.mapToUserDto(userService.findById(id));
     }
 
@@ -40,27 +40,27 @@ public class UserController implements UserApi {
         return userMapper.mapToUserDto(userService.findAll());
     }
 
-    public void deleteById(Integer userId) {
-        userService.deleteById(userId);
+    public void deleteById(Long id) {
+        userService.deleteById(id);
     }
 
-    public void addFriend(Integer id, Integer friendId) {
+    public void addFriend(Long id, Long friendId) {
         userService.addFriend(id, friendId);
     }
 
-    public void deleteFriend(Integer id, Integer friendId) {
+    public void deleteFriend(Long id, Long friendId) {
         userService.deleteFriend(id, friendId);
     }
 
-    public List<UserDto> findAllFriends(Integer id) {
+    public List<UserDto> findAllFriends(Long id) {
         return userMapper.mapToUserDto(userService.findAllFriends(id));
     }
 
-    public List<UserDto> findCommonFriends(Integer id, Integer otherId) {
-        return userMapper.mapToUserDto(userService.findCommonFriends(id, otherId));
+    public List<UserDto> findCommonFriends(Long id, Long otherUserId) {
+        return userMapper.mapToUserDto(userService.findCommonFriends(id, otherUserId));
     }
 
-    public List<FilmDto> findRecommendations(Integer id) {
+    public List<FilmDto> findRecommendations(Long id) {
         return filmMapper.mapToFilmDto(userService.findRecommendations(id));
     }
 }

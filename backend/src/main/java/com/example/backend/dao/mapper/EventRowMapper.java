@@ -13,6 +13,6 @@ public class EventRowMapper implements RowMapper<Event> {
         Event.EventType eventType = Event.EventType.valueOf(rs.getString("event_type"));
         Event.Operation operation = Event.Operation.valueOf(rs.getString("operation"));
 
-        return new Event(rs.getInt("id"), rs.getTimestamp("created").getTime(), rs.getInt("user_id"), eventType, operation, rs.getInt("entity_id"));
+        return new Event(rs.getLong("id"), rs.getTimestamp("created").getTime(), rs.getLong("user_id"), eventType, operation, rs.getLong("entity_id"));
     }
 }

@@ -32,7 +32,7 @@ public class DirectorController implements DirectorApi {
         return directorMapper.mapToDirectorDto(directorService.update(director));
     }
 
-    public DirectorDto findById(Integer id) {
+    public DirectorDto findById(Long id) {
         return directorMapper.mapToDirectorDto(directorService.findById(id));
     }
 
@@ -41,7 +41,7 @@ public class DirectorController implements DirectorApi {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         directorService.deleteById(id);
     }
 }

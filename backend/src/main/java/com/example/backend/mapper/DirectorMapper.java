@@ -12,7 +12,7 @@ public interface DirectorMapper {
 
     Director mapToDirector(DirectorDto directorDto);
 
-    List<Director> mapToDirector(List<DirectorDto> directorDto);
+    List<Director> mapToDirector(List<DirectorDto> directorDtoList);
 
     @Mapping(target = "id", source = "director.id")
     @Mapping(target = "name", source = "directorDto.name")
@@ -20,5 +20,5 @@ public interface DirectorMapper {
 
     DirectorDto mapToDirectorDto(Director director);
 
-    List<DirectorDto> mapToDirectorDto(List<Director> directors);
+    List<DirectorDto> mapToDirectorDto(List<Director> directorList);
 }

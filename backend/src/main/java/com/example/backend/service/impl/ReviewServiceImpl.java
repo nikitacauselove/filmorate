@@ -50,18 +50,18 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review findById(int id) {
+    public Review findById(Long id) {
         return reviewDao.findById(id);
     }
 
     @Override
-    public List<Review> findAll(Optional<Integer> filmId, int count) {
+    public List<Review> findAll(Optional<Long> filmId, Integer count) {
         return reviewDao.findAll(filmId, count);
     }
 
     @Override
     @Transactional
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         Review review = findById(id);
 
         reviewDao.deleteById(id);
@@ -70,13 +70,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void addMark(int id, int userId, Review.MarkType markType) {
+    public void addMark(Long id, Long userId, Review.MarkType markType) {
         reviewDao.addMark(id, userId, markType);
     }
 
     @Override
     @Transactional
-    public void deleteMark(int id, int userId, Review.MarkType markType) {
+    public void deleteMark(Long id, Long userId, Review.MarkType markType) {
         reviewDao.deleteMark(id, userId, markType);
     }
 }

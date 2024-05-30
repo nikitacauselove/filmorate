@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface EventService {
 
-    List<Event> findAllByUserId(int id);
+    List<Event> findAllByUserId(Long id);
 }
