@@ -35,7 +35,7 @@ public class DirectorDaoImpl extends DaoImpl implements DirectorDao {
         try {
             return jdbcTemplate.queryForObject("select * from directors where id = ?", new DirectorRowMapper(), id);
         } catch (EmptyResultDataAccessException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссёр с указанным идентификатором не найден.");
         }
     }
 
