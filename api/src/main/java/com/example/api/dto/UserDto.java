@@ -6,13 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Schema(description = "Информация о пользователе")
 public record UserDto(@Schema(description = "Идентификатор пользователя") Long id,
                       @Schema(description = "Электронная почта пользователя") @Email String email,
                       @Schema(description = "Login пользователя") @NotBlank String login,
                       @Schema(description = "Имя пользователя") String name,
-                      @Schema(description = "День рождения пользователя") @Past LocalDate birthday,
-                      @Schema(description = "Список друзей пользователя") List<Long> friends) {
+                      @Schema(description = "День рождения пользователя") @Past LocalDate birthday) {
 }

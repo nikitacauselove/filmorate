@@ -1,11 +1,8 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.dao.EventDao;
-import com.example.backend.dao.FilmDao;
-import com.example.backend.dao.UserDao;
-import com.example.backend.entity.Event;
 import com.example.backend.entity.Film;
 import com.example.backend.entity.User;
+import com.example.backend.repository.UserRepository;
 import com.example.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,14 +16,13 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final EventDao eventDao;
-    private final FilmDao filmDao;
-    private final UserDao userDao;
+//    private final EventDao eventDao;
+//    private final FilmDao filmDao;
+    private final UserRepository userRepository;
 
     @Override
-    @Transactional
     public User create(User user) {
-        userDao.create(user);
+        userRepository.save(user);
 
         return findById(user.getId());
     }
@@ -34,61 +30,67 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User update(User user) {
-        userDao.update(user);
+        userRepository.save(user);
 
         return findById(user.getId());
     }
 
     @Override
     public User findById(Long id) {
-        return userDao.findById(id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден."));
     }
 
     @Override
     public List<User> findAll() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
     public void deleteById(Long userId) {
-        userDao.deleteById(userId);
+        userRepository.deleteById(userId);
     }
 
     @Override
     @Transactional
     public void addFriend(Long id, Long friendId) {
-        if (userDao.existsById(id) & userDao.existsById(friendId)) {
-            userDao.addFriend(id, friendId);
-            eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-        }
+        User user = findById(id);
+        User friend = findById(friendId);
+
+        user.getFriends().add(friend);
+
+//      eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
     }
 
     @Override
     @Transactional
     public void deleteFriend(Long id, Long friendId) {
-        userDao.deleteFriend(id, friendId);
-        eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
+        User user = findById(id);
+        User friend = findById(friendId);
+
+        user.getFriends().remove(friend);
+
+//      eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
     }
 
     @Override
+    @Transactional
     public List<User> findAllFriends(Long id) {
-        if (userDao.existsById(id)) {
-            return userDao.findAllFriends(id);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-        }
+        User user = findById(id);
+
+        System.out.println(user.getFriends());
+        return user.getFriends();
     }
 
     @Override
     public List<User> findCommonFriends(Long id, Long otherUserId) {
-        return userDao.findCommonFriends(id, otherUserId);
+        return userRepository.findCommonFriends(id, otherUserId);
     }
 
     @Override
     public List<Film> findRecommendations(Long id) {
-        return filmDao.findRecommendations(id);
+//        return filmDao.findRecommendations(id);
+        return null;
     }
 }

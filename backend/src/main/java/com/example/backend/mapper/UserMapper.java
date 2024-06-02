@@ -22,9 +22,7 @@ public abstract class UserMapper {
         return new User(user.getId(), userDto.email(), userDto.login(), name, userDto.birthday(), user.getFriends());
     }
 
-    public UserDto mapToUserDto(User user) {
-        return new UserDto(user.getId(), user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getFriends());
-    }
+    public abstract UserDto mapToUserDto(User user);
 
     public abstract List<UserDto> mapToUserDto(List<User> userList);
 }

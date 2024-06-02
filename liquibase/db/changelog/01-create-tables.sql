@@ -34,7 +34,7 @@ create table films (
 );
 
 create table users (
-    id       bigint      not null,
+    id       bigserial   not null,
     email    varchar(32) not null,
     login    varchar(32) not null,
     name     varchar(64),

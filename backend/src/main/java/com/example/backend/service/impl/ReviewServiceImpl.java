@@ -20,63 +20,67 @@ import java.util.Optional;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final EventDao eventDao;
-    private final FilmDao filmDao;
-    private final ReviewDao reviewDao;
-    private final UserDao userDao;
+//    private final EventDao eventDao;
+//    private final FilmDao filmDao;
+//    private final ReviewDao reviewDao;
+//    private final UserDao userDao;
 
     @Override
     @Transactional
     public Review create(Review review) {
-        if (!userDao.existsById(review.getUserId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-        }
-        if (!filmDao.existsById(review.getFilmId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден.");
-        }
-        reviewDao.create(review);
-        eventDao.create(new Event(null, null, review.getUserId(), Event.EventType.REVIEW, Event.Operation.ADD, review.getId()));
-
-        return reviewDao.findById(review.getId());
+//        if (!userDao.existsById(review.getUserId())) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
+//        }
+//        if (!filmDao.existsById(review.getFilmId())) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден.");
+//        }
+//        reviewDao.create(review);
+//        eventDao.create(new Event(null, null, review.getUserId(), Event.EventType.REVIEW, Event.Operation.ADD, review.getId()));
+//
+//        return reviewDao.findById(review.getId());
+        return null;
     }
 
     @Override
     @Transactional
     public Review update(Review review) {
-        reviewDao.update(review);
-        eventDao.create(new Event(null, null, review.getUserId(), Event.EventType.REVIEW, Event.Operation.UPDATE, review.getId()));
-
-        return reviewDao.findById(review.getId());
+//        reviewDao.update(review);
+//        eventDao.create(new Event(null, null, review.getUserId(), Event.EventType.REVIEW, Event.Operation.UPDATE, review.getId()));
+//
+//        return reviewDao.findById(review.getId());
+        return null;
     }
 
     @Override
     public Review findById(Long id) {
-        return reviewDao.findById(id);
+//        return reviewDao.findById(id);
+        return null;
     }
 
     @Override
     public List<Review> findAll(Optional<Long> filmId, Integer count) {
-        return reviewDao.findAll(filmId, count);
+//        return reviewDao.findAll(filmId, count);
+        return null;
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Review review = findById(id);
-
-        reviewDao.deleteById(id);
-        eventDao.create(new Event(null, null, review.getUserId(), Event.EventType.REVIEW, Event.Operation.REMOVE, review.getId()));
+//        Review review = findById(id);
+//
+//        reviewDao.deleteById(id);
+//        eventDao.create(new Event(null, null, review.getUserId(), Event.EventType.REVIEW, Event.Operation.REMOVE, review.getId()));
     }
 
     @Override
     @Transactional
     public void addMark(Long id, Long userId, Review.MarkType markType) {
-        reviewDao.addMark(id, userId, markType);
+//        reviewDao.addMark(id, userId, markType);
     }
 
     @Override
     @Transactional
     public void deleteMark(Long id, Long userId, Review.MarkType markType) {
-        reviewDao.deleteMark(id, userId, markType);
+//        reviewDao.deleteMark(id, userId, markType);
     }
 }

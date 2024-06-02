@@ -15,15 +15,16 @@ import java.util.List;
 @Service
 public class EventServiceImpl implements EventService {
 
-    private final EventDao eventDao;
-    private final UserDao userDao;
+//    private final EventDao eventDao;
+//    private final UserDao userDao;
 
     @Override
     public List<Event> findAllByUserId(Long id) {
-        if (userDao.existsById(id)) {
-            return eventDao.findAllByUserId(id);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-        }
+//        if (userDao.existsById(id)) {
+//            return eventDao.findAllByUserId(id);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
+//        }
+        return null;
     }
 }

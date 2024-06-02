@@ -9,15 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@RequiredArgsConstructor
-public class UserRowMapper implements RowMapper<User> {
-
-    private final UserDao userDao;
-
-    @Override
-    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        List<Long> friendList = userDao.findAllFriends(rs.getLong("id"), true);
-
-        return new User(rs.getLong("id"), rs.getString("email"), rs.getString("login"), rs.getString("name"),  rs.getDate("birthday").toLocalDate(), friendList);
-    }
-}
+//@RequiredArgsConstructor
+//public class UserRowMapper implements RowMapper<User> {
+//
+//    private final UserDao userDao;
+//
+//    @Override
+//    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+//        List<Long> friendList = userDao.findAllFriends(rs.getLong("id"), true);
+//
+//        return new User(rs.getLong("id"), rs.getString("email"), rs.getString("login"), rs.getString("name"),  rs.getDate("birthday").toLocalDate(), friendList);
+//    }
+//}
