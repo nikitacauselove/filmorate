@@ -23,14 +23,14 @@ create table directors (
 );
 
 create table films (
-    id           bigint      not null,
+    id           bigserial,
     name         varchar(64) not null,
     description  text        not null,
     release_date date        not null,
     duration     integer     not null,
-    mpa_id       bigint      not null,
-    constraint films_pkey primary key (id),
-    foreign key (mpa_id) references mpa(id) on delete cascade
+    mpa          varchar(16) not null,
+    likes_amount integer     not null,
+    constraint films_pkey primary key (id)
 );
 
 create table users (
@@ -67,10 +67,9 @@ create table reviews (
 
 create table film_genres (
     film_id  bigint not null,
-    genre_id bigint not null,
-    constraint film_genres_pkey primary key (film_id, genre_id),
-    foreign key (film_id) references films(id) on delete cascade,
-    foreign key (genre_id) references genres(id) on delete cascade
+    genre varchar(20) not null,
+    constraint film_genres_pkey primary key (film_id, genre),
+    foreign key (film_id) references films(id) on delete cascade
 );
 
 create table film_likes (

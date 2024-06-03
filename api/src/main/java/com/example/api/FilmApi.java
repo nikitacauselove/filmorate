@@ -57,14 +57,14 @@ public interface FilmApi {
 
     @PutMapping("/{id}/like/{userId}")
     @Operation(description = "Добавление реакции")
-    FilmDto addLike(
+    void addLike(
             @PathVariable Long id,
             @PathVariable Long userId
     );
 
     @DeleteMapping("/{id}/like/{userId}")
     @Operation(description = "Удаление реакции")
-    FilmDto deleteLike(
+    void deleteLike(
             @PathVariable Long id,
             @PathVariable Long userId
     );

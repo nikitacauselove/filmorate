@@ -50,16 +50,13 @@ public class FilmController implements FilmApi {
         filmService.deleteById(id);
     }
 
-    public FilmDto addLike(Long id, Long userId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addLike(Long id, Long userId) {
         filmService.addLike(id, userId);
-
-        return filmMapper.mapToFilmDto(filmService.findById(id));
     }
 
-    public FilmDto deleteLike(Long id, Long userId) {
+    public void deleteLike(Long id, Long userId) {
         filmService.deleteLike(id, userId);
-
-        return filmMapper.mapToFilmDto(filmService.findById(id));
     }
 
     public List<FilmDto> findCommon(Long userId, Long friendId) {

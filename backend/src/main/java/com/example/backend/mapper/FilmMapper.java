@@ -7,8 +7,10 @@ import com.example.backend.entity.Film;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public abstract class FilmMapper {
@@ -17,17 +19,17 @@ public abstract class FilmMapper {
     private DirectorMapper directorMapper;
 
     public Film mapToFilm(FilmDto filmDto) {
-        List<Genre> genreList = filmDto.genres() == null ? Collections.emptyList() : filmDto.genres();
-        List<Director> directorList = filmDto.directors() == null ? Collections.emptyList() : directorMapper.mapToDirector(filmDto.directors());
+        Set<Genre> genreList = filmDto.genres() == null ? Collections.emptySet() : filmDto.genres();
+//        List<Director> directorList = filmDto.directors() == null ? Collections.emptyList() : directorMapper.mapToDirector(filmDto.directors());
 
-        return new Film(null, filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), filmDto.mpa(), genreList, Collections.emptyList(), directorList);
+        return new Film(null, filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), filmDto.mpa(), 0, genreList, Collections.emptyList(), Collections.emptyList());
     }
 
     public Film mapToFilm(FilmDto filmDto, Film film) {
-        List<Genre> genreList = filmDto.genres() == null ? Collections.emptyList() : filmDto.genres();
-        List<Director> directorList = filmDto.directors() == null ? Collections.emptyList() : directorMapper.mapToDirector(filmDto.directors());
+        Set<Genre> genreList = filmDto.genres() == null ? Collections.emptySet() : filmDto.genres();
+//        List<Director> directorList = filmDto.directors() == null ? Collections.emptyList() : directorMapper.mapToDirector(filmDto.directors());
 
-        return new Film(film.getId(), filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), filmDto.mpa(), genreList, film.getLikingUsers(), directorList);
+        return new Film(film.getId(), filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), filmDto.mpa(), film.getLikesAmount(), genreList, film.getLikingUsers(), Collections.emptyList());
     }
 
     public abstract FilmDto mapToFilmDto(Film film);
