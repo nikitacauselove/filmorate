@@ -16,4 +16,8 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     @Query(value = UserServiceImpl.recommendedFilmsSql, nativeQuery = true)
     List<Film> findRecommendations(@Param("listOfUserId") Iterable<Long> listOfUserId, @Param("user_id") Long userId);
+
+
+    @Query(value = "select * from films where id in (select film_id from film_likes where user_id = :userId intersect select film_id from film_likes where user_id = :friendId)", nativeQuery = true)
+    List<Film> findCommon(Long userId, Long friendId);
 }

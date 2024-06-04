@@ -43,7 +43,7 @@ create table users (
 );
 
 create table events (
-    id         bigint                   not null,
+    id         bigserial                not null,
     created    timestamp with time zone not null default current_timestamp,
     user_id    bigint                   not null,
     event_type varchar(16)              not null,
@@ -54,12 +54,12 @@ create table events (
 );
 
 create table reviews (
-    id          bigint  not null,
-    content     text    not null,
-    is_positive boolean not null,
-    user_id     bigint  not null,
-    film_id     bigint  not null,
-    useful      integer not null,
+    id          bigserial not null,
+    content     text      not null,
+    is_positive boolean   not null,
+    user_id     bigint    not null,
+    film_id     bigint    not null,
+    useful      integer   not null,
     constraint reviews_pkey primary key (id),
     foreign key (user_id) references users(id) on delete cascade,
     foreign key (film_id) references films(id) on delete cascade

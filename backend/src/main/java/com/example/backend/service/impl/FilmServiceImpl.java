@@ -1,10 +1,13 @@
 package com.example.backend.service.impl;
 
+import com.example.api.dto.enums.Genre;
 import com.example.backend.entity.Director;
+import com.example.backend.entity.Event;
 import com.example.backend.entity.Film;
 import com.example.backend.entity.User;
 import com.example.backend.repository.DirectorRepository;
 import com.example.backend.repository.FilmRepository;
+import com.example.backend.service.EventService;
 import com.example.backend.service.FilmService;
 import com.example.backend.service.UserService;
 import jakarta.persistence.criteria.Predicate;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,13 +30,10 @@ import java.util.Optional;
 @Service
 public class FilmServiceImpl implements FilmService {
 
-    private final FilmRepository filmRepository;
+    private final EventService eventService;
     private final UserService userService;
     private final DirectorRepository directorRepository;
-//    private final DirectorDao directorDao;
-//    private final EventDao eventDao;
-//    private final FilmDao filmDao;
-//    private final UserDao userDao;
+    private final FilmRepository filmRepository;
 
     @Override
     @Transactional
@@ -66,11 +67,6 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional
     public List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy) {
-//        if (directorDao.existsById(directorId)) {
-//            return filmDao.findAllByDirectorId(directorId, sortBy);
-//        } else {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден.");
-//        }
         if (!directorRepository.existsById(directorId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден.");
         }
@@ -91,7 +87,7 @@ public class FilmServiceImpl implements FilmService {
 
         film.getLikingUsers().add(user);
         film.setLikesAmount(film.getLikesAmount() + 1);
-//        eventDao.create(new Event(null, null, userId, Event.EventType.LIKE, Event.Operation.ADD, id));
+        eventService.create(new Event(null, LocalDateTime.now(), userId, Event.EventType.LIKE, Event.Operation.ADD, id));
     }
 
     @Override
@@ -103,18 +99,12 @@ public class FilmServiceImpl implements FilmService {
         film.getLikingUsers().remove(user);
         film.setLikesAmount(film.getLikesAmount() - 1);
 
-//        if (userDao.existsById(userId)) {
-//            filmDao.deleteLike(id, userId);
-//            eventDao.create(new Event(null, null, userId, Event.EventType.LIKE, Event.Operation.REMOVE, id));
-//        } else {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
-//        }
+        eventService.create(new Event(null, LocalDateTime.now(), userId, Event.EventType.LIKE, Event.Operation.REMOVE, id));
     }
 
     @Override
     public List<Film> findCommon(Long userId, Long friendId) {
-//        return filmDao.findCommon(userId, friendId);
-        return null;
+        return filmRepository.findCommon(userId, friendId);
     }
 
     @Override
@@ -124,7 +114,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> search(String query, List<String> by) {
-        return filmRepository.findAll(createSearchSpecification(query, by), Sort.by(Sort.Direction.DESC, "likesAmount"));
+        List<Sort.Order> orders = List.of(Sort.Order.asc("likesAmount"), Sort.Order.asc("id"));
+
+        return filmRepository.findAll(createSearchSpecification(query, by), Sort.by(orders));
     }
 
     private Specification<Film> createFindPopularSpecification(Optional<Long> genreId, Optional<Integer> year) {
@@ -132,10 +124,12 @@ public class FilmServiceImpl implements FilmService {
             Collection<Predicate> predicates = new ArrayList<>();
 
             if (genreId.isPresent()) {
-                predicates.add(criteriaBuilder.isMember(genreId, root.get("genre")));
+                Genre genre = Genre.findById(genreId.get());
+
+                predicates.add(criteriaBuilder.isMember(genre, root.get("genres")));
             }
             if (year.isPresent()) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("year"), year.get()));
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get("releaseDate")), year.get()));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

@@ -4,9 +4,12 @@ import com.example.api.dto.enums.EventOperation;
 import com.example.api.dto.enums.EventType;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Schema(description = "Информация о действии пользователя")
 public record EventDto(@Schema(description = "Идентификатор действия") Long eventId,
-                       @Schema(description = "Время") Long timestamp,
+                       @Schema(description = "Время") LocalDateTime timestamp,
                        @Schema(description = "Идентификатор пользователя") Long userId,
                        @Schema(description = "Тип действия") EventType eventType,
                        @Schema(description = "Тип операции") EventOperation operation,

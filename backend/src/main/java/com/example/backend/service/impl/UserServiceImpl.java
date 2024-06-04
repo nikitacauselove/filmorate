@@ -1,9 +1,11 @@
 package com.example.backend.service.impl;
 
+import com.example.backend.entity.Event;
 import com.example.backend.entity.Film;
 import com.example.backend.entity.User;
 import com.example.backend.repository.FilmRepository;
 import com.example.backend.repository.UserRepository;
+import com.example.backend.service.EventService;
 import com.example.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,14 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-//    private final EventDao eventDao;
-//    private final FilmDao filmDao;
+    private final EventService eventService;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
 
@@ -64,8 +66,7 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().add(friend);
-
-//      eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
+        eventService.create(new Event(null, LocalDateTime.now(), id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
     }
 
     @Override
@@ -75,8 +76,7 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().remove(friend);
-
-//      eventDao.create(new Event(null, null, id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
+        eventService.create(new Event(null, LocalDateTime.now(), id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
     }
 
     @Override
@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<Film> findRecommendations(Long id) {
         List<Long> listOfUserId = userRepository.findAllForRecommendations(id);
+
         return filmRepository.findRecommendations(listOfUserId, id);
     }
 
