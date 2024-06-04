@@ -13,7 +13,7 @@ public abstract class UserMapper {
     public User mapToUser(UserDto userDto) {
         String name = userDto.name() == null || userDto.name().isEmpty() ? userDto.login() : userDto.name();
 
-        return new User(null, userDto.email(), userDto.login(), name, userDto.birthday(), Collections.emptyList());
+        return new User(null, userDto.email(), userDto.login(), name, userDto.birthday(), Collections.emptySet());
     }
 
     public User mapToUser(UserDto userDto, User user) {

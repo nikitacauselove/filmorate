@@ -21,7 +21,7 @@ public class DirectorController implements DirectorApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(DirectorDto directorDto) {
-        Director director = directorMapper.mapToDirector(directorDto);
+        Director director = directorMapper.mapToDirectorIgnoreId(directorDto);
 
         return directorMapper.mapToDirectorDto(directorService.create(director));
     }

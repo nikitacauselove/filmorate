@@ -2,6 +2,7 @@ package com.example.backend.service.impl;
 
 import com.example.backend.entity.Film;
 import com.example.backend.entity.User;
+import com.example.backend.repository.FilmRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,11 @@ public class UserServiceImpl implements UserService {
 
 //    private final EventDao eventDao;
 //    private final FilmDao filmDao;
+    private final FilmRepository filmRepository;
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public User create(User user) {
         userRepository.save(user);
 
@@ -36,12 +39,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден."));
     }
 
     @Override
+    @Transactional
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -80,17 +85,53 @@ public class UserServiceImpl implements UserService {
         User user = findById(id);
 
         System.out.println(user.getFriends());
-        return user.getFriends();
+        return user.getFriends().stream().toList();
     }
 
     @Override
+    @Transactional
     public List<User> findCommonFriends(Long id, Long otherUserId) {
         return userRepository.findCommonFriends(id, otherUserId);
     }
 
     @Override
+    @Transactional
     public List<Film> findRecommendations(Long id) {
-//        return filmDao.findRecommendations(id);
-        return null;
+        List<Long> listOfUserId = userRepository.findAllForRecommendations(id);
+        return filmRepository.findRecommendations(listOfUserId, id);
     }
+
+    public static final String mostRelevantUsersSql = """
+            SELECT user_id
+            FROM (
+                SELECT user_id, max(count)
+                FROM (
+                    SELECT user_id, count(film_id) AS count
+                    FROM film_likes
+                    WHERE film_id in (
+                        SELECT film_id
+                        FROM film_likes
+                        WHERE user_id = :id
+                    ) AND user_id <> :id
+                    GROUP BY user_id
+                )
+                GROUP BY user_id
+            )
+            """;
+
+    public static final String recommendedFilmsSql = """
+            SELECT *
+            FROM films
+            WHERE id in (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id in :listOfUserId
+            
+                EXCEPT
+            
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :user_id
+            )
+            """;
 }

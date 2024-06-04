@@ -1,11 +1,13 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.dao.DirectorDao;
 import com.example.backend.entity.Director;
+import com.example.backend.repository.DirectorRepository;
 import com.example.backend.service.DirectorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -13,41 +15,40 @@ import java.util.List;
 @Service
 public class DirectorServiceImpl implements DirectorService {
 
-//    private final DirectorDao directorDao;
+    private final DirectorRepository directorRepository;
 
     @Override
     @Transactional
     public Director create(Director director) {
-//        directorDao.create(director);
-//
-//        return findById(director.getId());
-        return null;
+        directorRepository.save(director);
+
+        return findById(director.getId());
     }
 
     @Override
     @Transactional
     public Director update(Director director) {
-//        directorDao.update(director);
-//
-//        return findById(director.getId());
-        return null;
+        directorRepository.save(director);
+
+        return findById(director.getId());
     }
 
     @Override
+    @Transactional
     public Director findById(Long id) {
-//        return directorDao.findById(id);
-        return null;
+        return directorRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссёр с указанным идентификатором не найден."));
     }
 
     @Override
+    @Transactional
     public List<Director> findAll() {
-//        return directorDao.findAll();
-        return null;
+        return directorRepository.findAll();
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-//        directorDao.deleteById(id);
+        directorRepository.deleteById(id);
     }
 }

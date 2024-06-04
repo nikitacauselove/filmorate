@@ -18,15 +18,15 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -54,20 +54,28 @@ public class Film {
     @JoinTable(name = "film_genres", joinColumns = @JoinColumn(name = "film_id"))
     @Column(name = "genre", nullable = false)
     @Enumerated(EnumType.STRING)
+    @OrderBy("genre")
     private Set<Genre> genres;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "film_likes",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> likingUsers;
+    private Set<User> likingUsers;
 
-    @Transient
-    private List<Director> directors;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "film_directors",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "director_id"))
+    private Set<Director> directors;
 
+    @Getter
+    @RequiredArgsConstructor
     public enum SortBy {
-        YEAR,
-        LIKES;
+        YEAR("releaseDate"),
+        LIKES("likesAmount");
+
+        private final String property;
 
         public static SortBy from(String string) {
             for (SortBy value : SortBy.values()) {

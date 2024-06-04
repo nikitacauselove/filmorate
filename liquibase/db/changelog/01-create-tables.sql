@@ -17,13 +17,13 @@ create table mpa (
 );
 
 create table directors (
-    id   bigint      not null,
+    id   bigserial   not null,
     name varchar(64) not null,
     constraint directors_pkey primary key (id)
 );
 
 create table films (
-    id           bigserial,
+    id           bigserial   not null,
     name         varchar(64) not null,
     description  text        not null,
     release_date date        not null,

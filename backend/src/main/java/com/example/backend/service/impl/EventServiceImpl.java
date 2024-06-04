@@ -7,6 +7,7 @@ import com.example.backend.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class EventServiceImpl implements EventService {
 //    private final UserDao userDao;
 
     @Override
+    @Transactional
     public List<Event> findAllByUserId(Long id) {
 //        if (userDao.existsById(id)) {
 //            return eventDao.findAllByUserId(id);

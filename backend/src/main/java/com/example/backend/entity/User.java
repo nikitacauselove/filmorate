@@ -8,20 +8,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
+@EqualsAndHashCode(exclude = "friends")
 @SequenceGenerator(name = "users_id_seq", allocationSize = 1)
 public class User {
 
@@ -33,9 +38,10 @@ public class User {
     private String name;
     private LocalDate birthday;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "friendship",
             joinColumns = @JoinColumn(name = "requesting_user_id"),
             inverseJoinColumns = @JoinColumn(name = "receiving_user_id"))
-    private List<User> friends;
+    @OrderBy("id")
+    private Set<User> friends;
 }
