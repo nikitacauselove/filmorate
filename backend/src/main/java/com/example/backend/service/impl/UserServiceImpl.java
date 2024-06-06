@@ -1,8 +1,8 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.entity.Event;
-import com.example.backend.entity.Film;
-import com.example.backend.entity.User;
+import com.example.backend.repository.entity.Event;
+import com.example.backend.repository.entity.Film;
+import com.example.backend.repository.entity.User;
 import com.example.backend.repository.FilmRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.EventService;

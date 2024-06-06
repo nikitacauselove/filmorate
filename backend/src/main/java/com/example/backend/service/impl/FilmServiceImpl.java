@@ -1,10 +1,10 @@
 package com.example.backend.service.impl;
 
 import com.example.api.dto.enums.Genre;
-import com.example.backend.entity.Director;
-import com.example.backend.entity.Event;
-import com.example.backend.entity.Film;
-import com.example.backend.entity.User;
+import com.example.backend.repository.entity.Director;
+import com.example.backend.repository.entity.Event;
+import com.example.backend.repository.entity.Film;
+import com.example.backend.repository.entity.User;
 import com.example.backend.repository.DirectorRepository;
 import com.example.backend.repository.FilmRepository;
 import com.example.backend.service.EventService;
@@ -108,7 +108,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> findPopular(Integer count, Optional<Long> genreId, Optional<Integer> year) {
+    public List<Film> findPopular(Integer count, Long genreId, Integer year) {
         return filmRepository.findAll(createFindPopularSpecification(genreId, year), PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "likesAmount"))).getContent();
     }
 
@@ -119,17 +119,17 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.findAll(createSearchSpecification(query, by), Sort.by(orders));
     }
 
-    private Specification<Film> createFindPopularSpecification(Optional<Long> genreId, Optional<Integer> year) {
+    private Specification<Film> createFindPopularSpecification(Long genreId, Integer year) {
         return ((root, query, criteriaBuilder) -> {
             Collection<Predicate> predicates = new ArrayList<>();
 
-            if (genreId.isPresent()) {
-                Genre genre = Genre.findById(genreId.get());
+            if (genreId != null) {
+                Genre genre = Genre.findById(genreId);
 
                 predicates.add(criteriaBuilder.isMember(genre, root.get("genres")));
             }
-            if (year.isPresent()) {
-                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get("releaseDate")), year.get()));
+            if (year != null) {
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get("releaseDate")), year));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

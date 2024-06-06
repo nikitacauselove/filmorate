@@ -1,6 +1,6 @@
 package com.example.backend.repository;
 
-import com.example.backend.entity.Event;
+import com.example.backend.repository.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

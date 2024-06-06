@@ -2,8 +2,8 @@ package com.example.backend.mapper;
 
 import com.example.api.dto.FilmDto;
 import com.example.api.dto.enums.Genre;
-import com.example.backend.entity.Director;
-import com.example.backend.entity.Film;
+import com.example.backend.repository.entity.Director;
+import com.example.backend.repository.entity.Film;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

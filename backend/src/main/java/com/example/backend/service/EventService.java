@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.entity.Event;
+import com.example.backend.repository.entity.Event;
 
 import java.util.List;
 

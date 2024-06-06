@@ -2,7 +2,7 @@ package com.example.backend.web;
 
 import com.example.api.DirectorApi;
 import com.example.api.dto.DirectorDto;
-import com.example.backend.entity.Director;
+import com.example.backend.repository.entity.Director;
 import com.example.backend.mapper.DirectorMapper;
 import com.example.backend.service.DirectorService;
 import lombok.RequiredArgsConstructor;

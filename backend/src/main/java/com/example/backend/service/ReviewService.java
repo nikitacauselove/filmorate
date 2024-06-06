@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.entity.Review;
+import com.example.backend.repository.entity.Review;
 
 import java.util.List;
 import java.util.Optional;

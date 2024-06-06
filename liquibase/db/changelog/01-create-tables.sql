@@ -2,49 +2,35 @@
 
 --changeset author:01-create-tables.sql
 
-create table genres (
-    id   bigint      not null,
-    name varchar(16) not null,
-    constraint genres_pkey primary key (id),
-    unique (name)
-);
-
-create table mpa (
-    id   bigint      not null,
-    name varchar(16) not null,
-    constraint mpa_pkey primary key (id),
-    unique (name)
-);
-
 create table directors (
     id   bigserial   not null,
-    name varchar(64) not null,
+    name varchar(32) not null,
     constraint directors_pkey primary key (id)
 );
 
 create table films (
-    id           bigserial   not null,
-    name         varchar(64) not null,
-    description  text        not null,
-    release_date date        not null,
-    duration     integer     not null,
-    mpa          varchar(16) not null,
-    likes_amount integer     not null,
+    id           bigserial                not null,
+    name         varchar(32)              not null,
+    description  text                     not null,
+    release_date timestamp with time zone not null,
+    duration     integer                  not null,
+    mpa          varchar(16)              not null,
+    likes_amount integer                  not null,
     constraint films_pkey primary key (id)
 );
 
 create table users (
-    id       bigserial   not null,
-    email    varchar(32) not null,
-    login    varchar(32) not null,
-    name     varchar(64),
-    birthday date        not null,
+    id       bigserial                not null,
+    email    varchar(32)              not null,
+    login    varchar(32)              not null,
+    name     varchar(32),
+    birthday timestamp with time zone not null,
     constraint users_pkey primary key (id)
 );
 
 create table events (
     id         bigserial                not null,
-    created    timestamp with time zone not null default current_timestamp,
+    created    timestamp with time zone not null,
     user_id    bigint                   not null,
     event_type varchar(16)              not null,
     operation  varchar(16)              not null,
@@ -66,8 +52,8 @@ create table reviews (
 );
 
 create table film_genres (
-    film_id  bigint not null,
-    genre varchar(20) not null,
+    film_id bigint      not null,
+    genre   varchar(16) not null,
     constraint film_genres_pkey primary key (film_id, genre),
     foreign key (film_id) references films(id) on delete cascade
 );
@@ -115,5 +101,3 @@ create table review_marks (
 --rollback drop table users;
 --rollback drop table films;
 --rollback drop table directors;
---rollback drop table mpa;
---rollback drop table genres;

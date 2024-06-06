@@ -1,6 +1,6 @@
 package com.example.backend.repository;
 
-import com.example.backend.entity.Film;
+import com.example.backend.repository.entity.Film;
 import com.example.backend.service.impl.UserServiceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

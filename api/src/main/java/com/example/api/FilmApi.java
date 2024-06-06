@@ -80,8 +80,8 @@ public interface FilmApi {
     @Operation(description = "Получение списка популярных фильмов")
     List<FilmDto> findPopular(
             @RequestParam(defaultValue = "10") Integer count,
-            @RequestParam Optional<Long> genreId,
-            @RequestParam Optional<Integer> year
+            @RequestParam(required = false) Long genreId,
+            @RequestParam(required = false) Integer year
     );
 
     @GetMapping("/search")

@@ -1,6 +1,6 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.entity.Director;
+import com.example.backend.repository.entity.Director;
 import com.example.backend.repository.DirectorRepository;
 import com.example.backend.service.DirectorService;
 import lombok.RequiredArgsConstructor;

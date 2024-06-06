@@ -2,7 +2,7 @@ package com.example.backend.web;
 
 import com.example.api.ReviewApi;
 import com.example.api.dto.ReviewDto;
-import com.example.backend.entity.Review;
+import com.example.backend.repository.entity.Review;
 import com.example.backend.mapper.ReviewMapper;
 import com.example.backend.service.ReviewService;
 import lombok.RequiredArgsConstructor;

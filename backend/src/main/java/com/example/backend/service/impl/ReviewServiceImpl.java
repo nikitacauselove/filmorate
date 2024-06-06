@@ -1,11 +1,9 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.entity.Director;
-import com.example.backend.entity.Event;
-import com.example.backend.entity.Film;
-import com.example.backend.entity.Review;
-import com.example.backend.entity.ReviewMark;
-import com.example.backend.entity.ReviewMarkId;
+import com.example.backend.repository.entity.Event;
+import com.example.backend.repository.entity.Review;
+import com.example.backend.repository.entity.ReviewMark;
+import com.example.backend.repository.entity.ReviewMarkId;
 import com.example.backend.repository.FilmRepository;
 import com.example.backend.repository.ReviewMarkRepository;
 import com.example.backend.repository.ReviewRepository;

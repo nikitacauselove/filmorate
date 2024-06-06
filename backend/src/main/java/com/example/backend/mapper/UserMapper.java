@@ -1,7 +1,7 @@
 package com.example.backend.mapper;
 
 import com.example.api.dto.UserDto;
-import com.example.backend.entity.User;
+import com.example.backend.repository.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;

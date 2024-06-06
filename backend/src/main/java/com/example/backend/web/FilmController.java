@@ -2,7 +2,7 @@ package com.example.backend.web;
 
 import com.example.api.FilmApi;
 import com.example.api.dto.FilmDto;
-import com.example.backend.entity.Film;
+import com.example.backend.repository.entity.Film;
 import com.example.backend.mapper.FilmMapper;
 import com.example.backend.service.FilmService;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ public class FilmController implements FilmApi {
         return filmMapper.mapToFilmDto(filmService.findCommon(userId, friendId));
     }
 
-    public List<FilmDto> findPopular(Integer count, Optional<Long> genreId, Optional<Integer> year) {
+    public List<FilmDto> findPopular(Integer count, Long genreId, Integer year) {
         return filmMapper.mapToFilmDto(filmService.findPopular(count, genreId, year));
     }
 

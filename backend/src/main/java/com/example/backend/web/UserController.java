@@ -3,7 +3,7 @@ package com.example.backend.web;
 import com.example.api.UserApi;
 import com.example.api.dto.FilmDto;
 import com.example.api.dto.UserDto;
-import com.example.backend.entity.User;
+import com.example.backend.repository.entity.User;
 import com.example.backend.mapper.FilmMapper;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.service.UserService;

@@ -1,7 +1,7 @@
 package com.example.backend.mapper;
 
 import com.example.api.dto.DirectorDto;
-import com.example.backend.entity.Director;
+import com.example.backend.repository.entity.Director;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

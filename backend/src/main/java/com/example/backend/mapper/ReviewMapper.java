@@ -1,7 +1,7 @@
 package com.example.backend.mapper;
 
 import com.example.api.dto.ReviewDto;
-import com.example.backend.entity.Review;
+import com.example.backend.repository.entity.Review;
 import org.mapstruct.Mapper;
 
 import java.util.List;
