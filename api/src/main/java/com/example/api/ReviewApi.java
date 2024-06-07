@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/api/reviews")
 @Tag(name = "Рецензии", description = "Взаимодействие с рецензиями на фильмы")
@@ -41,7 +40,7 @@ public interface ReviewApi {
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
     List<ReviewDto> findAll(
-            @RequestParam Optional<Long> filmId,
+            @RequestParam(required = false) Long filmId,
             @RequestParam(defaultValue = "10") Integer count
     );
 

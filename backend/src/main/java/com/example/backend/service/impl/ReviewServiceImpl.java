@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -64,7 +63,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findAll(Optional<Long> filmId, Integer count) {
+    public List<Review> findAll(Long filmId, Integer count) {
         return reviewRepository.findAll(createFindAllSpecification(filmId), PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"))).getContent();
     }
 
@@ -107,11 +106,13 @@ public class ReviewServiceImpl implements ReviewService {
         reviewMarkRepository.deleteById(reviewMarkId);
     }
 
-    private Specification<Review> createFindAllSpecification(Optional<Long> filmId) {
+    private Specification<Review> createFindAllSpecification(Long filmId) {
         return ((root, query1, criteriaBuilder) -> {
             Collection<Predicate> predicates = new ArrayList<>();
 
-            filmId.ifPresent(aLong -> predicates.add(criteriaBuilder.equal(root.get("filmId"), aLong)));
+            if (filmId != null) {
+                predicates.add(criteriaBuilder.equal(root.get("filmId"), filmId));
+            }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }

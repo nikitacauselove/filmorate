@@ -3,7 +3,6 @@ package com.example.backend.service;
 import com.example.backend.repository.entity.Film;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FilmService {
 

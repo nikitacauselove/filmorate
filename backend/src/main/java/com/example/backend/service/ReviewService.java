@@ -3,7 +3,6 @@ package com.example.backend.service;
 import com.example.backend.repository.entity.Review;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ReviewService {
 
@@ -13,7 +12,7 @@ public interface ReviewService {
 
     Review findById(Long id);
 
-    List<Review> findAll(Optional<Long> filmId, Integer count);
+    List<Review> findAll(Long filmId, Integer count);
 
     void deleteById(Long id);
 

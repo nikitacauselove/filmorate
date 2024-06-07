@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class ReviewController implements ReviewApi {
         return reviewMapper.mapToReviewDto(reviewService.findById(id));
     }
 
-    public List<ReviewDto> findAll(Optional<Long> filmId, Integer count) {
+    public List<ReviewDto> findAll(Long filmId, Integer count) {
         return reviewMapper.mapToReviewDto(reviewService.findAll(filmId, count));
     }
 
