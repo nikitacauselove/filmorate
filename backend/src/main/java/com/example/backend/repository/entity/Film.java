@@ -1,7 +1,5 @@
 package com.example.backend.repository.entity;
 
-import com.example.api.dto.enums.Genre;
-import com.example.api.dto.enums.Mpa;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -15,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -45,16 +44,16 @@ public class Film {
     private LocalDate releaseDate;
     private Integer duration;
 
-    @Enumerated(EnumType.STRING)
+    @OneToOne
+    @JoinColumn(name = "mpa_id", referencedColumnName = "id")
     private Mpa mpa;
 
     private Integer likesAmount;
 
-    @ElementCollection(targetClass = Genre.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "film_genres", joinColumns = @JoinColumn(name = "film_id"))
-    @Column(name = "genre", nullable = false)
-    @Enumerated(EnumType.STRING)
-    @OrderBy("genre")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "film_genres",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres;
 
     @ManyToMany(cascade = CascadeType.MERGE)

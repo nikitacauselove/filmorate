@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.dto.enums.Mpa;
+import com.example.api.dto.MpaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +15,11 @@ public interface MpaApi {
 
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о MPAA")
-    Mpa findById(
+    MpaDto findById(
             @PathVariable Long id
     );
 
     @GetMapping
     @Operation(description = "Получение списка всех MPAA")
-    List<Mpa> findAll();
+    List<MpaDto> findAll();
 }

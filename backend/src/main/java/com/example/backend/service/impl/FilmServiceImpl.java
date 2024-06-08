@@ -1,6 +1,6 @@
 package com.example.backend.service.impl;
 
-import com.example.api.dto.enums.Genre;
+import com.example.backend.repository.entity.Genre;
 import com.example.backend.repository.entity.Director;
 import com.example.backend.repository.entity.Event;
 import com.example.backend.repository.entity.Film;
@@ -9,6 +9,7 @@ import com.example.backend.repository.DirectorRepository;
 import com.example.backend.repository.FilmRepository;
 import com.example.backend.service.EventService;
 import com.example.backend.service.FilmService;
+import com.example.backend.service.GenreService;
 import com.example.backend.service.UserService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class FilmServiceImpl implements FilmService {
 
     private final EventService eventService;
     private final UserService userService;
+    private final GenreService genreService;
     private final DirectorRepository directorRepository;
     private final FilmRepository filmRepository;
 
@@ -124,7 +126,7 @@ public class FilmServiceImpl implements FilmService {
             Collection<Predicate> predicates = new ArrayList<>();
 
             if (genreId != null) {
-                Genre genre = Genre.findById(genreId);
+                Genre genre = genreService.findById(genreId);
 
                 predicates.add(criteriaBuilder.isMember(genre, root.get("genres")));
             }

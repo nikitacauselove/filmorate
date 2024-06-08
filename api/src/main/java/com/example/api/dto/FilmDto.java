@@ -1,8 +1,6 @@
 package com.example.api.dto;
 
 import com.example.api.constraints.AfterDateOfFirstFilm;
-import com.example.api.dto.enums.Genre;
-import com.example.api.dto.enums.Mpa;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +16,7 @@ public record FilmDto(@Schema(description = "Идентификатор филь
                       @Schema(description = "Описание фильма") @Size(max = 200) String description,
                       @Schema(description = "Дата выхода фильма") @NotNull @AfterDateOfFirstFilm LocalDate releaseDate,
                       @Schema(description = "Длительность фильма") @Positive Integer duration,
-                      @Schema(description = "MPAA") @NotNull Mpa mpa,
-                      @Schema(description = "Список жанров фильма") Set<Genre> genres,
+                      @Schema(description = "Рейтинг Американской киноассоциации") @NotNull MpaDto mpa,
+                      @Schema(description = "Список жанров фильма") Set<GenreDto> genres,
                       @Schema(description = "Список режиссёров") Set<DirectorDto> directors) {
 }

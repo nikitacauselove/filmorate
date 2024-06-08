@@ -1,19 +1,26 @@
 package com.example.backend.web;
 
 import com.example.api.GenreApi;
-import com.example.api.dto.enums.Genre;
+import com.example.api.dto.GenreDto;
+import com.example.backend.mapper.GenreMapper;
+import com.example.backend.service.GenreService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class GenreController implements GenreApi {
 
-    public Genre findById(Long id) {
-        return Genre.findById(id);
+    private final GenreMapper genreMapper;
+    private final GenreService genreService;
+
+    public GenreDto findById(Long id) {
+        return genreMapper.mapToGenreDto(genreService.findById(id));
     }
 
-    public List<Genre> findAll() {
-        return List.of(Genre.values());
+    public List<GenreDto> findAll() {
+        return genreMapper.mapToGenreDto(genreService.findAll());
     }
 }

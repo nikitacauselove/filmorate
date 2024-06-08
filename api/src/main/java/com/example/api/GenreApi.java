@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.dto.enums.Genre;
+import com.example.api.dto.GenreDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +15,11 @@ public interface GenreApi {
 
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о жанре")
-    Genre findById(
+    GenreDto findById(
             @PathVariable Long id
     );
 
     @GetMapping
     @Operation(description = "Получение списка всех жанров")
-    List<Genre> findAll();
+    List<GenreDto> findAll();
 }

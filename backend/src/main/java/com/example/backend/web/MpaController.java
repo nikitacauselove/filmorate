@@ -1,19 +1,27 @@
 package com.example.backend.web;
 
 import com.example.api.MpaApi;
-import com.example.api.dto.enums.Mpa;
+import com.example.api.dto.MpaDto;
+import com.example.backend.mapper.MpaMapper;
+import com.example.backend.repository.entity.Mpa;
+import com.example.backend.service.MpaService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class MpaController implements MpaApi {
 
-    public Mpa findById(Long id) {
-        return Mpa.findById(id);
+    private final MpaMapper mpaMapper;
+    private final MpaService mpaService;
+
+    public MpaDto findById(Long id) {
+        return mpaMapper.mapToMpaDto(mpaService.findById(id));
     }
 
-    public List<Mpa> findAll() {
-        return List.of(Mpa.values());
+    public List<MpaDto> findAll() {
+        return mpaMapper.mapToMpaDto(mpaService.findAll());
     }
 }
