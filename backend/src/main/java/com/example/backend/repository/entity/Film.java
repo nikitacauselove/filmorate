@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -54,6 +55,7 @@ public class Film {
     @JoinTable(name = "film_genres",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    @OrderBy("id")
     private Set<Genre> genres;
 
     @ManyToMany(cascade = CascadeType.MERGE)
