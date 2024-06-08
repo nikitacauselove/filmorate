@@ -16,10 +16,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "genres")
 @SequenceGenerator(name = "genres_id_seq", allocationSize = 1)
-public class Genre {
+public class Genre implements Comparable<Genre> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_seq")
     private Long id;
     private String name;
+
+    @Override
+    public int compareTo(Genre genre) {
+        return Long.compare(this.id, genre.id);
+    }
 }

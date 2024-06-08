@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Schema(description = "Информация о фильме")
@@ -17,6 +18,6 @@ public record FilmDto(@Schema(description = "Идентификатор филь
                       @Schema(description = "Дата выхода фильма") @NotNull @AfterDateOfFirstFilm LocalDate releaseDate,
                       @Schema(description = "Длительность фильма") @Positive Integer duration,
                       @Schema(description = "Рейтинг Американской киноассоциации") @NotNull MpaDto mpa,
-                      @Schema(description = "Список жанров фильма") Set<GenreDto> genres,
+                      @Schema(description = "Список жанров фильма") List<GenreDto> genres,
                       @Schema(description = "Список режиссёров") Set<DirectorDto> directors) {
 }

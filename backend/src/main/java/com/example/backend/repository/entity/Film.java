@@ -27,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -55,8 +56,8 @@ public class Film {
     @JoinTable(name = "film_genres",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    @OrderBy("id")
-    private Set<Genre> genres;
+    @OrderBy("name")
+    private List<Genre> genres;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "film_likes",

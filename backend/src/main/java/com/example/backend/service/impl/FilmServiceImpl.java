@@ -50,7 +50,12 @@ public class FilmServiceImpl implements FilmService {
     public Film update(Film film) {
         filmRepository.save(film);
 
-        return findById(film.getId());
+        Film result = findById(film.getId());
+
+        System.out.println("----------------------------------");
+        result.getGenres().forEach(genre -> System.out.println(genre.getId()));
+        System.out.println("----------------------------------");
+        return result;
     }
 
     @Override
