@@ -57,7 +57,7 @@ public class Film {
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @OrderBy("name")
-    private List<Genre> genres;
+    private Set<Genre> genres;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "film_likes",

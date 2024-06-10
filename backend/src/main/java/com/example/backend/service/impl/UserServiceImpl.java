@@ -56,6 +56,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteById(Long userId) {
+        filmRepository.updateLikesAmount(userId);
+
         userRepository.deleteById(userId);
     }
 

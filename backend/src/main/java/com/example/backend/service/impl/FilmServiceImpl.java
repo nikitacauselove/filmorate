@@ -50,12 +50,7 @@ public class FilmServiceImpl implements FilmService {
     public Film update(Film film) {
         filmRepository.save(film);
 
-        Film result = findById(film.getId());
-
-        System.out.println("----------------------------------");
-        result.getGenres().forEach(genre -> System.out.println(genre.getId()));
-        System.out.println("----------------------------------");
-        return result;
+        return findById(film.getId());
     }
 
     @Override
@@ -92,8 +87,10 @@ public class FilmServiceImpl implements FilmService {
         Film film = findById(id);
         User user = userService.findById(userId);
 
-        film.getLikingUsers().add(user);
-        film.setLikesAmount(film.getLikesAmount() + 1);
+        if (!film.getLikingUsers().contains(user)) {
+            film.getLikingUsers().add(user);
+            film.setLikesAmount(film.getLikesAmount() + 1);
+        }
         eventService.create(new Event(null, LocalDateTime.now(), userId, Event.EventType.LIKE, Event.Operation.ADD, id));
     }
 
