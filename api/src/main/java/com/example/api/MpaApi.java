@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequestMapping("/api/mpa")
-@Tag(name = "MPAA", description = "Взаимодействие с системой рейтингов Американской киноассоциации")
+@Tag(name = "MPA", description = "Взаимодействие с системой рейтингов Американской киноассоциации")
 public interface MpaApi {
 
     @GetMapping("/{id}")
-    @Operation(description = "Получение информации о MPAA")
+    @Operation(description = "Получение информации о MPA")
     MpaDto findById(
             @PathVariable Long id
     );
 
     @GetMapping
-    @Operation(description = "Получение списка всех MPAA")
+    @Operation(description = "Получение списка всех MPA")
     List<MpaDto> findAll();
 }

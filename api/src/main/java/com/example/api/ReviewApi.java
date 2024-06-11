@@ -2,6 +2,7 @@ package com.example.api;
 
 import com.example.api.dto.ReviewDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,7 +41,9 @@ public interface ReviewApi {
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
     List<ReviewDto> findAll(
+            @Parameter(description = "Идентификатор фильма")
             @RequestParam(required = false) Long filmId,
+            @Parameter(description = "Максимальное количество элементов")
             @RequestParam(defaultValue = "10") Integer count
     );
 

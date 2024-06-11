@@ -2,6 +2,8 @@ package com.example.api;
 
 import com.example.api.dto.FilmDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +47,7 @@ public interface FilmApi {
     @Operation(description = "Получение списка всех фильмов определенного режиссёра")
     List<FilmDto> findAllByDirectorId(
             @PathVariable Long directorId,
+            @Parameter(description = "Критерий поиска", schema = @Schema(allowableValues = {"releaseDate", "likesAmount"}))
             @RequestParam String sortBy
     );
 
@@ -71,22 +74,29 @@ public interface FilmApi {
     @GetMapping("/common")
     @Operation(description = "Получение списка общих фильмов")
     List<FilmDto> findCommon(
+            @Parameter(description = "Идентификатор пользователя")
             @RequestParam Long userId,
+            @Parameter(description = "Идентификатор фильма")
             @RequestParam Long friendId
     );
 
     @GetMapping("/popular")
     @Operation(description = "Получение списка популярных фильмов")
     List<FilmDto> findPopular(
+            @Parameter(description = "Максимальное количество элементов")
             @RequestParam(defaultValue = "10") Integer count,
+            @Parameter(description = "Идентификатор жанра")
             @RequestParam(required = false) Long genreId,
+            @Parameter(description = "Год выхода фильма")
             @RequestParam(required = false) Integer year
     );
 
     @GetMapping("/search")
     @Operation(description = "Поиск фильмов")
     List<FilmDto> search(
+            @Parameter(description = "Текст для поиска")
             @RequestParam String query,
+            @Parameter(description = "Список критериев поиска", schema = @Schema(allowableValues = {"director", "title"}, type = "list"))
             @RequestParam List<String> by
     );
 }

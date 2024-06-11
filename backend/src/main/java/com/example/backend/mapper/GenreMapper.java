@@ -10,10 +10,6 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface GenreMapper {
 
-    Genre mapToGenre(GenreDto genreDto);
-
-    Set<Genre> mapToGenre(Set<GenreDto> genreDto);
-
     GenreDto mapToGenreDto(Genre genre);
 
     Set<GenreDto> mapToGenreDto(Set<Genre> genres);

@@ -9,8 +9,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MpaMapper {
 
-    Mpa mapToMpa(MpaDto mpaDto);
-
     MpaDto mapToMpaDto(Mpa mpa);
 
     List<MpaDto> mapToMpaDto(List<Mpa> mpaList);

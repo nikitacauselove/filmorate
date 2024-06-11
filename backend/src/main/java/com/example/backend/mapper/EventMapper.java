@@ -13,14 +13,14 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    @Mapping(target = "eventId", source = "id")
-    @Mapping(target = "timestamp", source = "timestamp", qualifiedByName = "toTimestamp")
+    @Mapping(source = "id", target = "eventId")
+    @Mapping(target = "timestamp", qualifiedByName = "localDateTimeToLong")
     EventDto mapToEventDto(Event event);
 
     List<EventDto> mapToEventDto(List<Event> eventList);
 
-    @Named("toTimestamp")
-    default Long toTimestamp(LocalDateTime timestamp) {
-        return Timestamp.valueOf(timestamp).getTime();
+    @Named("localDateTimeToLong")
+    default Long localDateTimeToLong(LocalDateTime localDateTime) {
+        return Timestamp.valueOf(localDateTime).getTime();
     }
 }

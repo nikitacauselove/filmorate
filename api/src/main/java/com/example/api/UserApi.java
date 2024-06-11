@@ -75,7 +75,7 @@ public interface UserApi {
     );
 
     @GetMapping("/{id}/recommendations")
-    @Operation(description = "Получение рекомендованных фильмов")
+    @Operation(description = "Получение списка фильмов, рекомендованных для просмотра")
     List<FilmDto> findRecommendations(
             @PathVariable Long id
     );
