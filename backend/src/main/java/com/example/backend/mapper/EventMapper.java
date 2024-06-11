@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    @Mapping(source = "id", target = "eventId")
+    @Mapping(target = "eventId", source = "id")
     @Mapping(target = "timestamp", qualifiedByName = "localDateTimeToLong")
     EventDto mapToEventDto(Event event);
 

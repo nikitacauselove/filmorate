@@ -27,7 +27,7 @@ public class ReviewController implements ReviewApi {
     }
 
     public ReviewDto update(ReviewDto reviewDto) {
-        Review review = reviewMapper.mapToReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
+        Review review = reviewMapper.updateReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
 
         return reviewMapper.mapToReviewDto(reviewService.update(review));
     }
