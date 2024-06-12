@@ -27,7 +27,7 @@ public class FilmController implements FilmApi {
     }
 
     public FilmDto update(FilmDto filmDto) {
-        Film film = filmMapper.mapToFilm(filmDto, filmService.findById(filmDto.id()));
+        Film film = filmMapper.updateFilm(filmDto, filmService.findById(filmDto.id()));
 
         return filmMapper.mapToFilmDto(filmService.update(film));
     }

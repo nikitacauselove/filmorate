@@ -1,15 +1,19 @@
 package com.example.backend.mapper;
 
+import com.example.api.dto.DirectorDto;
 import com.example.api.dto.FilmDto;
 import com.example.api.dto.GenreDto;
+import com.example.api.dto.MpaDto;
 import com.example.backend.repository.entity.Genre;
 import com.example.backend.repository.entity.Director;
 import com.example.backend.repository.entity.Film;
+import com.example.backend.repository.entity.Mpa;
 import com.example.backend.service.DirectorService;
 import com.example.backend.service.GenreService;
 import com.example.backend.service.MpaService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,11 +23,9 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {DirectorMapper.class, GenreMapper.class, MpaMapper.class})
 public abstract class FilmMapper {
 
-    @Autowired
-    private GenreMapper genreMapper;
     @Autowired
     private DirectorService directorService;
     @Autowired
@@ -31,29 +33,43 @@ public abstract class FilmMapper {
     @Autowired
     private MpaService mpaService;
 
-    public Film mapToFilm(FilmDto filmDto) {
-        Set<Genre> genreSet = filmDto.genres() == null ? Collections.emptySet() : filmDto.genres().stream().map(genreDto -> genreService.findById(genreDto.id())).collect(Collectors.toSet());
-        Set<Director> directorList = filmDto.directors() == null ? Collections.emptySet() : filmDto.directors().stream().map(directorDto -> directorService.findById(directorDto.id())).collect(Collectors.toSet());
+    @Mapping(target = "mpa", qualifiedByName = "setMpa")
+    @Mapping(target = "likesAmount", constant = "0")
+    @Mapping(target = "genres", qualifiedByName = "setGenres")
+    @Mapping(target = "likingUsers", expression = "java(java.util.Collections.emptySet())")
+    @Mapping(target = "directors", qualifiedByName = "setDirectors")
+    public abstract Film mapToFilm(FilmDto filmDto);
 
-        return new Film(null, filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(),  mpaService.findById(filmDto.mpa().id()), 0, genreSet, Collections.emptySet(), directorList);
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "mpa", qualifiedByName = "setMpa")
+    @Mapping(target = "likesAmount", ignore = true)
+    @Mapping(target = "genres", qualifiedByName = "setGenres")
+    @Mapping(target = "likingUsers", ignore = true)
+    @Mapping(target = "directors", qualifiedByName = "setDirectors")
+    public abstract Film updateFilm(FilmDto filmDto, @MappingTarget Film film);
 
-    public Film mapToFilm(FilmDto filmDto, Film film) {
-        Set<Genre> genreSet = filmDto.genres() == null ? Collections.emptySet() : filmDto.genres().stream().map(genreDto -> genreService.findById(genreDto.id())).collect(Collectors.toSet());
-        Set<Director> directorList = filmDto.directors() == null ? Collections.emptySet() : filmDto.directors().stream().map(directorDto -> directorService.findById(directorDto.id())).collect(Collectors.toSet());
-
-        return new Film(film.getId(), filmDto.name(), filmDto.description(), filmDto.releaseDate(), filmDto.duration(), mpaService.findById(filmDto.mpa().id()), film.getLikesAmount(), genreSet, film.getLikingUsers(), directorList);
-    }
-
-    @Mapping(source = "genres", target = "genres", qualifiedByName = "test")
+    @Mapping(target = "genres", source = "genres", qualifiedByName = "sortGenresById")
     public abstract FilmDto mapToFilmDto(Film film);
 
     public abstract List<FilmDto> mapToFilmDto(List<Film> filmList);
 
-    @Named("test")
-    public Set<GenreDto> test(Set<Genre> genreList) {
-        Set<Genre> treeSet = new TreeSet<>(genreList);
+    @Named("sortGenresById")
+    public Set<Genre> sortGenresById(Set<Genre> genreSet) {
+        return new TreeSet<>(genreSet);
+    }
 
-        return genreMapper.mapToGenreDto(treeSet);
+    @Named("setMpa")
+    public Mpa setMpa(MpaDto mpaDto) {
+        return mpaService.findById(mpaDto.id());
+    }
+
+    @Named("setGenres")
+    public Set<Genre> setGenres(Set<GenreDto> genreDtoSet) {
+        return genreDtoSet == null ? Collections.emptySet() : genreDtoSet.stream().map(genreDto -> genreService.findById(genreDto.id())).collect(Collectors.toSet());
+    }
+
+    @Named("setDirectors")
+    public Set<Director> setDirectors(Set<DirectorDto> directorDtoSet) {
+        return directorDtoSet == null ? Collections.emptySet() : directorDtoSet.stream().map(directorDto -> directorService.findById(directorDto.id())).collect(Collectors.toSet());
     }
 }

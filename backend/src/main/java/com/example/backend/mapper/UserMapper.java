@@ -1,28 +1,28 @@
 package com.example.backend.mapper;
 
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
+
 import com.example.api.dto.UserDto;
 import com.example.backend.repository.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
-import java.util.Collections;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public abstract class UserMapper {
+public interface UserMapper {
 
-    public User mapToUser(UserDto userDto) {
-        String name = userDto.name() == null || userDto.name().isEmpty() ? userDto.login() : userDto.name();
+    @Mapping(target = "name", expression = "java(userDto.name() == null || userDto.name().isEmpty() ? userDto.login() : userDto.name())")
+    @Mapping(target = "friends", expression = "java(java.util.Collections.emptySet())")
+    User mapToUser(UserDto userDto);
 
-        return new User(null, userDto.email(), userDto.login(), name, userDto.birthday(), Collections.emptySet());
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", nullValuePropertyMappingStrategy = IGNORE)
+    @Mapping(target = "friends", ignore = true)
+    User updateUser(UserDto userDto, @MappingTarget User user);
 
-    public User updateUser(UserDto userDto, User user) {
-        String name = userDto.name() == null ? user.getName() : userDto.name();
+    UserDto mapToUserDto(User user);
 
-        return new User(user.getId(), userDto.email(), userDto.login(), name, userDto.birthday(), user.getFriends());
-    }
-
-    public abstract UserDto mapToUserDto(User user);
-
-    public abstract List<UserDto> mapToUserDto(List<User> userList);
+    List<UserDto> mapToUserDto(List<User> userList);
 }
