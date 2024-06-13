@@ -21,23 +21,23 @@ public class ReviewController implements ReviewApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewDto create(ReviewDto reviewDto) {
-        Review review = reviewMapper.mapToReview(reviewDto);
+        Review review = reviewMapper.toReview(reviewDto);
 
-        return reviewMapper.mapToReviewDto(reviewService.create(review));
+        return reviewMapper.toReviewDto(reviewService.create(review));
     }
 
     public ReviewDto update(ReviewDto reviewDto) {
         Review review = reviewMapper.updateReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
 
-        return reviewMapper.mapToReviewDto(reviewService.update(review));
+        return reviewMapper.toReviewDto(reviewService.update(review));
     }
 
     public ReviewDto findById(Long id) {
-        return reviewMapper.mapToReviewDto(reviewService.findById(id));
+        return reviewMapper.toReviewDto(reviewService.findById(id));
     }
 
     public List<ReviewDto> findAll(Long filmId, Integer count) {
-        return reviewMapper.mapToReviewDto(reviewService.findAll(filmId, count));
+        return reviewMapper.toReviewDto(reviewService.findAll(filmId, count));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -12,11 +12,11 @@ import java.util.List;
 public interface DirectorMapper {
 
     @Mapping(target = "id", ignore = true)
-    Director mapToDirectorIgnoreId(DirectorDto directorDto);
+    Director toDirectorIgnoreId(DirectorDto directorDto);
 
     Director updateDirector(DirectorDto directorDto, @MappingTarget Director director);
 
-    DirectorDto mapToDirectorDto(Director director);
+    DirectorDto toDirectorDto(Director director);
 
-    List<DirectorDto> mapToDirectorDto(List<Director> directorList);
+    List<DirectorDto> toDirectorDto(List<Director> directorList);
 }

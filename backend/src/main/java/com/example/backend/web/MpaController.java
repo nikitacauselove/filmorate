@@ -3,7 +3,6 @@ package com.example.backend.web;
 import com.example.api.MpaApi;
 import com.example.api.dto.MpaDto;
 import com.example.backend.mapper.MpaMapper;
-import com.example.backend.repository.entity.Mpa;
 import com.example.backend.service.MpaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +17,10 @@ public class MpaController implements MpaApi {
     private final MpaService mpaService;
 
     public MpaDto findById(Long id) {
-        return mpaMapper.mapToMpaDto(mpaService.findById(id));
+        return mpaMapper.toMpaDto(mpaService.findById(id));
     }
 
     public List<MpaDto> findAll() {
-        return mpaMapper.mapToMpaDto(mpaService.findAll());
+        return mpaMapper.toMpaDto(mpaService.findAll());
     }
 }

@@ -21,27 +21,27 @@ public class FilmController implements FilmApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public FilmDto create(FilmDto filmDto) {
-        Film film = filmMapper.mapToFilm(filmDto);
+        Film film = filmMapper.toFilm(filmDto);
 
-        return filmMapper.mapToFilmDto(filmService.create(film));
+        return filmMapper.toFilmDto(filmService.create(film));
     }
 
     public FilmDto update(FilmDto filmDto) {
         Film film = filmMapper.updateFilm(filmDto, filmService.findById(filmDto.id()));
 
-        return filmMapper.mapToFilmDto(filmService.update(film));
+        return filmMapper.toFilmDto(filmService.update(film));
     }
 
     public FilmDto findById(Long id) {
-        return filmMapper.mapToFilmDto(filmService.findById(id));
+        return filmMapper.toFilmDto(filmService.findById(id));
     }
 
     public List<FilmDto> findAll() {
-        return filmMapper.mapToFilmDto(filmService.findAll());
+        return filmMapper.toFilmDto(filmService.findAll());
     }
 
     public List<FilmDto> findAllByDirectorId(Long directorId, String sortBy) {
-        return filmMapper.mapToFilmDto(filmService.findAllByDirectorId(directorId, Film.SortBy.from(sortBy.toUpperCase())));
+        return filmMapper.toFilmDto(filmService.findAllByDirectorId(directorId, Film.SortBy.from(sortBy.toUpperCase())));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -59,14 +59,14 @@ public class FilmController implements FilmApi {
     }
 
     public List<FilmDto> findCommon(Long userId, Long friendId) {
-        return filmMapper.mapToFilmDto(filmService.findCommon(userId, friendId));
+        return filmMapper.toFilmDto(filmService.findCommon(userId, friendId));
     }
 
     public List<FilmDto> findPopular(Integer count, Long genreId, Integer year) {
-        return filmMapper.mapToFilmDto(filmService.findPopular(count, genreId, year));
+        return filmMapper.toFilmDto(filmService.findPopular(count, genreId, year));
     }
 
     public List<FilmDto> search(String query, List<String> by) {
-        return filmMapper.mapToFilmDto(filmService.search(query, by));
+        return filmMapper.toFilmDto(filmService.search(query, by));
     }
 }

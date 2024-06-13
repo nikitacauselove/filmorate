@@ -12,8 +12,8 @@ import java.util.List;
 public interface ReviewMapper {
 
     @Mapping(target = "id", source = "reviewId")
-    @Mapping(target = "useful", defaultValue = "0")
-    Review mapToReview(ReviewDto reviewDto);
+    @Mapping(target = "useful", constant = "0")
+    Review toReview(ReviewDto reviewDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "userId", ignore = true)
@@ -22,7 +22,7 @@ public interface ReviewMapper {
     Review updateReview(ReviewDto reviewDto, @MappingTarget Review review);
 
     @Mapping(target = "reviewId", source = "id")
-    ReviewDto mapToReviewDto(Review review);
+    ReviewDto toReviewDto(Review review);
 
-    List<ReviewDto> mapToReviewDto(List<Review> reviewList);
+    List<ReviewDto> toReviewDto(List<Review> reviewList);
 }

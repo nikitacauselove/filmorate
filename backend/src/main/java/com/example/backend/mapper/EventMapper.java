@@ -15,9 +15,9 @@ public interface EventMapper {
 
     @Mapping(target = "eventId", source = "id")
     @Mapping(target = "timestamp", qualifiedByName = "localDateTimeToLong")
-    EventDto mapToEventDto(Event event);
+    EventDto toEventDto(Event event);
 
-    List<EventDto> mapToEventDto(List<Event> eventList);
+    List<EventDto> toEventDto(List<Event> eventList);
 
     @Named("localDateTimeToLong")
     default Long localDateTimeToLong(LocalDateTime localDateTime) {

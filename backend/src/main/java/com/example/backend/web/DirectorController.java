@@ -21,23 +21,23 @@ public class DirectorController implements DirectorApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(DirectorDto directorDto) {
-        Director director = directorMapper.mapToDirectorIgnoreId(directorDto);
+        Director director = directorMapper.toDirectorIgnoreId(directorDto);
 
-        return directorMapper.mapToDirectorDto(directorService.create(director));
+        return directorMapper.toDirectorDto(directorService.create(director));
     }
 
     public DirectorDto update(DirectorDto directorDto) {
         Director director = directorMapper.updateDirector(directorDto, directorService.findById(directorDto.id()));
 
-        return directorMapper.mapToDirectorDto(directorService.update(director));
+        return directorMapper.toDirectorDto(directorService.update(director));
     }
 
     public DirectorDto findById(Long id) {
-        return directorMapper.mapToDirectorDto(directorService.findById(id));
+        return directorMapper.toDirectorDto(directorService.findById(id));
     }
 
     public List<DirectorDto> findAll() {
-        return directorMapper.mapToDirectorDto(directorService.findAll());
+        return directorMapper.toDirectorDto(directorService.findAll());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -15,14 +15,14 @@ public interface UserMapper {
 
     @Mapping(target = "name", expression = "java(userDto.name() == null || userDto.name().isEmpty() ? userDto.login() : userDto.name())")
     @Mapping(target = "friends", expression = "java(java.util.Collections.emptySet())")
-    User mapToUser(UserDto userDto);
+    User toUser(UserDto userDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", nullValuePropertyMappingStrategy = IGNORE)
     @Mapping(target = "friends", ignore = true)
     User updateUser(UserDto userDto, @MappingTarget User user);
 
-    UserDto mapToUserDto(User user);
+    UserDto toUserDto(User user);
 
-    List<UserDto> mapToUserDto(List<User> userList);
+    List<UserDto> toUserDto(List<User> userList);
 }
