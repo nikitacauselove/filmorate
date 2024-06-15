@@ -20,28 +20,24 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     @Transactional
     public Director create(Director director) {
-        directorRepository.save(director);
-
-        return findById(director.getId());
+        return directorRepository.save(director);
     }
 
     @Override
     @Transactional
     public Director update(Director director) {
-        directorRepository.save(director);
-
-        return findById(director.getId());
+        return directorRepository.save(director);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Director findById(Long id) {
         return directorRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссёр с указанным идентификатором не найден."));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Director> findAll() {
         return directorRepository.findAll();
     }

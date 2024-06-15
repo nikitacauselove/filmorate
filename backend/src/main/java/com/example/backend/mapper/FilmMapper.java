@@ -28,10 +28,8 @@ public abstract class FilmMapper {
 
     @Autowired
     private DirectorService directorService;
-
     @Autowired
     private GenreService genreService;
-
     @Autowired
     private MpaService mpaService;
 
