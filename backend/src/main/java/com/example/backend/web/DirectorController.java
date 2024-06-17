@@ -2,7 +2,6 @@ package com.example.backend.web;
 
 import com.example.api.DirectorApi;
 import com.example.api.dto.DirectorDto;
-import com.example.backend.repository.entity.Director;
 import com.example.backend.mapper.DirectorMapper;
 import com.example.backend.service.DirectorService;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +20,11 @@ public class DirectorController implements DirectorApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(DirectorDto directorDto) {
-        Director director = directorMapper.toDirectorIgnoreId(directorDto);
-
-        return directorMapper.toDirectorDto(directorService.create(director));
+        return directorMapper.toDirectorDto(directorService.create(directorDto));
     }
 
     public DirectorDto update(DirectorDto directorDto) {
-        Director director = directorMapper.updateDirector(directorDto, directorService.findById(directorDto.id()));
-
-        return directorMapper.toDirectorDto(directorService.update(director));
+        return directorMapper.toDirectorDto(directorService.update(directorDto));
     }
 
     public DirectorDto findById(Long id) {

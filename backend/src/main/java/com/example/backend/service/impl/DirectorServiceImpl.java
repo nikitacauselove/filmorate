@@ -1,5 +1,7 @@
 package com.example.backend.service.impl;
 
+import com.example.api.dto.DirectorDto;
+import com.example.backend.mapper.DirectorMapper;
 import com.example.backend.repository.entity.Director;
 import com.example.backend.repository.DirectorRepository;
 import com.example.backend.service.DirectorService;
@@ -15,18 +17,21 @@ import java.util.List;
 @Service
 public class DirectorServiceImpl implements DirectorService {
 
+    private final DirectorMapper directorMapper;
     private final DirectorRepository directorRepository;
 
     @Override
     @Transactional
-    public Director create(Director director) {
+    public Director create(DirectorDto directorDto) {
+        Director director = directorMapper.toDirectorIgnoreId(directorDto);
+
         return directorRepository.save(director);
     }
 
     @Override
     @Transactional
-    public Director update(Director director) {
-        return directorRepository.save(director);
+    public Director update(DirectorDto directorDto) {
+        return directorMapper.updateDirector(directorDto, findById(directorDto.id()));
     }
 
     @Override
