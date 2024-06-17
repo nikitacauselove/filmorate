@@ -1,5 +1,7 @@
 package com.example.backend.service.impl;
 
+import com.example.api.dto.UserDto;
+import com.example.backend.mapper.UserMapper;
 import com.example.backend.repository.entity.Event;
 import com.example.backend.repository.entity.Film;
 import com.example.backend.repository.entity.User;
@@ -13,31 +15,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserMapper userMapper;
     private final EventService eventService;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public User create(User user) {
-        userRepository.save(user);
+    public User create(UserDto userDto) {
+        User user = userMapper.toUser(userDto);
 
-        return findById(user.getId());
+        return userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public User update(User user) {
-        userRepository.save(user);
+    public User update(UserDto userDto) {
+        User user = findById(userDto.id());
 
-        return findById(user.getId());
+        return userMapper.updateUser(userDto, user);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().add(friend);
-        eventService.create(new Event(null, LocalDateTime.now(), id, Event.EventType.FRIEND, Event.Operation.ADD, friendId));
+        eventService.create(id, Event.EventType.FRIEND, Event.Operation.ADD, friendId);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().remove(friend);
-        eventService.create(new Event(null, LocalDateTime.now(), id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId));
+        eventService.create(id, Event.EventType.FRIEND, Event.Operation.REMOVE, friendId);
     }
 
     @Override
@@ -86,7 +88,6 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllFriends(Long id) {
         User user = findById(id);
 
-        System.out.println(user.getFriends());
         return user.getFriends().stream().toList();
     }
 

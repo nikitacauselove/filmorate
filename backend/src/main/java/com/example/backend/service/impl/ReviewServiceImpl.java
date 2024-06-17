@@ -1,5 +1,7 @@
 package com.example.backend.service.impl;
 
+import com.example.api.dto.ReviewDto;
+import com.example.backend.mapper.ReviewMapper;
 import com.example.backend.repository.entity.Event;
 import com.example.backend.repository.entity.Review;
 import com.example.backend.repository.entity.ReviewMark;
@@ -20,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
+    private final ReviewMapper reviewMapper;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
@@ -37,23 +39,26 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Review create(Review review) {
-        if (!userRepository.existsById(review.getUserId())) {
+    public Review create(ReviewDto reviewDto) {
+        if (!userRepository.existsById(reviewDto.userId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
         }
-        if (!filmRepository.existsById(review.getFilmId())) {
+        if (!filmRepository.existsById(reviewDto.filmId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден.");
         }
-        Review result = reviewRepository.save(review);
-        eventService.create(new Event(null, LocalDateTime.now(), review.getUserId(), Event.EventType.REVIEW, Event.Operation.ADD, result.getId()));
-        return result;
+        Review review = reviewMapper.toReview(reviewDto);
+
+        eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.ADD, review.getId());
+        return reviewRepository.save(review);
     }
 
     @Override
     @Transactional
-    public Review update(Review review) {
-        eventService.create(new Event(null, LocalDateTime.now(), review.getUserId(), Event.EventType.REVIEW, Event.Operation.UPDATE, review.getId()));
-        return reviewRepository.save(review);
+    public Review update(ReviewDto reviewDto) {
+        Review review = findById(reviewDto.reviewId());
+
+        eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.UPDATE, review.getId());
+        return reviewMapper.updateReview(reviewDto, review);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteById(Long id) {
         Review review = findById(id);
 
-        eventService.create(new Event(null, LocalDateTime.now(), review.getUserId(), Event.EventType.REVIEW, Event.Operation.REMOVE, review.getId()));
+        eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.REMOVE, review.getId());
         reviewRepository.deleteById(id);
     }
 

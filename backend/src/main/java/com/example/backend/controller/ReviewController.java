@@ -1,4 +1,4 @@
-package com.example.backend.web;
+package com.example.backend.controller;
 
 import com.example.api.ReviewApi;
 import com.example.api.dto.ReviewDto;
@@ -21,15 +21,11 @@ public class ReviewController implements ReviewApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewDto create(ReviewDto reviewDto) {
-        Review review = reviewMapper.toReview(reviewDto);
-
-        return reviewMapper.toReviewDto(reviewService.create(review));
+        return reviewMapper.toReviewDto(reviewService.create(reviewDto));
     }
 
     public ReviewDto update(ReviewDto reviewDto) {
-        Review review = reviewMapper.updateReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
-
-        return reviewMapper.toReviewDto(reviewService.update(review));
+        return reviewMapper.toReviewDto(reviewService.update(reviewDto));
     }
 
     public ReviewDto findById(Long id) {

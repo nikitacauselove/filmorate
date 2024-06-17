@@ -1,14 +1,15 @@
 package com.example.backend.service;
 
+import com.example.api.dto.ReviewDto;
 import com.example.backend.repository.entity.Review;
 
 import java.util.List;
 
 public interface ReviewService {
 
-    Review create(Review review);
+    Review create(ReviewDto reviewDto);
 
-    Review update(Review review);
+    Review update(ReviewDto reviewDto);
 
     Review findById(Long id);
 

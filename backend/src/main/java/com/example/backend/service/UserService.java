@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.api.dto.UserDto;
 import com.example.backend.repository.entity.Film;
 import com.example.backend.repository.entity.User;
 
@@ -7,9 +8,9 @@ import java.util.List;
 
 public interface UserService {
 
-    User create(User user);
+    User create(UserDto userDto);
 
-    User update(User user);
+    User update(UserDto userDto);
 
     User findById(Long id);
 

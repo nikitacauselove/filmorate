@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -91,7 +90,7 @@ public class FilmServiceImpl implements FilmService {
             film.getLikingUsers().add(user);
             film.setLikesAmount(film.getLikesAmount() + 1);
         }
-        eventService.create(new Event(null, LocalDateTime.now(), userId, Event.EventType.LIKE, Event.Operation.ADD, id));
+        eventService.create(userId, Event.EventType.LIKE, Event.Operation.ADD, id);
     }
 
     @Override
@@ -103,7 +102,7 @@ public class FilmServiceImpl implements FilmService {
         film.getLikingUsers().remove(user);
         film.setLikesAmount(film.getLikesAmount() - 1);
 
-        eventService.create(new Event(null, LocalDateTime.now(), userId, Event.EventType.LIKE, Event.Operation.REMOVE, id));
+        eventService.create(userId, Event.EventType.LIKE, Event.Operation.REMOVE, id);
     }
 
     @Override

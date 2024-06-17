@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface DirectorService {
 
-    Director create(DirectorDto director);
+    Director create(DirectorDto directorDto);
 
-    Director update(DirectorDto director);
+    Director update(DirectorDto directorDto);
 
     Director findById(Long id);
 

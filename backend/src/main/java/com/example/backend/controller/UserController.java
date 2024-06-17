@@ -1,4 +1,4 @@
-package com.example.backend.web;
+package com.example.backend.controller;
 
 import com.example.api.UserApi;
 import com.example.api.dto.FilmDto;
@@ -21,15 +21,11 @@ public class UserController implements UserApi {
     private final UserService userService;
 
     public UserDto create(UserDto userDto) {
-        User user = userMapper.toUser(userDto);
-
-        return userMapper.toUserDto(userService.create(user));
+        return userMapper.toUserDto(userService.create(userDto));
     }
 
     public UserDto update(UserDto userDto) {
-        User user = userMapper.updateUser(userDto, userService.findById(userDto.id()));
-
-        return userMapper.toUserDto(userService.update(user));
+        return userMapper.toUserDto(userService.update(userDto));
     }
 
     public UserDto findById(Long id) {

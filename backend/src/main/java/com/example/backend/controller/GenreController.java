@@ -1,4 +1,4 @@
-package com.example.backend.web;
+package com.example.backend.controller;
 
 import com.example.api.GenreApi;
 import com.example.api.dto.GenreDto;

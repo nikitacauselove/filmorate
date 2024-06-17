@@ -31,7 +31,9 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     @Transactional
     public Director update(DirectorDto directorDto) {
-        return directorMapper.updateDirector(directorDto, findById(directorDto.id()));
+        Director director = findById(directorDto.id());
+
+        return directorMapper.updateDirector(directorDto, director);
     }
 
     @Override

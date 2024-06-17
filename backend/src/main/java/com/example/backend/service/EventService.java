@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EventService {
 
-    Event create(Event event);
+    Event create(Long userId, Event.EventType eventType, Event.Operation operation, Long entityId);
 
     List<Event> findAllByUserId(Long id);
 }
