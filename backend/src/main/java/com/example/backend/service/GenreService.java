@@ -9,4 +9,6 @@ public interface GenreService {
     Genre findById(Long id);
 
     List<Genre> findAll();
+
+    List<Genre> findAllById(Iterable<Long> ids);
 }

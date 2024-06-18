@@ -50,6 +50,12 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Director> findAllById(Iterable<Long> ids) {
+        return directorRepository.findAllById(ids);
+    }
+
+    @Override
     @Transactional
     public void deleteById(Long id) {
         directorRepository.deleteById(id);

@@ -1,14 +1,15 @@
 package com.example.backend.service;
 
+import com.example.api.dto.FilmDto;
 import com.example.backend.repository.entity.Film;
 
 import java.util.List;
 
 public interface FilmService {
 
-    Film create(Film film);
+    Film create(FilmDto filmDto);
 
-    Film update(Film film);
+    Film update(FilmDto filmDto);
 
     Film findById(Long id);
 

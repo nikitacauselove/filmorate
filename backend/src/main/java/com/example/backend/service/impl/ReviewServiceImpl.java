@@ -48,8 +48,9 @@ public class ReviewServiceImpl implements ReviewService {
         }
         Review review = reviewMapper.toReview(reviewDto);
 
+        reviewRepository.save(review);
         eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.ADD, review.getId());
-        return reviewRepository.save(review);
+        return review;
     }
 
     @Override

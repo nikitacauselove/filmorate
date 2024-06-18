@@ -1,5 +1,7 @@
 package com.example.backend.service.impl;
 
+import com.example.api.dto.FilmDto;
+import com.example.backend.mapper.FilmMapper;
 import com.example.backend.repository.entity.Genre;
 import com.example.backend.repository.entity.Director;
 import com.example.backend.repository.entity.Event;
@@ -30,6 +32,7 @@ import java.util.Optional;
 @Service
 public class FilmServiceImpl implements FilmService {
 
+    private final FilmMapper filmMapper;
     private final EventService eventService;
     private final UserService userService;
     private final GenreService genreService;
@@ -38,18 +41,18 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     @Transactional
-    public Film create(Film film) {
-        filmRepository.save(film);
+    public Film create(FilmDto filmDto) {
+        Film film = filmMapper.toFilm(filmDto);
 
-        return findById(film.getId());
+        return filmRepository.save(film);
     }
 
     @Override
     @Transactional
-    public Film update(Film film) {
-        filmRepository.save(film);
+    public Film update(FilmDto filmDto) {
+        Film film = findById(filmDto.id());
 
-        return findById(film.getId());
+        return filmMapper.updateFilm(filmDto, film);
     }
 
     @Override

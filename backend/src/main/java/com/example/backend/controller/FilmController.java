@@ -21,15 +21,11 @@ public class FilmController implements FilmApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     public FilmDto create(FilmDto filmDto) {
-        Film film = filmMapper.toFilm(filmDto);
-
-        return filmMapper.toFilmDto(filmService.create(film));
+        return filmMapper.toFilmDto(filmService.create(filmDto));
     }
 
     public FilmDto update(FilmDto filmDto) {
-        Film film = filmMapper.updateFilm(filmDto, filmService.findById(filmDto.id()));
-
-        return filmMapper.toFilmDto(filmService.update(film));
+        return filmMapper.toFilmDto(filmService.update(filmDto));
     }
 
     public FilmDto findById(Long id) {

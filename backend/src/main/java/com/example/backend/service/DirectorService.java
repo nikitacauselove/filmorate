@@ -15,5 +15,7 @@ public interface DirectorService {
 
     List<Director> findAll();
 
+    List<Director> findAllById(Iterable<Long> ids);
+
     void deleteById(Long id);
 }

@@ -18,6 +18,7 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -33,19 +34,19 @@ public abstract class FilmMapper {
     @Autowired
     private MpaService mpaService;
 
-    @Mapping(target = "mpa", qualifiedByName = "findMpa")
+    @Mapping(target = "mpa", qualifiedByName = "findMpaById")
     @Mapping(target = "likesAmount", constant = "0")
-    @Mapping(target = "genres", qualifiedByName = "findAllGenres")
+    @Mapping(target = "genres", qualifiedByName = "findAllGenresById")
     @Mapping(target = "likingUsers", expression = "java(java.util.Collections.emptySet())")
-    @Mapping(target = "directors", qualifiedByName = "findAllDirectors")
+    @Mapping(target = "directors", qualifiedByName = "findAllDirectorsById")
     public abstract Film toFilm(FilmDto filmDto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "mpa", qualifiedByName = "findMpa")
+    @Mapping(target = "mpa", qualifiedByName = "findMpaById")
     @Mapping(target = "likesAmount", ignore = true)
-    @Mapping(target = "genres", qualifiedByName = "findAllGenres")
+    @Mapping(target = "genres", qualifiedByName = "findAllGenresById")
     @Mapping(target = "likingUsers", ignore = true)
-    @Mapping(target = "directors", qualifiedByName = "findAllDirectors")
+    @Mapping(target = "directors", qualifiedByName = "findAllDirectorsById")
     public abstract Film updateFilm(FilmDto filmDto, @MappingTarget Film film);
 
     @Mapping(target = "genres", source = "genres", qualifiedByName = "sortGenresById")
@@ -53,19 +54,23 @@ public abstract class FilmMapper {
 
     public abstract List<FilmDto> toFilmDto(List<Film> filmList);
 
-    @Named("findMpa")
-    protected Mpa findMpa(MpaDto mpaDto) {
+    @Named("findMpaById")
+    protected Mpa findMpaById(MpaDto mpaDto) {
         return mpaService.findById(mpaDto.id());
     }
 
-    @Named("findAllGenres")
-    protected Set<Genre> findAllGenres(Set<GenreDto> genreDtoSet) {
-        return genreDtoSet == null ? Collections.emptySet() : genreDtoSet.stream().map(genreDto -> genreService.findById(genreDto.id())).collect(Collectors.toSet());
+    @Named("findAllGenresById")
+    protected Set<Genre> findAllGenresById(Set<GenreDto> genreDtoSet) {
+        List<Long> ids = genreDtoSet == null ? Collections.emptyList() : genreDtoSet.stream().map(GenreDto::id).toList();
+
+        return new HashSet<>(genreService.findAllById(ids));
     }
 
-    @Named("findAllDirectors")
-    protected Set<Director> findAllDirectors(Set<DirectorDto> directorDtoSet) {
-        return directorDtoSet == null ? Collections.emptySet() : directorDtoSet.stream().map(directorDto -> directorService.findById(directorDto.id())).collect(Collectors.toSet());
+    @Named("findAllDirectorsById")
+    protected Set<Director> findAllDirectorsById(Set<DirectorDto> directorDtoSet) {
+        List<Long> ids = directorDtoSet == null ? Collections.emptyList() : directorDtoSet.stream().map(DirectorDto::id).toList();
+
+        return new HashSet<>(directorService.findAllById(ids));
     }
 
     @Named("sortGenresById")
