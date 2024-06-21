@@ -1,6 +1,8 @@
 package com.example.backend.service.impl;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.EventOperation;
+import com.example.api.dto.enums.EventType;
 import com.example.backend.mapper.FilmMapper;
 import com.example.backend.repository.entity.Genre;
 import com.example.backend.repository.entity.Director;
@@ -93,7 +95,7 @@ public class FilmServiceImpl implements FilmService {
             film.getLikingUsers().add(user);
             film.setLikesAmount(film.getLikesAmount() + 1);
         }
-        eventService.create(userId, Event.EventType.LIKE, Event.Operation.ADD, id);
+        eventService.create(userId, EventType.LIKE, EventOperation.ADD, id);
     }
 
     @Override
@@ -105,7 +107,7 @@ public class FilmServiceImpl implements FilmService {
         film.getLikingUsers().remove(user);
         film.setLikesAmount(film.getLikesAmount() - 1);
 
-        eventService.create(userId, Event.EventType.LIKE, Event.Operation.REMOVE, id);
+        eventService.create(userId, EventType.LIKE, EventOperation.REMOVE, id);
     }
 
     @Override

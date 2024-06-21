@@ -1,5 +1,7 @@
 package com.example.backend.service.impl;
 
+import com.example.api.dto.enums.EventOperation;
+import com.example.api.dto.enums.EventType;
 import com.example.backend.repository.entity.Event;
 import com.example.backend.repository.EventRepository;
 import com.example.backend.repository.UserRepository;
@@ -22,10 +24,14 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public Event create(Long userId, Event.EventType eventType, Event.Operation operation, Long entityId) {
-        Event event = new Event(null, LocalDateTime.now(), userId, eventType, operation, entityId);
-
-        return eventRepository.save(event);
+    public Event create(Long userId, EventType eventType, EventOperation operation, Long entityId) {
+        return eventRepository.save(Event.builder()
+                .timestamp(LocalDateTime.now())
+                .userId(userId)
+                .eventType(eventType)
+                .operation(operation)
+                .entityId(entityId)
+                .build());
     }
 
     @Override

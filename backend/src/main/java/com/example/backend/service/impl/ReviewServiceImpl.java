@@ -1,6 +1,8 @@
 package com.example.backend.service.impl;
 
 import com.example.api.dto.ReviewDto;
+import com.example.api.dto.enums.EventOperation;
+import com.example.api.dto.enums.EventType;
 import com.example.backend.mapper.ReviewMapper;
 import com.example.backend.repository.entity.Event;
 import com.example.backend.repository.entity.Review;
@@ -49,7 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewMapper.toReview(reviewDto);
 
         reviewRepository.save(review);
-        eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.ADD, review.getId());
+        eventService.create(review.getUserId(), EventType.REVIEW, EventOperation.ADD, review.getId());
         return review;
     }
 
@@ -58,7 +60,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review update(ReviewDto reviewDto) {
         Review review = findById(reviewDto.reviewId());
 
-        eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.UPDATE, review.getId());
+        eventService.create(review.getUserId(), EventType.REVIEW, EventOperation.UPDATE, review.getId());
         return reviewMapper.updateReview(reviewDto, review);
     }
 
@@ -78,7 +80,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteById(Long id) {
         Review review = findById(id);
 
-        eventService.create(review.getUserId(), Event.EventType.REVIEW, Event.Operation.REMOVE, review.getId());
+        eventService.create(review.getUserId(), EventType.REVIEW, EventOperation.REMOVE, review.getId());
         reviewRepository.deleteById(id);
     }
 
