@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import com.example.api.dto.ReviewDto;
 import com.example.api.dto.enums.EventOperation;
 import com.example.api.dto.enums.EventType;
+import com.example.api.dto.enums.MarkType;
 import com.example.backend.mapper.ReviewMapper;
 import com.example.backend.repository.entity.Event;
 import com.example.backend.repository.entity.Review;
@@ -86,26 +87,35 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void addMark(Long id, Long userId, Review.MarkType markType) {
+    public void addMark(Long id, Long userId, MarkType markType) {
         Review review = findById(id);
-        ReviewMarkId reviewMarkId = new ReviewMarkId(id, userId);
+        ReviewMarkId reviewMarkId = ReviewMarkId.builder()
+                .reviewId(id)
+                .userId(userId)
+                .build();
 
-        if (markType == Review.MarkType.LIKE) {
+        if (markType == MarkType.LIKE) {
             review.setUseful(review.getUseful() + 1);
         } else {
             review.setUseful(review.getUseful() - 1);
         }
 
-        reviewMarkRepository.save(new ReviewMark(reviewMarkId, markType));
+        reviewMarkRepository.save(ReviewMark.builder()
+                .id(reviewMarkId)
+                .markType(markType)
+                .build());
     }
 
     @Override
     @Transactional
-    public void deleteMark(Long id, Long userId, Review.MarkType markType) {
+    public void deleteMark(Long id, Long userId, MarkType markType) {
         Review review = findById(id);
-        ReviewMarkId reviewMarkId = new ReviewMarkId(id, userId);
+        ReviewMarkId reviewMarkId = ReviewMarkId.builder()
+                .reviewId(id)
+                .userId(userId)
+                .build();
 
-        if (markType == Review.MarkType.LIKE) {
+        if (markType == MarkType.LIKE) {
             review.setUseful(review.getUseful() - 1);
         } else {
             review.setUseful(review.getUseful() + 1);

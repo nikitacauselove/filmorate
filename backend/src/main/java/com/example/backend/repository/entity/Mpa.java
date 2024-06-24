@@ -1,25 +1,30 @@
 package com.example.backend.repository.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Entity
+@EqualsAndHashCode
+@Getter
+@NoArgsConstructor
+@Setter
+@SequenceGenerator(allocationSize = 1, name = "mpa_id_seq")
 @Table(name = "mpa")
-@SequenceGenerator(name = "mpa_id_seq", allocationSize = 1)
 public class Mpa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mpa_id_seq")
+    @GeneratedValue(generator = "mpa_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name = "name")
     private String name;
 }

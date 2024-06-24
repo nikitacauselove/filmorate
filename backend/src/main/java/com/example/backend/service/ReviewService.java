@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.api.dto.ReviewDto;
+import com.example.api.dto.enums.MarkType;
 import com.example.backend.repository.entity.Review;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface ReviewService {
 
     void deleteById(Long id);
 
-    void addMark(Long id, Long userId, Review.MarkType markType);
+    void addMark(Long id, Long userId, MarkType markType);
 
-    void deleteMark(Long id, Long userId, Review.MarkType markType);
+    void deleteMark(Long id, Long userId, MarkType markType);
 }

@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.api.ReviewApi;
 import com.example.api.dto.ReviewDto;
+import com.example.api.dto.enums.MarkType;
 import com.example.backend.repository.entity.Review;
 import com.example.backend.mapper.ReviewMapper;
 import com.example.backend.service.ReviewService;
@@ -42,18 +43,18 @@ public class ReviewController implements ReviewApi {
     }
 
     public void addLike(Long id, Long userId) {
-        reviewService.addMark(id, userId, Review.MarkType.LIKE);
+        reviewService.addMark(id, userId, MarkType.LIKE);
     }
 
     public void deleteLike(Long id, Long userId) {
-        reviewService.deleteMark(id, userId, Review.MarkType.LIKE);
+        reviewService.deleteMark(id, userId, MarkType.LIKE);
     }
 
     public void addDislike(Long id, Long userId) {
-        reviewService.addMark(id, userId, Review.MarkType.DISLIKE);
+        reviewService.addMark(id, userId, MarkType.DISLIKE);
     }
 
     public void deleteDislike(Long id, Long userId) {
-        reviewService.deleteMark(id, userId, Review.MarkType.DISLIKE);
+        reviewService.deleteMark(id, userId, MarkType.DISLIKE);
     }
 }

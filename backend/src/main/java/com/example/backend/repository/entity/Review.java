@@ -1,34 +1,42 @@
 package com.example.backend.repository.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
-@Data
-@NoArgsConstructor
 @Entity
+@EqualsAndHashCode
+@Getter
+@NoArgsConstructor
+@Setter
+@SequenceGenerator(allocationSize = 1, name = "reviews_id_seq")
 @Table(name = "reviews")
-@SequenceGenerator(name = "reviews_id_seq", allocationSize = 1)
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviews_id_seq")
+    @GeneratedValue(generator = "reviews_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String content;
-    private Boolean isPositive;
-    private Long userId;
-    private Long filmId;
-    private Integer useful;
 
-    public enum MarkType {
-        DISLIKE,
-        LIKE
-    }
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "is_positive")
+    private Boolean isPositive;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "film_id")
+    private Long filmId;
+
+    @Column(name = "useful")
+    private Integer useful;
 }

@@ -17,12 +17,12 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "directors_id_seq", allocationSize = 1)
+@SequenceGenerator(allocationSize = 1, name = "directors_id_seq")
 @Table(name = "directors")
 public class Director {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "directors_id_seq")
+    @GeneratedValue(generator = "directors_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name")

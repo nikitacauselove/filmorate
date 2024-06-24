@@ -2,10 +2,7 @@ package com.example.backend.repository.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,40 +14,45 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Entity
+@EqualsAndHashCode(exclude = {"genres", "likingUsers", "directors"})
+@Getter
+@NoArgsConstructor
+@Setter
+@SequenceGenerator(allocationSize = 1, name = "films_id_seq")
 @Table(name = "films")
-@SequenceGenerator(name = "films_id_seq", allocationSize = 1)
 public class Film {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "films_id_seq")
+    @GeneratedValue(generator = "films_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "release_date")
     private LocalDate releaseDate;
+
+    @Column(name = "duration")
     private Integer duration;
 
     @OneToOne
     @JoinColumn(name = "mpa_id", referencedColumnName = "id")
     private Mpa mpa;
-
-    private Integer likesAmount;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "film_genres",
@@ -59,17 +61,20 @@ public class Film {
     @OrderBy("name")
     private Set<Genre> genres;
 
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "film_directors",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "director_id"))
+    private Set<Director> directors;
+
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "film_likes",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> likingUsers;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinTable(name = "film_directors",
-            joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "director_id"))
-    private Set<Director> directors;
+    @Column(name = "likesAmount")
+    private Integer likesAmount;
 
     @Getter
     @RequiredArgsConstructor

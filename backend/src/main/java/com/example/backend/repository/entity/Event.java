@@ -27,15 +27,15 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "events_id_seq", allocationSize = 1)
+@SequenceGenerator(allocationSize = 1, name = "events_id_seq")
 @Table(name = "events")
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_id_seq")
+    @GeneratedValue(generator = "events_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "created", columnDefinition = "TIMESTAMP")
+    @Column(name = "created")
     private LocalDateTime timestamp;
 
     @Column(name = "user_id")
