@@ -13,9 +13,6 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenApiCustomizer openApiCustomizer() {
-        return openApi -> openApi.info(
-                new Info().title(OPEN_API_TITLE)
-                        .description(OPEN_API_DESCRIPTION)
-        );
+        return openApi -> openApi.info(new Info().title(OPEN_API_TITLE).description(OPEN_API_DESCRIPTION));
     }
 }
