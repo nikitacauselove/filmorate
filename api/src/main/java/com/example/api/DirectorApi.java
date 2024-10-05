@@ -14,27 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("/api/directors")
+@RequestMapping("/v1/directors")
 @Tag(name = "Режиссёры", description = "Взаимодействие с режиссёрами фильмов")
 public interface DirectorApi {
 
     @PostMapping
     @Operation(description = "Добавление нового режиссёра")
-    DirectorDto create(
-            @RequestBody @Valid DirectorDto directorDto
-    );
+    DirectorDto create(@RequestBody @Valid DirectorDto directorDto);
 
     @PutMapping
     @Operation(description = "Обновление информации о режиссёре")
-    DirectorDto update(
-            @RequestBody @Valid DirectorDto directorDto
-    );
+    DirectorDto update(@RequestBody @Valid DirectorDto directorDto);
 
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о режиссёре")
-    DirectorDto findById(
-            @PathVariable Long id
-    );
+    DirectorDto findById(@PathVariable Long id);
 
     @GetMapping
     @Operation(description = "Получение списка всех режиссёров")
@@ -42,7 +36,5 @@ public interface DirectorApi {
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление режиссёра")
-    void deleteById(
-            @PathVariable Long id
-    );
+    void deleteById(@PathVariable Long id);
 }

@@ -1,16 +1,21 @@
 package com.example.api.dto.enums;
 
+/**
+ * Тип операции.
+ */
 public enum EventOperation {
     /**
-     * Добавление
+     * Добавление.
      */
     ADD,
+
     /**
-     * Удаление
+     * Удаление.
      */
     REMOVE,
+
     /**
-     * Обновление
+     * Обновление.
      */
     UPDATE
 }

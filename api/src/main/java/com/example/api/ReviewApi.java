@@ -16,68 +16,44 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@RequestMapping("/api/reviews")
+@RequestMapping("/v1/reviews")
 @Tag(name = "Рецензии", description = "Взаимодействие с рецензиями на фильмы")
 public interface ReviewApi {
 
     @PostMapping
     @Operation(description = "Добавление новой рецензии")
-    ReviewDto create(
-            @RequestBody @Valid ReviewDto reviewDto
-    );
+    ReviewDto create(@RequestBody @Valid ReviewDto reviewDto);
 
     @PutMapping
     @Operation(description = "Обновление рецензии")
-    ReviewDto update(
-            @RequestBody @Valid ReviewDto reviewDto
-    );
+    ReviewDto update(@RequestBody @Valid ReviewDto reviewDto);
 
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о рецензии")
-    ReviewDto findById(
-            @PathVariable Long id
-    );
+    ReviewDto findById(@PathVariable Long id);
 
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
-    List<ReviewDto> findAll(
-            @Parameter(description = "Идентификатор фильма")
-            @RequestParam(required = false) Long filmId,
-            @Parameter(description = "Максимальное количество элементов")
-            @RequestParam(defaultValue = "10") Integer count
-    );
+    List<ReviewDto> findAll(@Parameter(description = "Идентификатор фильма") @RequestParam(required = false) Long filmId,
+                            @Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление рецензии")
-    void deleteById(
-            @PathVariable Long id
-    );
+    void deleteById(@PathVariable Long id);
 
     @PutMapping("/{id}/like/{userId}")
     @Operation(description = "Добавление положительной реакции")
-    void addLike(
-            @PathVariable Long id,
-            @PathVariable Long userId
-    );
+    void addLike(@PathVariable Long id, @PathVariable Long userId);
 
     @DeleteMapping("/{id}/like/{userId}")
     @Operation(description = "Удаление положительной реакции")
-    void deleteLike(
-            @PathVariable Long id,
-            @PathVariable Long userId
-    );
+    void deleteLike(@PathVariable Long id, @PathVariable Long userId);
 
     @PutMapping("/{id}/dislike/{userId}")
     @Operation(description = "Добавление отрицательной реакции")
-    void addDislike(
-            @PathVariable Long id,
-            @PathVariable Long userId
-    );
+    void addDislike(@PathVariable Long id, @PathVariable Long userId);
 
     @DeleteMapping("/{id}/dislike/{userId}")
     @Operation(description = "Удаление отрицательной реакции")
-    void deleteDislike(
-            @PathVariable Long id,
-            @PathVariable Long userId
-    );
+    void deleteDislike(@PathVariable Long id, @PathVariable Long userId);
 }

@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("/api/genres")
+@RequestMapping("/v1/genres")
 @Tag(name = "Жанры", description = "Взаимодействие с жанрами фильмов")
 public interface GenreApi {
 
     @GetMapping("/{id}")
     @Operation(description = "Получение информации о жанре")
-    GenreDto findById(
-            @PathVariable Long id
-    );
+    GenreDto findById(@PathVariable Long id);
 
     @GetMapping
     @Operation(description = "Получение списка всех жанров")

@@ -11,9 +11,7 @@ import java.util.List;
 @Tag(name = "Действия пользователей", description = "Взаимодействие с действиями пользователей")
 public interface EventApi {
 
-    @GetMapping("/api/users/{id}/feed")
+    @GetMapping("/v1/users/{id}/feed")
     @Operation(description = "Получение списка всех действий пользователя")
-    List<EventDto> findAllByUserId(
-            @PathVariable Long id
-    );
+    List<EventDto> findAllByUserId(@PathVariable Long id);
 }
