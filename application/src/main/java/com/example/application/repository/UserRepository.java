@@ -1,7 +1,6 @@
 package com.example.application.repository;
 
 import com.example.application.repository.entity.User;
-import com.example.application.service.impl.UserServiceImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,11 +9,42 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value = "select * from users where id in ((select receiving_user_id from friendship where requesting_user_id = :id)" +
-            "intersect (select receiving_user_id from friendship where requesting_user_id = :otherUserId))", nativeQuery = true)
+    @Query(value = FIND_COMMON_FRIENDS, nativeQuery = true)
     List<User> findCommonFriends(@Param("id") Long id, @Param("otherUserId") Long otherUserId);
 
 
-    @Query(value = UserServiceImpl.mostRelevantUsersSql, nativeQuery = true)
+    @Query(value = FIND_ALL_FOR_RECOMMENDATIONS, nativeQuery = true)
     List<Long> findAllForRecommendations(@Param("id") Long id);
+
+    String FIND_COMMON_FRIENDS = """
+            SELECT *
+            FROM users
+            WHERE id in (
+                SELECT receiving_user_id
+                FROM friendship
+                WHERE requesting_user_id = :id
+                INTERSECT
+                SELECT receiving_user_id
+                FROM friendship
+                WHERE requesting_user_id = :otherUserId
+            )
+            """;
+
+    String FIND_ALL_FOR_RECOMMENDATIONS = """
+            SELECT user_id
+            FROM (
+                SELECT user_id, max(count)
+                FROM (
+                    SELECT user_id, count(film_id) AS count
+                    FROM film_likes
+                    WHERE film_id in (
+                        SELECT film_id
+                        FROM film_likes
+                        WHERE user_id = :id
+                    ) AND user_id <> :id
+                    GROUP BY user_id
+                )
+                GROUP BY user_id
+            )
+            """;
 }

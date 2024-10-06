@@ -106,24 +106,6 @@ public class UserServiceImpl implements UserService {
         return filmRepository.findRecommendations(listOfUserId, id);
     }
 
-    public static final String mostRelevantUsersSql = """
-            SELECT user_id
-            FROM (
-                SELECT user_id, max(count)
-                FROM (
-                    SELECT user_id, count(film_id) AS count
-                    FROM film_likes
-                    WHERE film_id in (
-                        SELECT film_id
-                        FROM film_likes
-                        WHERE user_id = :id
-                    ) AND user_id <> :id
-                    GROUP BY user_id
-                )
-                GROUP BY user_id
-            )
-            """;
-
     public static final String recommendedFilmsSql = """
             SELECT *
             FROM films
