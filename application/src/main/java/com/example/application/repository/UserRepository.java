@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 SELECT receiving_user_id
                 FROM friendship
                 WHERE requesting_user_id = :otherUserId
-            )
+            );
             """;
 
     String FIND_ALL_FOR_RECOMMENDATIONS = """
@@ -45,6 +45,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
                     GROUP BY user_id
                 )
                 GROUP BY user_id
-            )
+            );
             """;
 }

@@ -43,10 +43,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public Review create(ReviewDto reviewDto) {
         if (!userRepository.existsById(reviewDto.userId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден");
         }
         if (!filmRepository.existsById(reviewDto.filmId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден");
         }
         Review review = reviewMapper.toReview(reviewDto);
 
@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review findById(Long id) {
         return reviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с указанным идентификатором не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с указанным идентификатором не найден"));
     }
 
     @Override

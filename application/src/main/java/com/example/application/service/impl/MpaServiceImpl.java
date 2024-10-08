@@ -21,7 +21,7 @@ public class MpaServiceImpl implements MpaService {
     @Transactional(readOnly = true)
     public Mpa findById(Long id) {
         return mpaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Рейтинг Американской киноассоциации с указанным идентификатором не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Рейтинг Американской киноассоциации с указанным идентификатором не найден"));
     }
 
     @Override

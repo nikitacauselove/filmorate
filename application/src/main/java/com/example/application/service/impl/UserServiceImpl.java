@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден"));
     }
 
     @Override
@@ -105,20 +105,4 @@ public class UserServiceImpl implements UserService {
 
         return filmRepository.findRecommendations(listOfUserId, id);
     }
-
-    public static final String recommendedFilmsSql = """
-            SELECT *
-            FROM films
-            WHERE id in (
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id in :listOfUserId
-            
-                EXCEPT
-            
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id = :user_id
-            )
-            """;
 }

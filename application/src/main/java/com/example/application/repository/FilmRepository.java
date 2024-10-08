@@ -1,7 +1,6 @@
 package com.example.application.repository;
 
 import com.example.application.repository.entity.Film;
-import com.example.application.service.impl.UserServiceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -15,15 +14,50 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 
-    @Query(value = UserServiceImpl.recommendedFilmsSql, nativeQuery = true)
-    List<Film> findRecommendations(@Param("listOfUserId") Iterable<Long> listOfUserId, @Param("user_id") Long userId);
+    @Query(value = FIND_RECOMMENDATIONS, nativeQuery = true)
+    List<Film> findRecommendations(@Param("listOfUserId") Iterable<Long> listOfUserId, @Param("userId") Long userId);
 
-
-    @Query(value = "select * from films where id in (select film_id from film_likes where user_id = :userId intersect select film_id from film_likes where user_id = :friendId)", nativeQuery = true)
+    @Query(value = FIND_COMMON, nativeQuery = true)
     List<Film> findCommon(Long userId, Long friendId);
 
     @Modifying
-    @Query(value = "update films set likes_amount = likes_amount - 1 where id in (select film_id from film_likes where user_id = :user_id)",
-    nativeQuery = true)
-    void updateLikesAmount(@Param("user_id") Long userId);
+    @Query(value = UPDATE_LIKES_AMOUNT, nativeQuery = true)
+    void updateLikesAmount(@Param("userId") Long userId);
+
+    String FIND_RECOMMENDATIONS = """
+            SELECT *
+            FROM films
+            WHERE id in (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id in :listOfUserId
+                EXCEPT
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+            );
+            """;
+
+    String FIND_COMMON = """
+            SELECT *
+            FROM films
+            WHERE id in (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+                INTERSECT
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :friendId
+            );
+            """;
+
+    String UPDATE_LIKES_AMOUNT = """
+            UPDATE films SET likes_amount = likes_amount - 1
+            WHERE id in (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+            );
+            """;
 }

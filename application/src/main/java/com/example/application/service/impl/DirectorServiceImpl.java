@@ -40,7 +40,7 @@ public class DirectorServiceImpl implements DirectorService {
     @Transactional(readOnly = true)
     public Director findById(Long id) {
         return directorRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссёр с указанным идентификатором не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссёр с указанным идентификатором не найден"));
     }
 
     @Override

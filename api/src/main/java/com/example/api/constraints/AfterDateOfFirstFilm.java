@@ -10,15 +10,15 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Documented
 @Constraint(validatedBy = AfterDateOfFirstFilmValidator.class)
-@Target({FIELD})
+@Documented
 @Retention(RUNTIME)
+@Target({FIELD})
 public @interface AfterDateOfFirstFilm {
 
     String message() default AfterDateOfFirstFilmValidator.MESSAGE;
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 }

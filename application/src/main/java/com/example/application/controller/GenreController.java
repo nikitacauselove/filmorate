@@ -16,10 +16,12 @@ public class GenreController implements GenreApi {
     private final GenreMapper genreMapper;
     private final GenreService genreService;
 
+    @Override
     public GenreDto findById(Long id) {
         return genreMapper.toGenreDto(genreService.findById(id));
     }
 
+    @Override
     public List<GenreDto> findAll() {
         return genreMapper.toGenreDto(genreService.findAll());
     }

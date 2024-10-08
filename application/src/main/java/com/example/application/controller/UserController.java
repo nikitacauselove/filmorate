@@ -19,42 +19,52 @@ public class UserController implements UserApi {
     private final UserMapper userMapper;
     private final UserService userService;
 
+    @Override
     public UserDto create(UserDto userDto) {
         return userMapper.toUserDto(userService.create(userDto));
     }
 
+    @Override
     public UserDto update(UserDto userDto) {
         return userMapper.toUserDto(userService.update(userDto));
     }
 
+    @Override
     public UserDto findById(Long id) {
         return userMapper.toUserDto(userService.findById(id));
     }
 
+    @Override
     public List<UserDto> findAll() {
         return userMapper.toUserDto(userService.findAll());
     }
 
+    @Override
     public void deleteById(Long id) {
         userService.deleteById(id);
     }
 
+    @Override
     public void addFriend(Long id, Long friendId) {
         userService.addFriend(id, friendId);
     }
 
+    @Override
     public void deleteFriend(Long id, Long friendId) {
         userService.deleteFriend(id, friendId);
     }
 
+    @Override
     public List<UserDto> findAllFriends(Long id) {
         return userMapper.toUserDto(userService.findAllFriends(id));
     }
 
+    @Override
     public List<UserDto> findCommonFriends(Long id, Long otherUserId) {
         return userMapper.toUserDto(userService.findCommonFriends(id, otherUserId));
     }
 
+    @Override
     public List<FilmDto> findRecommendations(Long id) {
         return filmMapper.toFilmDto(userService.findRecommendations(id));
     }

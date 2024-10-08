@@ -18,23 +18,28 @@ public class DirectorController implements DirectorApi {
     private final DirectorMapper directorMapper;
     private final DirectorService directorService;
 
+    @Override
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(DirectorDto directorDto) {
         return directorMapper.toDirectorDto(directorService.create(directorDto));
     }
 
+    @Override
     public DirectorDto update(DirectorDto directorDto) {
         return directorMapper.toDirectorDto(directorService.update(directorDto));
     }
 
+    @Override
     public DirectorDto findById(Long id) {
         return directorMapper.toDirectorDto(directorService.findById(id));
     }
 
+    @Override
     public List<DirectorDto> findAll() {
         return directorMapper.toDirectorDto(directorService.findAll());
     }
 
+    @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(Long id) {
         directorService.deleteById(id);

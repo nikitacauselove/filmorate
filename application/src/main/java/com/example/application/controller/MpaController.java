@@ -16,10 +16,12 @@ public class MpaController implements MpaApi {
     private final MpaMapper mpaMapper;
     private final MpaService mpaService;
 
+    @Override
     public MpaDto findById(Long id) {
         return mpaMapper.toMpaDto(mpaService.findById(id));
     }
 
+    @Override
     public List<MpaDto> findAll() {
         return mpaMapper.toMpaDto(mpaService.findAll());
     }

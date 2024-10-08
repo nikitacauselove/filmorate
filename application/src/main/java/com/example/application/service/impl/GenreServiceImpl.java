@@ -21,7 +21,7 @@ public class GenreServiceImpl implements GenreService {
     @Transactional(readOnly = true)
     public Genre findById(Long id) {
         return genreRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Жанр фильма с указанным идентификатором не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Жанр фильма с указанным идентификатором не найден"));
     }
 
     @Override

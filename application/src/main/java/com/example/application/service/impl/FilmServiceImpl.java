@@ -60,7 +60,7 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public Film findById(Long id) {
         return filmRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден"));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy) {
         if (!directorRepository.existsById(directorId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден");
         }
         return filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getProperty()));
     }
