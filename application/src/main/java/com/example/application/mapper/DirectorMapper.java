@@ -12,7 +12,7 @@ import java.util.List;
 public interface DirectorMapper {
 
     @Mapping(target = "id", ignore = true)
-    Director toDirectorIgnoreId(DirectorDto directorDto);
+    Director toDirector(DirectorDto directorDto);
 
     Director updateDirector(DirectorDto directorDto, @MappingTarget Director director);
 

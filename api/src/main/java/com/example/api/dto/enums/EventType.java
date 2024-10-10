@@ -4,6 +4,7 @@ package com.example.api.dto.enums;
  * Тип действия.
  */
 public enum EventType {
+
     /**
      * Добавление или удаление пользователя из списка друзей.
      */

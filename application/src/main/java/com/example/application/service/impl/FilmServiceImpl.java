@@ -121,7 +121,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> search(String query, List<String> by) {
-        List<Sort.Order> orders = List.of(Sort.Order.asc("likesAmount"), Sort.Order.asc("id"));
+        List<Sort.Order> orders = List.of(Sort.Order.desc("likesAmount"), Sort.Order.asc("id"));
 
         return filmRepository.findAll(createSearchSpecification(query, by), Sort.by(orders));
     }
@@ -150,10 +150,10 @@ public class FilmServiceImpl implements FilmService {
                 Optional<Director> director = directorRepository.findByNameContainingIgnoreCase(query);
 
                 director.ifPresent(value -> predicates.add(criteriaBuilder.isMember(value, root.get("directors"))));
-
             }
             if (by.contains("title")) {
                 Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), criteriaBuilder.lower(criteriaBuilder.literal("%"+ query +"%"))));
+
                 predicates.add(predicate);
             }
             return criteriaBuilder.or(predicates.toArray(new Predicate[0]));

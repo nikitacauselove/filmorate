@@ -40,7 +40,7 @@ public interface FilmApi {
     @GetMapping("/director/{directorId}")
     @Operation(description = "Получение списка всех фильмов определенного режиссёра")
     List<FilmDto> findAllByDirectorId(@PathVariable Long directorId,
-                                      @Parameter(description = "Критерий поиска", schema = @Schema(allowableValues = {"releaseDate", "likesAmount"})) @RequestParam String sortBy);
+                                      @Parameter(description = "Критерий поиска", schema = @Schema(allowableValues = {"likesAmount", "releaseDate"})) @RequestParam String sortBy);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление фильма")
@@ -57,7 +57,7 @@ public interface FilmApi {
     @GetMapping("/common")
     @Operation(description = "Получение списка общих фильмов")
     List<FilmDto> findCommon(@Parameter(description = "Идентификатор пользователя") @RequestParam Long userId,
-                             @Parameter(description = "Идентификатор фильма") @RequestParam Long friendId);
+                             @Parameter(description = "Идентификатор пользователя") @RequestParam Long friendId);
 
     @GetMapping("/popular")
     @Operation(description = "Получение списка популярных фильмов")

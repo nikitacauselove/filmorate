@@ -23,7 +23,7 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     @Transactional
     public Director create(DirectorDto directorDto) {
-        Director director = directorMapper.toDirectorIgnoreId(directorDto);
+        Director director = directorMapper.toDirector(directorDto);
 
         return directorRepository.save(director);
     }
