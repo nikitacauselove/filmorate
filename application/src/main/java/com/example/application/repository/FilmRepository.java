@@ -7,9 +7,14 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Репозиторий для взаимодействия с фильмами.
+ */
+@Repository
 public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificationExecutor<Film> {
 
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
