@@ -17,14 +17,33 @@ import java.util.List;
 @Repository
 public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificationExecutor<Film> {
 
+    /**
+     * Получение списка всех фильмов определенного режиссёра.
+     * @param directorId идентификатор режиссёра
+     * @param sort критерий поиска
+     */
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 
+    /**
+     * Получение списка всех фильмов, рекомендованных для просмотра.
+     * @param listOfUserId список всех идентификаторов релевантных пользователей
+     * @param userId идентификатор пользователя
+     */
     @Query(value = FIND_RECOMMENDATIONS, nativeQuery = true)
     List<Film> findRecommendations(@Param("listOfUserId") Iterable<Long> listOfUserId, @Param("userId") Long userId);
 
+    /**
+     * Получение списка всех общих фильмов.
+     * @param userId идентификатор пользователя
+     * @param friendId идентификатор пользователя
+     */
     @Query(value = FIND_COMMON, nativeQuery = true)
     List<Film> findCommon(Long userId, Long friendId);
 
+    /**
+     * Обновление количества положительных оценок фильма.
+     * @param userId идентификатор пользователя
+     */
     @Modifying
     @Query(value = UPDATE_LIKES_AMOUNT, nativeQuery = true)
     void updateLikesAmount(@Param("userId") Long userId);

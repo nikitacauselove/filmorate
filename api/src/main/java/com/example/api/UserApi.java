@@ -56,6 +56,6 @@ public interface UserApi {
     List<UserDto> findCommonFriends(@PathVariable Long id, @PathVariable Long otherUserId);
 
     @GetMapping("/{id}/recommendations")
-    @Operation(description = "Получение списка фильмов, рекомендованных для просмотра")
+    @Operation(description = "Получение списка всех фильмов, рекомендованных для просмотра")
     List<FilmDto> findRecommendations(@PathVariable Long id);
 }

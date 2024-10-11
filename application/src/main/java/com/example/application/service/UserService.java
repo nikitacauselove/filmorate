@@ -68,7 +68,7 @@ public interface UserService {
     List<User> findCommonFriends(Long id, Long otherUserId);
 
     /**
-     * Получение списка фильмов, рекомендованных для просмотра.
+     * Получение списка всех фильмов, рекомендованных для просмотра.
      * @param id идентификатор пользователя
      */
     List<Film> findRecommendations(Long id);

@@ -14,10 +14,18 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /**
+     * Получение списка всех общих друзей.
+     * @param id идентификатор пользователя
+     * @param otherUserId идентификатор пользователя
+     */
     @Query(value = FIND_COMMON_FRIENDS, nativeQuery = true)
     List<User> findCommonFriends(@Param("id") Long id, @Param("otherUserId") Long otherUserId);
 
-
+    /**
+     * Получение списка всех идентификаторов релевантных пользователей.
+     * @param id идентификатор пользователя
+     */
     @Query(value = FIND_ALL_FOR_RECOMMENDATIONS, nativeQuery = true)
     List<Long> findAllForRecommendations(@Param("id") Long id);
 

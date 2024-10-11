@@ -61,14 +61,14 @@ public interface FilmService {
     void deleteLike(Long id, Long userId);
 
     /**
-     * Получение списка общих фильмов.
+     * Получение списка всех общих фильмов.
      * @param userId идентификатор пользователя
      * @param friendId идентификатор пользователя
      */
     List<Film> findCommon(Long userId, Long friendId);
 
     /**
-     * Получение списка популярных фильмов.
+     * Получение списка всех популярных фильмов.
      * @param count максимальное количество элементов
      * @param genreId идентификатор жанра
      * @param year год выхода фильма

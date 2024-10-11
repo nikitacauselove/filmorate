@@ -55,12 +55,12 @@ public interface FilmApi {
     void deleteLike(@PathVariable Long id, @PathVariable Long userId);
 
     @GetMapping("/common")
-    @Operation(description = "Получение списка общих фильмов")
+    @Operation(description = "Получение списка всех общих фильмов")
     List<FilmDto> findCommon(@Parameter(description = "Идентификатор пользователя") @RequestParam Long userId,
                              @Parameter(description = "Идентификатор пользователя") @RequestParam Long friendId);
 
     @GetMapping("/popular")
-    @Operation(description = "Получение списка популярных фильмов")
+    @Operation(description = "Получение списка всех популярных фильмов")
     List<FilmDto> findPopular(@Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count,
                               @Parameter(description = "Идентификатор жанра") @RequestParam(required = false) Long genreId,
                               @Parameter(description = "Год выхода фильма") @RequestParam(required = false) Integer year);

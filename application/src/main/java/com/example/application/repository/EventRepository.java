@@ -12,5 +12,9 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
+    /**
+     * Получение списка всех действий пользователя.
+     * @param userId идентификатор пользователя
+     */
     List<Event> findAllByUserId(Long userId);
 }
