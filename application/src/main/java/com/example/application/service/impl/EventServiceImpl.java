@@ -35,12 +35,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Event> findAllByUserId(Long id) {
         if (!userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден");
         }
-
         return eventRepository.findAllByUserId(id);
     }
 }

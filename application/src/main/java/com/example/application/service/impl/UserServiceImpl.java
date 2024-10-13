@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден"));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Long userId) {
         filmRepository.updateLikesAmount(userId);
-
         userRepository.deleteById(userId);
     }
 
@@ -85,7 +84,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> findAllFriends(Long id) {
         User user = findById(id);
 
@@ -93,13 +92,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> findCommonFriends(Long id, Long otherUserId) {
         return userRepository.findCommonFriends(id, otherUserId);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Film> findRecommendations(Long id) {
         List<Long> listOfUserId = userRepository.findAllForRecommendations(id);
 

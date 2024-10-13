@@ -17,6 +17,7 @@ import com.example.application.service.ReviewService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -65,14 +65,18 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Review findById(Long id) {
         return reviewRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с указанным идентификатором не найден"));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Review> findAll(Long filmId, Integer count) {
-        return reviewRepository.findAll(createFindAllSpecification(filmId), PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"))).getContent();
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"));
+
+        return reviewRepository.findAll(createFindAllSpecification(filmId), pageable).getContent();
     }
 
     @Override
@@ -98,7 +102,6 @@ public class ReviewServiceImpl implements ReviewService {
         } else {
             review.setUseful(review.getUseful() - 1);
         }
-
         reviewMarkRepository.save(ReviewMark.builder()
                 .id(reviewMarkId)
                 .markType(markType)
@@ -119,13 +122,12 @@ public class ReviewServiceImpl implements ReviewService {
         } else {
             review.setUseful(review.getUseful() + 1);
         }
-
         reviewMarkRepository.deleteById(reviewMarkId);
     }
 
     private Specification<Review> createFindAllSpecification(Long filmId) {
         return ((root, query1, criteriaBuilder) -> {
-            Collection<Predicate> predicates = new ArrayList<>();
+            List<Predicate> predicates = new ArrayList<>();
 
             if (filmId != null) {
                 predicates.add(criteriaBuilder.equal(root.get("filmId"), filmId));

@@ -17,6 +17,7 @@ import com.example.application.service.UserService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,20 +57,20 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Film findById(Long id) {
         return filmRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден"));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Film> findAll() {
         return filmRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy) {
         if (!directorRepository.existsById(directorId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден");
@@ -105,21 +105,25 @@ public class FilmServiceImpl implements FilmService {
 
         film.getLikingUsers().remove(user);
         film.setLikesAmount(film.getLikesAmount() - 1);
-
         eventService.create(userId, EventType.LIKE, EventOperation.REMOVE, id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Film> findCommon(Long userId, Long friendId) {
         return filmRepository.findCommon(userId, friendId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
-        return filmRepository.findAll(createFindPopularSpecification(genreId, year), PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "likesAmount"))).getContent();
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "likesAmount"));
+
+        return filmRepository.findAll(createFindPopularSpecification(genreId, year), pageable).getContent();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Film> search(String query, List<String> by) {
         List<Sort.Order> orders = List.of(Sort.Order.desc("likesAmount"), Sort.Order.asc("id"));
 
@@ -128,7 +132,7 @@ public class FilmServiceImpl implements FilmService {
 
     private Specification<Film> createFindPopularSpecification(Long genreId, Integer year) {
         return ((root, query, criteriaBuilder) -> {
-            Collection<Predicate> predicates = new ArrayList<>();
+            List<Predicate> predicates = new ArrayList<>();
 
             if (genreId != null) {
                 Genre genre = genreService.findById(genreId);
@@ -144,7 +148,7 @@ public class FilmServiceImpl implements FilmService {
 
     private Specification<Film> createSearchSpecification(String query, List<String> by) {
         return ((root, query1, criteriaBuilder) -> {
-            Collection<Predicate> predicates = new ArrayList<>();
+            List<Predicate> predicates = new ArrayList<>();
 
             if (by.contains("director")) {
                 Optional<Director> director = directorRepository.findByNameContainingIgnoreCase(query);
