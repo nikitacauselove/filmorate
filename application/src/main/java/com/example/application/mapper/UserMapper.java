@@ -1,7 +1,5 @@
 package com.example.application.mapper;
 
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
 import com.example.api.dto.UserDto;
 import com.example.application.mapper.decorator.UserMapperDecorator;
 import com.example.application.repository.entity.User;
@@ -11,6 +9,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
+
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @DecoratedWith(UserMapperDecorator.class)
 @Mapper(componentModel = "spring")

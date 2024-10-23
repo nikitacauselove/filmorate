@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset author:Kozlov Nikita
+--changeset author:02-insert-values.sql
 
 insert into genres (name)
 values ('Комедия'),

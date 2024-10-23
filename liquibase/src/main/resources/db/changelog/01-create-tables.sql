@@ -1,16 +1,16 @@
 --liquibase formatted sql
 
---changeset author:Kozlov Nikita
+--changeset author:01-create-tables.sql
 
 create table genres (
     id   bigserial   not null,
-    name varchar(16) not null,
+    name varchar(32) not null,
     constraint genres_pkey primary key (id)
 );
 
 create table mpa (
     id   bigserial   not null,
-    name varchar(16) not null,
+    name varchar(32) not null,
     constraint mpa_pkey primary key (id)
 );
 

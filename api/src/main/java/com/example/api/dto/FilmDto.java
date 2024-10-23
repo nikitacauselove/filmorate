@@ -1,6 +1,6 @@
 package com.example.api.dto;
 
-import com.example.api.constraints.AfterDateOfFirstFilm;
+import com.example.api.constraint.AfterDateOfFirstFilm;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
