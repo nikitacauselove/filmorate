@@ -7,10 +7,9 @@ import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
-
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @DecoratedWith(UserMapperDecorator.class)
 @Mapper(componentModel = "spring")
@@ -21,7 +20,7 @@ public interface UserMapper {
     User toUser(UserDto userDto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", nullValuePropertyMappingStrategy = IGNORE)
+    @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "friends", ignore = true)
     User updateUser(UserDto userDto, @MappingTarget User user);
 
