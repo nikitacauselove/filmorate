@@ -2,20 +2,20 @@
 
 --changeset author:02-insert-values.sql
 
-insert into genres (name)
-values ('Комедия'),
+INSERT INTO genres (name)
+VALUES ('Комедия'),
        ('Драма'),
        ('Мультфильм'),
        ('Триллер'),
        ('Документальный'),
        ('Боевик');
 
-insert into mpa (name)
-values ('G'),
+INSERT INTO mpa (name)
+VALUES ('G'),
        ('PG'),
        ('PG-13'),
        ('R'),
        ('NC-17');
 
---rollback delete from genres where name in ('Комедия', 'Драма', 'Мультфильм', 'Триллер', 'Документальный', 'Боевик');
---rollback delete from mpa where name in ('G', 'PG', 'PG13', 'R', 'NC17');
+--rollback DELETE FROM genres WHERE name IN ('Комедия', 'Драма', 'Мультфильм', 'Триллер', 'Документальный', 'Боевик');
+--rollback DELETE FROM mpa WHERE name IN ('G', 'PG', 'PG13', 'R', 'NC17');
