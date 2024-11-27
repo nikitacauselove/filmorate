@@ -26,16 +26,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@EqualsAndHashCode(exclude = {"genres", "likingUsers", "directors"})
+@EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(allocationSize = 1, name = "films_id_seq")
+@SequenceGenerator(name = "films_id_seq", allocationSize = 1)
 @Table(name = "films")
 public class Film {
 
     @Id
-    @GeneratedValue(generator = "films_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "films_id_seq")
     private Long id;
 
     @Column(name = "name")
@@ -54,26 +54,26 @@ public class Film {
     @JoinColumn(name = "mpa_id", referencedColumnName = "id")
     private Mpa mpa;
 
-    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "film_genres",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
     @OrderBy("name")
     private Set<Genre> genres;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "film_directors",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "director_id"))
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Director> directors;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "film_likes",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Set<User> likingUsers;
 
-    @Column(name = "likesAmount")
+    @Column(name = "likes_amount")
     private Integer likesAmount;
 
     @Getter

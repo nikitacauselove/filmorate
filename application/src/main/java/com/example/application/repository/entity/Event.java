@@ -23,16 +23,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(allocationSize = 1, name = "events_id_seq")
+@SequenceGenerator(name = "events_id_seq", allocationSize = 1)
 @Table(name = "events")
 public class Event {
 
     @Id
-    @GeneratedValue(generator = "events_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_id_seq")
     private Long id;
 
     @Column(name = "created")

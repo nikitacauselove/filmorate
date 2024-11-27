@@ -21,16 +21,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@EqualsAndHashCode(exclude = "friends")
+@EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(allocationSize = 1, name = "users_id_seq")
+@SequenceGenerator(name = "users_id_seq", allocationSize = 1)
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(generator = "users_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
     private Long id;
 
     @Column(name = "email")
@@ -45,10 +45,10 @@ public class User {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "friendship",
             joinColumns = @JoinColumn(name = "requesting_user_id"),
             inverseJoinColumns = @JoinColumn(name = "receiving_user_id"))
+    @ManyToMany(cascade = CascadeType.MERGE)
     @OrderBy("id")
     private Set<User> friends;
 }

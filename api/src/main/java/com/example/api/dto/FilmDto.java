@@ -14,7 +14,7 @@ import java.util.Set;
 public record FilmDto(@Schema(description = "Идентификатор фильма") Long id,
                       @Schema(description = "Название фильма") @NotBlank String name,
                       @Schema(description = "Описание фильма") @Size(max = 200) String description,
-                      @Schema(description = "Дата выхода фильма") @NotNull @AfterDateOfFirstFilm LocalDate releaseDate,
+                      @Schema(description = "Дата выхода фильма") @AfterDateOfFirstFilm @NotNull LocalDate releaseDate,
                       @Schema(description = "Длительность фильма") @Positive Integer duration,
                       @Schema(description = "Рейтинг Американской киноассоциации") @NotNull MpaDto mpa,
                       @Schema(description = "Список жанров фильма") Set<GenreDto> genres,

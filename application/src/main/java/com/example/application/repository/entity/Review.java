@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(allocationSize = 1, name = "reviews_id_seq")
+@SequenceGenerator(name = "reviews_id_seq", allocationSize = 1)
 @Table(name = "reviews")
 public class Review {
 
     @Id
-    @GeneratedValue(generator = "reviews_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviews_id_seq")
     private Long id;
 
     @Column(name = "content")

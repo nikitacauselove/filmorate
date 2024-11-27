@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(allocationSize = 1, name = "genres_id_seq")
+@SequenceGenerator(name = "genres_id_seq", allocationSize = 1)
 @Table(name = "genres")
 public class Genre implements Comparable<Genre> {
 
     @Id
-    @GeneratedValue(generator = "genres_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_seq")
     private Long id;
 
     @Column(name = "name")

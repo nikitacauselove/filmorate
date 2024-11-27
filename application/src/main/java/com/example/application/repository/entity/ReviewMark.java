@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Getter
 @NoArgsConstructor
 @Setter
