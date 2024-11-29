@@ -17,10 +17,7 @@ import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -75,22 +72,4 @@ public class Film {
 
     @Column(name = "likes_amount")
     private Integer likesAmount;
-
-    @Getter
-    @RequiredArgsConstructor
-    public enum SortBy {
-        YEAR("releaseDate"),
-        LIKES("likesAmount");
-
-        private final String property;
-
-        public static SortBy from(String string) {
-            for (SortBy value : SortBy.values()) {
-                if (value.name().equals(string)) {
-                    return value;
-                }
-            }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Указанный тип сортировки не найден.");
-        }
-    }
 }

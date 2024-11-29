@@ -1,8 +1,8 @@
 package com.example.application.service.impl;
 
 import com.example.api.dto.UserDto;
-import com.example.api.dto.enums.EventOperation;
 import com.example.api.dto.enums.EventType;
+import com.example.api.dto.enums.Operation;
 import com.example.application.mapper.UserMapper;
 import com.example.application.repository.entity.Film;
 import com.example.application.repository.entity.User;
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().add(friend);
-        eventService.create(id, EventType.FRIEND, EventOperation.ADD, friendId);
+        eventService.create(id, EventType.FRIEND, Operation.ADD, friendId);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().remove(friend);
-        eventService.create(id, EventType.FRIEND, EventOperation.REMOVE, friendId);
+        eventService.create(id, EventType.FRIEND, Operation.REMOVE, friendId);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.application.repository.entity;
 
-import com.example.api.dto.enums.EventOperation;
 import com.example.api.dto.enums.EventType;
+import com.example.api.dto.enums.Operation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -36,6 +37,7 @@ public class Event {
     private Long id;
 
     @Column(name = "created")
+    @CreationTimestamp
     private LocalDateTime timestamp;
 
     @Column(name = "user_id")
@@ -47,7 +49,7 @@ public class Event {
 
     @Column(name = "operation")
     @Enumerated(EnumType.STRING)
-    private EventOperation operation;
+    private Operation operation;
 
     @Column(name = "entity_id")
     private Long entityId;

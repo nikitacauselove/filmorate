@@ -3,7 +3,7 @@ package com.example.api.dto.enums;
 /**
  * Тип операции.
  */
-public enum EventOperation {
+public enum Operation {
 
     /**
      * Добавление.

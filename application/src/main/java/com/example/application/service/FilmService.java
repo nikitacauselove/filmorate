@@ -1,6 +1,7 @@
 package com.example.application.service;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.SortBy;
 import com.example.application.repository.entity.Film;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface FilmService {
      * @param directorId идентификатор режиссёра
      * @param sortBy критерий поиска
      */
-    List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy);
+    List<Film> findAllByDirectorId(Long directorId, SortBy sortBy);
 
     /**
      * Удаление фильма.

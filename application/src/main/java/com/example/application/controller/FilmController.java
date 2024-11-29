@@ -2,7 +2,7 @@ package com.example.application.controller;
 
 import com.example.api.FilmApi;
 import com.example.api.dto.FilmDto;
-import com.example.application.repository.entity.Film;
+import com.example.api.dto.enums.SortBy;
 import com.example.application.mapper.FilmMapper;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +41,8 @@ public class FilmController implements FilmApi {
     }
 
     @Override
-    public List<FilmDto> findAllByDirectorId(Long directorId, String sortBy) {
-        return filmMapper.toFilmDto(filmService.findAllByDirectorId(directorId, Film.SortBy.from(sortBy.toUpperCase())));
+    public List<FilmDto> findAllByDirectorId(Long directorId, SortBy sortBy) {
+        return filmMapper.toFilmDto(filmService.findAllByDirectorId(directorId, sortBy));
     }
 
     @Override

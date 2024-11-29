@@ -1,7 +1,7 @@
 package com.example.application.service;
 
-import com.example.api.dto.enums.EventOperation;
 import com.example.api.dto.enums.EventType;
+import com.example.api.dto.enums.Operation;
 import com.example.application.repository.entity.Event;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface EventService {
      * @param operation тип операции
      * @param entityId идентификатор сущности, с которой происходит взаимодействие
      */
-    Event create(Long userId, EventType eventType, EventOperation operation, Long entityId);
+    Event create(Long userId, EventType eventType, Operation operation, Long entityId);
 
     /**
      * Получение списка всех действий пользователя.

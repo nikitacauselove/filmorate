@@ -1,18 +1,24 @@
 package com.example.application.service.impl;
 
+import com.example.api.dto.DirectorDto;
 import com.example.api.dto.FilmDto;
-import com.example.api.dto.enums.EventOperation;
+import com.example.api.dto.GenreDto;
 import com.example.api.dto.enums.EventType;
+import com.example.api.dto.enums.Operation;
+import com.example.api.dto.enums.SortBy;
 import com.example.application.mapper.FilmMapper;
 import com.example.application.repository.entity.Genre;
 import com.example.application.repository.entity.Director;
 import com.example.application.repository.entity.Film;
+import com.example.application.repository.entity.Mpa;
 import com.example.application.repository.entity.User;
 import com.example.application.repository.DirectorRepository;
 import com.example.application.repository.FilmRepository;
+import com.example.application.service.DirectorService;
 import com.example.application.service.EventService;
 import com.example.application.service.FilmService;
 import com.example.application.service.GenreService;
+import com.example.application.service.MpaService;
 import com.example.application.service.UserService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +32,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -39,11 +48,24 @@ public class FilmServiceImpl implements FilmService {
     private final GenreService genreService;
     private final DirectorRepository directorRepository;
     private final FilmRepository filmRepository;
+    private final MpaService mpaService;
+    private final DirectorService directorService;
 
     @Override
     @Transactional
     public Film create(FilmDto filmDto) {
-        Film film = filmMapper.toFilm(filmDto);
+        Mpa mpa = mpaService.findById(filmDto.mpa().id());
+        Set<Genre> genres = new HashSet<>(genreService.findAllById(Optional.ofNullable(filmDto.genres())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(GenreDto::id)
+                .toList()));
+        Set<Director> directors = new HashSet<>(directorService.findAllById(Optional.ofNullable(filmDto.directors())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(DirectorDto::id)
+                .toList()));
+        Film film = filmMapper.toFilm(filmDto, mpa, genres, directors);
 
         return filmRepository.save(film);
     }
@@ -51,9 +73,20 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional
     public Film update(FilmDto filmDto) {
+        Mpa mpa = mpaService.findById(filmDto.mpa().id());
+        Set<Genre> genres = new HashSet<>(genreService.findAllById(Optional.ofNullable(filmDto.genres())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(GenreDto::id)
+                .toList()));
+        Set<Director> directors = new HashSet<>(directorService.findAllById(Optional.ofNullable(filmDto.directors())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(DirectorDto::id)
+                .toList()));
         Film film = findById(filmDto.id());
 
-        return filmMapper.updateFilm(filmDto, film);
+        return filmMapper.updateFilm(filmDto, mpa, genres, directors, film);
     }
 
     @Override
@@ -71,11 +104,11 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Film> findAllByDirectorId(Long directorId, Film.SortBy sortBy) {
+    public List<Film> findAllByDirectorId(Long directorId, SortBy sortBy) {
         if (!directorRepository.existsById(directorId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден");
         }
-        return filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getProperty()));
+        return filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getCriteria()));
     }
 
     @Override
@@ -94,7 +127,7 @@ public class FilmServiceImpl implements FilmService {
             film.getLikingUsers().add(user);
             film.setLikesAmount(film.getLikesAmount() + 1);
         }
-        eventService.create(userId, EventType.LIKE, EventOperation.ADD, id);
+        eventService.create(userId, EventType.LIKE, Operation.ADD, id);
     }
 
     @Override
@@ -105,7 +138,7 @@ public class FilmServiceImpl implements FilmService {
 
         film.getLikingUsers().remove(user);
         film.setLikesAmount(film.getLikesAmount() - 1);
-        eventService.create(userId, EventType.LIKE, EventOperation.REMOVE, id);
+        eventService.create(userId, EventType.LIKE, Operation.REMOVE, id);
     }
 
     @Override

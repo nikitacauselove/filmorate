@@ -5,6 +5,8 @@ import com.example.application.mapper.UserMapper;
 import com.example.application.repository.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
+
 public abstract class UserMapperDecorator implements UserMapper {
 
     private UserMapper delegate;
@@ -19,7 +21,7 @@ public abstract class UserMapperDecorator implements UserMapper {
         User user = delegate.toUser(userDto);
 
         user.setName(userDto.name() == null || userDto.name().isEmpty() ? userDto.login() : userDto.name());
-        user.setFriends(java.util.Collections.emptySet());
+        user.setFriends(Collections.emptySet());
         return user;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.api;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.SortBy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,7 +41,7 @@ public interface FilmApi {
     @GetMapping("/director/{directorId}")
     @Operation(description = "Получение списка всех фильмов определенного режиссёра")
     List<FilmDto> findAllByDirectorId(@PathVariable Long directorId,
-                                      @Parameter(description = "Критерий поиска", schema = @Schema(allowableValues = {"likesAmount", "releaseDate"})) @RequestParam String sortBy);
+                                      @Parameter(description = "Критерий поиска", schema = @Schema(allowableValues = {"likes", "year"})) @RequestParam SortBy sortBy);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление фильма")
