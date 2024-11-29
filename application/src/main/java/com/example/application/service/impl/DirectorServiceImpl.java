@@ -1,7 +1,5 @@
 package com.example.application.service.impl;
 
-import com.example.api.dto.DirectorDto;
-import com.example.application.mapper.DirectorMapper;
 import com.example.application.repository.entity.Director;
 import com.example.application.repository.DirectorRepository;
 import com.example.application.service.DirectorService;
@@ -16,22 +14,16 @@ import java.util.List;
 @Service
 public class DirectorServiceImpl implements DirectorService {
 
-    private final DirectorMapper directorMapper;
     private final DirectorRepository directorRepository;
 
     @Override
-    public Director create(DirectorDto directorDto) {
-        Director director = directorMapper.toDirector(directorDto);
-
+    public Director create(Director director) {
         return directorRepository.save(director);
     }
 
     @Override
-    public Director update(DirectorDto directorDto) {
-        Director director = findById(directorDto.id());
-        Director updatedDirector = directorMapper.updateDirector(directorDto, director);
-
-        return directorRepository.save(updatedDirector);
+    public Director update(Director director) {
+        return directorRepository.save(director);
     }
 
     @Override

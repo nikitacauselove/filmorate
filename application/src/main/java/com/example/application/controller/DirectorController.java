@@ -3,6 +3,7 @@ package com.example.application.controller;
 import com.example.api.DirectorApi;
 import com.example.api.dto.DirectorDto;
 import com.example.application.mapper.DirectorMapper;
+import com.example.application.repository.entity.Director;
 import com.example.application.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,16 @@ public class DirectorController implements DirectorApi {
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(DirectorDto directorDto) {
-        return directorMapper.toDirectorDto(directorService.create(directorDto));
+        Director director = directorMapper.toDirector(directorDto);
+
+        return directorMapper.toDirectorDto(directorService.create(director));
     }
 
     @Override
     public DirectorDto update(DirectorDto directorDto) {
-        return directorMapper.toDirectorDto(directorService.update(directorDto));
+        Director director = directorMapper.updateDirector(directorDto, directorService.findById(directorDto.id()));
+
+        return directorMapper.toDirectorDto(directorService.update(director));
     }
 
     @Override

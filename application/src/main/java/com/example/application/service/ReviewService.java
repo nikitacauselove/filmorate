@@ -1,6 +1,5 @@
 package com.example.application.service;
 
-import com.example.api.dto.ReviewDto;
 import com.example.api.dto.enums.MarkType;
 import com.example.application.repository.entity.Review;
 
@@ -13,15 +12,15 @@ public interface ReviewService {
 
     /**
      * Добавление новой рецензии.
-     * @param reviewDto информация о рецензии
+     * @param review информация о рецензии
      */
-    Review create(ReviewDto reviewDto);
+    Review create(Review review);
 
     /**
      * Обновление рецензии.
-     * @param reviewDto информация о рецензии
+     * @param review информация о рецензии
      */
-    Review update(ReviewDto reviewDto);
+    Review update(Review review);
 
     /**
      * Получение информации о рецензии.
@@ -39,8 +38,9 @@ public interface ReviewService {
     /**
      * Удаление рецензии.
      * @param id идентификатор рецензии
+     * @param userId идентификатор пользователя
      */
-    void deleteById(Long id);
+    void deleteById(Long id, Long userId);
 
     /**
      * Добавление реакции.

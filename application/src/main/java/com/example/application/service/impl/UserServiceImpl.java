@@ -22,13 +22,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper;
     private final EventService eventService;
     private final FilmRepository filmRepository;
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
 
     @Override
-    @Transactional
     public User create(UserDto userDto) {
         User user = userMapper.toUser(userDto);
 
@@ -36,22 +35,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public User update(UserDto userDto) {
         User user = findById(userDto.id());
+        User updatedUser = userMapper.updateUser(userDto, user);
 
-        return userMapper.updateUser(userDto, user);
+        return userRepository.save(updatedUser);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден"));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -84,21 +81,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<User> findAllFriends(Long id) {
-        User user = findById(id);
-
-        return user.getFriends().stream().toList();
+        return findById(id).getFriends().stream()
+                .toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> findCommonFriends(Long id, Long otherUserId) {
         return userRepository.findCommonFriends(id, otherUserId);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Film> findRecommendations(Long id) {
         List<Long> listOfUserId = userRepository.findAllForRecommendations(id);
 

@@ -1,10 +1,8 @@
 package com.example.application.service.impl;
 
-import com.example.api.dto.ReviewDto;
 import com.example.api.dto.enums.EventType;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.MarkType;
-import com.example.application.mapper.ReviewMapper;
 import com.example.application.repository.entity.Review;
 import com.example.application.repository.entity.ReviewMark;
 import com.example.application.repository.entity.ReviewMarkId;
@@ -32,24 +30,21 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final ReviewMapper reviewMapper;
+    private final EventService eventService;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
-    private final ReviewRepository reviewRepository;
     private final ReviewMarkRepository reviewMarkRepository;
-    private final EventService eventService;
+    private final ReviewRepository reviewRepository;
 
     @Override
     @Transactional
-    public Review create(ReviewDto reviewDto) {
-        if (!userRepository.existsById(reviewDto.userId())) {
+    public Review create(Review review) {
+        if (!userRepository.existsById(review.getUserId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден");
         }
-        if (!filmRepository.existsById(reviewDto.filmId())) {
+        if (!filmRepository.existsById(review.getFilmId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден");
         }
-        Review review = reviewMapper.toReview(reviewDto);
-
         reviewRepository.save(review);
         eventService.create(review.getUserId(), EventType.REVIEW, Operation.ADD, review.getId());
         return review;
@@ -57,22 +52,18 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Review update(ReviewDto reviewDto) {
-        Review review = findById(reviewDto.reviewId());
-
+    public Review update(Review review) {
         eventService.create(review.getUserId(), EventType.REVIEW, Operation.UPDATE, review.getId());
-        return reviewMapper.updateReview(reviewDto, review);
+        return reviewRepository.save(review);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Review findById(Long id) {
         return reviewRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с указанным идентификатором не найден"));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Review> findAll(Long filmId, Integer count) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"));
 
@@ -81,10 +72,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
-        Review review = findById(id);
-
-        eventService.create(review.getUserId(), EventType.REVIEW, Operation.REMOVE, review.getId());
+    public void deleteById(Long id, Long userId) {
+        eventService.create(userId, EventType.REVIEW, Operation.REMOVE, id);
         reviewRepository.deleteById(id);
     }
 
@@ -132,7 +121,7 @@ public class ReviewServiceImpl implements ReviewService {
             if (filmId != null) {
                 predicates.add(criteriaBuilder.equal(root.get("filmId"), filmId));
             }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         });
     }
 }

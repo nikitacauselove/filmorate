@@ -4,6 +4,7 @@ import com.example.api.ReviewApi;
 import com.example.api.dto.ReviewDto;
 import com.example.api.dto.enums.MarkType;
 import com.example.application.mapper.ReviewMapper;
+import com.example.application.repository.entity.Review;
 import com.example.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,16 @@ public class ReviewController implements ReviewApi {
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewDto create(ReviewDto reviewDto) {
-        return reviewMapper.toReviewDto(reviewService.create(reviewDto));
+        Review review = reviewMapper.toReview(reviewDto);
+
+        return reviewMapper.toReviewDto(reviewService.create(review));
     }
 
     @Override
     public ReviewDto update(ReviewDto reviewDto) {
-        return reviewMapper.toReviewDto(reviewService.update(reviewDto));
+        Review review = reviewMapper.updateReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
+
+        return reviewMapper.toReviewDto(reviewService.update(review));
     }
 
     @Override
@@ -43,7 +48,9 @@ public class ReviewController implements ReviewApi {
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(Long id) {
-        reviewService.deleteById(id);
+        Review review = reviewService.findById(id);
+
+        reviewService.deleteById(id, review.getUserId());
     }
 
     @Override

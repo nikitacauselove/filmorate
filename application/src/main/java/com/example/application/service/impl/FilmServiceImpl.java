@@ -175,7 +175,7 @@ public class FilmServiceImpl implements FilmService {
             if (year != null) {
                 predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get("releaseDate")), year));
             }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         });
     }
 
@@ -193,7 +193,7 @@ public class FilmServiceImpl implements FilmService {
 
                 predicates.add(predicate);
             }
-            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+            return criteriaBuilder.or(predicates.toArray(Predicate[]::new));
         });
     }
 }
