@@ -5,6 +5,7 @@ import com.example.api.dto.FilmDto;
 import com.example.api.dto.UserDto;
 import com.example.application.mapper.FilmMapper;
 import com.example.application.mapper.UserMapper;
+import com.example.application.repository.entity.User;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,9 @@ public class UserController implements UserApi {
 
     @Override
     public UserDto create(UserDto userDto) {
-        return userMapper.toUserDto(userService.create(userDto));
+        User user = userMapper.toUser(userDto);
+
+        return userMapper.toUserDto(userService.create(user));
     }
 
     @Override

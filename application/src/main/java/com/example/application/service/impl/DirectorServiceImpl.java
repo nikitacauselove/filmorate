@@ -1,11 +1,14 @@
 package com.example.application.service.impl;
 
+import com.example.api.dto.DirectorDto;
+import com.example.application.mapper.DirectorMapper;
 import com.example.application.repository.entity.Director;
 import com.example.application.repository.DirectorRepository;
 import com.example.application.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 @Service
 public class DirectorServiceImpl implements DirectorService {
 
+    private final DirectorMapper directorMapper;
     private final DirectorRepository directorRepository;
 
     @Override
@@ -22,8 +26,11 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public Director update(Director director) {
-        return directorRepository.save(director);
+    @Transactional
+    public Director update(DirectorDto directorDto) {
+        Director director = findById(directorDto.id());
+
+        return directorMapper.updateDirector(directorDto, director);
     }
 
     @Override

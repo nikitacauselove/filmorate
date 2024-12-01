@@ -1,8 +1,10 @@
 package com.example.application.service.impl;
 
+import com.example.api.dto.ReviewDto;
 import com.example.api.dto.enums.EventType;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.MarkType;
+import com.example.application.mapper.ReviewMapper;
 import com.example.application.repository.entity.Review;
 import com.example.application.repository.entity.ReviewMark;
 import com.example.application.repository.entity.ReviewMarkId;
@@ -33,6 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final EventService eventService;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
+    private final ReviewMapper reviewMapper;
     private final ReviewMarkRepository reviewMarkRepository;
     private final ReviewRepository reviewRepository;
 
@@ -52,9 +55,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Review update(Review review) {
+    public Review update(ReviewDto reviewDto) {
+        Review review = findById(reviewDto.reviewId());
+
+        reviewMapper.updateReview(reviewDto, review);
         eventService.create(review.getUserId(), EventType.REVIEW, Operation.UPDATE, review.getId());
-        return reviewRepository.save(review);
+        return review;
     }
 
     @Override

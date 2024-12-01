@@ -7,12 +7,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Репозиторий для взаимодействия с пользователями.
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    /**
+     * Получение пользователя со списком друзей.
+     * @param id идентификатор пользователя
+     */
+    @Query(value = FIND_BY_ID_WITH_FRIENDS)
+    Optional<User> findByIdWithFriends(@Param("id") Long id);
 
     /**
      * Получение списка всех общих друзей.
@@ -28,6 +36,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @Query(value = FIND_ALL_FOR_RECOMMENDATIONS, nativeQuery = true)
     List<Long> findAllForRecommendations(@Param("id") Long id);
+
+    String FIND_BY_ID_WITH_FRIENDS = """
+            SELECT user
+            FROM User AS user
+            LEFT JOIN FETCH user.friends
+            WHERE user.id = :id
+            """;
 
     String FIND_COMMON_FRIENDS = """
             SELECT *

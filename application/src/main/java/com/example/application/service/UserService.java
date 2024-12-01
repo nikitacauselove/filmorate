@@ -13,9 +13,9 @@ public interface UserService {
 
     /**
      * Добавление нового пользователя.
-     * @param userDto информация о пользователе
+     * @param user информация о пользователе
      */
-    User create(UserDto userDto);
+    User create(User user);
 
     /**
      * Обновление информации о пользователе.
@@ -28,6 +28,12 @@ public interface UserService {
      * @param id идентификатор пользователя
      */
     User findById(Long id);
+
+    /**
+     * Получение пользователя со списком друзей.
+     * @param id идентификатор пользователя
+     */
+    User findByIdWithFriends(Long id);
 
     /**
      * Получение списка всех пользователей.

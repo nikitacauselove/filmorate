@@ -30,9 +30,7 @@ public class ReviewController implements ReviewApi {
 
     @Override
     public ReviewDto update(ReviewDto reviewDto) {
-        Review review = reviewMapper.updateReview(reviewDto, reviewService.findById(reviewDto.reviewId()));
-
-        return reviewMapper.toReviewDto(reviewService.update(review));
+        return reviewMapper.toReviewDto(reviewService.update(reviewDto));
     }
 
     @Override

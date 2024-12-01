@@ -26,11 +26,11 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     /**
      * Получение списка всех фильмов, рекомендованных для просмотра.
-     * @param listOfUserId список всех идентификаторов релевантных пользователей
+     * @param ids список всех идентификаторов релевантных пользователей
      * @param userId идентификатор пользователя
      */
     @Query(value = FIND_RECOMMENDATIONS, nativeQuery = true)
-    List<Film> findRecommendations(@Param("listOfUserId") Iterable<Long> listOfUserId, @Param("userId") Long userId);
+    List<Film> findRecommendations(@Param("ids") Iterable<Long> ids, @Param("userId") Long userId);
 
     /**
      * Получение списка всех общих фильмов.
@@ -45,8 +45,8 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * @param userId идентификатор пользователя
      */
     @Modifying
-    @Query(value = UPDATE_LIKES_AMOUNT, nativeQuery = true)
-    void updateLikesAmount(@Param("userId") Long userId);
+    @Query(value = DECREASE_LIKES_AMOUNT, nativeQuery = true)
+    void decreaseLikesAmount(@Param("userId") Long userId);
 
     String FIND_RECOMMENDATIONS = """
             SELECT *
@@ -54,7 +54,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
             WHERE id in (
                 SELECT film_id
                 FROM film_likes
-                WHERE user_id in :listOfUserId
+                WHERE user_id in :ids
                 EXCEPT
                 SELECT film_id
                 FROM film_likes
@@ -76,7 +76,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
             );
             """;
 
-    String UPDATE_LIKES_AMOUNT = """
+    String DECREASE_LIKES_AMOUNT = """
             UPDATE films SET likes_amount = likes_amount - 1
             WHERE id in (
                 SELECT film_id

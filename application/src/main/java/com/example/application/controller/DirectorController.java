@@ -29,9 +29,7 @@ public class DirectorController implements DirectorApi {
 
     @Override
     public DirectorDto update(DirectorDto directorDto) {
-        Director director = directorMapper.updateDirector(directorDto, directorService.findById(directorDto.id()));
-
-        return directorMapper.toDirectorDto(directorService.update(director));
+        return directorMapper.toDirectorDto(directorService.update(directorDto));
     }
 
     @Override

@@ -28,23 +28,27 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User create(UserDto userDto) {
-        User user = userMapper.toUser(userDto);
-
+    public User create(User user) {
         return userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public User update(UserDto userDto) {
         User user = findById(userDto.id());
-        User updatedUser = userMapper.updateUser(userDto, user);
 
-        return userRepository.save(updatedUser);
+        return userMapper.updateUser(userDto, user);
     }
 
     @Override
     public User findById(Long id) {
         return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден"));
+    }
+
+    @Override
+    public User findByIdWithFriends(Long id) {
+        return userRepository.findByIdWithFriends(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден"));
     }
 
@@ -56,14 +60,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteById(Long userId) {
-        filmRepository.updateLikesAmount(userId);
+        filmRepository.decreaseLikesAmount(userId);
         userRepository.deleteById(userId);
     }
 
     @Override
     @Transactional
     public void addFriend(Long id, Long friendId) {
-        User user = findById(id);
+        User user = findByIdWithFriends(id);
         User friend = findById(friendId);
 
         user.getFriends().add(friend);
@@ -73,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteFriend(Long id, Long friendId) {
-        User user = findById(id);
+        User user = findByIdWithFriends(id);
         User friend = findById(friendId);
 
         user.getFriends().remove(friend);
@@ -81,9 +85,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public List<User> findAllFriends(Long id) {
-        return findById(id).getFriends().stream()
+        return findByIdWithFriends(id).getFriends().stream()
                 .toList();
     }
 
@@ -94,8 +97,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Film> findRecommendations(Long id) {
-        List<Long> listOfUserId = userRepository.findAllForRecommendations(id);
+        List<Long> ids = userRepository.findAllForRecommendations(id);
 
-        return filmRepository.findRecommendations(listOfUserId, id);
+        return filmRepository.findRecommendations(ids, id);
     }
 }
