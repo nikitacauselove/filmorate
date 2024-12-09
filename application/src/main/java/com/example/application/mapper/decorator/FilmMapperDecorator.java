@@ -6,19 +6,16 @@ import com.example.application.repository.entity.Director;
 import com.example.application.repository.entity.Film;
 import com.example.application.repository.entity.Genre;
 import com.example.application.repository.entity.Mpa;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.Set;
 
+@Setter(onMethod_ = @Autowired)
 public abstract class FilmMapperDecorator implements FilmMapper {
 
     private FilmMapper delegate;
-
-    @Autowired
-    public void setDelegate(FilmMapper delegate) {
-        this.delegate = delegate;
-    }
 
     @Override
     public Film toFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genres, Set<Director> directors) {
