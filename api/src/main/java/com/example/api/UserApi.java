@@ -28,7 +28,7 @@ public interface UserApi {
     UserDto update(@RequestBody @Valid UserDto userDto);
 
     @GetMapping("/{id}")
-    @Operation(description = "Получение пользователя")
+    @Operation(description = "Получение информации о пользователе")
     UserDto findById(@PathVariable Long id);
 
     @GetMapping

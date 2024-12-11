@@ -24,7 +24,7 @@ public interface UserService {
     User update(UserDto userDto);
 
     /**
-     * Получение пользователя.
+     * Получение информации о пользователе.
      * @param id идентификатор пользователя
      */
     User findById(Long id);
