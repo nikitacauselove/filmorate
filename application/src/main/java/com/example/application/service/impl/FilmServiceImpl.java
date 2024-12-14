@@ -14,13 +14,13 @@ import com.example.application.repository.entity.Mpa;
 import com.example.application.repository.entity.User;
 import com.example.application.repository.DirectorRepository;
 import com.example.application.repository.FilmRepository;
+import com.example.application.repository.specification.FilmSpecification;
 import com.example.application.service.DirectorService;
 import com.example.application.service.EventService;
 import com.example.application.service.FilmService;
 import com.example.application.service.GenreService;
 import com.example.application.service.MpaService;
 import com.example.application.service.UserService;
-import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +42,7 @@ import java.util.Set;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmMapper filmMapper;
+    private final FilmSpecification filmSpecification;
     private final EventService eventService;
     private final UserService userService;
     private final GenreService genreService;
@@ -151,49 +151,17 @@ public class FilmServiceImpl implements FilmService {
     @Transactional(readOnly = true)
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "likesAmount"));
+        Specification<Film> specification = filmSpecification.findPopular(genreId, year);
 
-        return filmRepository.findAll(createFindPopularSpecification(genreId, year), pageable).getContent();
+        return filmRepository.findAll(specification, pageable).getContent();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Film> search(String query, List<String> by) {
         List<Sort.Order> orders = List.of(Sort.Order.desc("likesAmount"), Sort.Order.asc("id"));
+        Specification<Film> specification = filmSpecification.search(query, by);
 
-        return filmRepository.findAll(createSearchSpecification(query, by), Sort.by(orders));
-    }
-
-    private Specification<Film> createFindPopularSpecification(Long genreId, Integer year) {
-        return ((root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (genreId != null) {
-                Genre genre = genreService.findById(genreId);
-
-                predicates.add(criteriaBuilder.isMember(genre, root.get("genres")));
-            }
-            if (year != null) {
-                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get("releaseDate")), year));
-            }
-            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
-        });
-    }
-
-    private Specification<Film> createSearchSpecification(String query, List<String> by) {
-        return ((root, query1, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (by.contains("director")) {
-                Optional<Director> director = directorRepository.findByNameContainingIgnoreCase(query);
-
-                director.ifPresent(value -> predicates.add(criteriaBuilder.isMember(value, root.get("directors"))));
-            }
-            if (by.contains("title")) {
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), criteriaBuilder.lower(criteriaBuilder.literal("%"+ query +"%"))));
-
-                predicates.add(predicate);
-            }
-            return criteriaBuilder.or(predicates.toArray(Predicate[]::new));
-        });
+        return filmRepository.findAll(specification, Sort.by(orders));
     }
 }

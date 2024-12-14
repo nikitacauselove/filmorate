@@ -14,10 +14,10 @@ import java.util.List;
 public interface GenreApi {
 
     @GetMapping("/{id}")
-    @Operation(description = "Получение информации о жанре")
+    @Operation(description = "Получение информации о жанре фильма")
     GenreDto findById(@PathVariable Long id);
 
     @GetMapping
-    @Operation(description = "Получение списка всех жанров")
+    @Operation(description = "Получение списка всех жанров фильмов")
     List<GenreDto> findAll();
 }

@@ -12,9 +12,9 @@ import com.example.application.repository.FilmRepository;
 import com.example.application.repository.ReviewMarkRepository;
 import com.example.application.repository.ReviewRepository;
 import com.example.application.repository.UserRepository;
+import com.example.application.repository.specification.ReviewSpecification;
 import com.example.application.service.EventService;
 import com.example.application.service.ReviewService;
-import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -38,6 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
     private final ReviewMarkRepository reviewMarkRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewSpecification reviewSpecification;
 
     @Override
     @Transactional
@@ -72,8 +72,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findAll(Long filmId, Integer count) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"));
+        Specification<Review> specification = reviewSpecification.findAll(filmId);
 
-        return reviewRepository.findAll(createFindAllSpecification(filmId), pageable).getContent();
+        return reviewRepository.findAll(specification, pageable).getContent();
     }
 
     @Override
@@ -118,16 +119,5 @@ public class ReviewServiceImpl implements ReviewService {
             review.setUseful(review.getUseful() + 1);
         }
         reviewMarkRepository.deleteById(reviewMarkId);
-    }
-
-    private Specification<Review> createFindAllSpecification(Long filmId) {
-        return ((root, query1, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (filmId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("filmId"), filmId));
-            }
-            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
-        });
     }
 }

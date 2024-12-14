@@ -21,7 +21,7 @@ public interface GenreService {
     List<Genre> findAll();
 
     /**
-     * Получение списка всех жанров с заданными идентификаторами.
+     * Получение списка всех жанров.
      * @param ids список идентификаторов жанров
      */
     List<Genre> findAllById(Iterable<Long> ids);

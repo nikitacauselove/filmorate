@@ -20,7 +20,6 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
     /**
      * Получение списка всех фильмов определенного режиссёра.
      * @param directorId идентификатор режиссёра
-     * @param sort критерий поиска
      */
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 

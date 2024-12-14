@@ -48,14 +48,14 @@ public interface FilmService {
     void deleteById(Long id);
 
     /**
-     * Добавление реакции.
+     * Добавление оценки.
      * @param id идентификатор фильма
      * @param userId идентификатор пользователя
      */
     void addLike(Long id, Long userId);
 
     /**
-     * Удаление реакции.
+     * Удаление оценки.
      * @param id идентификатор фильма
      * @param userId идентификатор пользователя
      */

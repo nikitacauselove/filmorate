@@ -7,7 +7,7 @@ import com.example.application.repository.entity.Review;
 import java.util.List;
 
 /**
- * Сервис для взаимодействия с рецензиями на фильмы.
+ * Сервис для взаимодействия с рецензиями.
  */
 public interface ReviewService {
 
@@ -44,7 +44,7 @@ public interface ReviewService {
     void deleteById(Long id, Long userId);
 
     /**
-     * Добавление реакции.
+     * Добавление оценки.
      * @param id идентификатор рецензии
      * @param userId идентификатор пользователя
      * @param markType тип оценки
@@ -52,7 +52,7 @@ public interface ReviewService {
     void addMark(Long id, Long userId, MarkType markType);
 
     /**
-     * Удаление реакции.
+     * Удаление оценки.
      * @param id идентификатор рецензии
      * @param userId идентификатор пользователя
      * @param markType тип оценки

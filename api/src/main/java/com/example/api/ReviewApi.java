@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @RequestMapping("/v1/reviews")
-@Tag(name = "Рецензии", description = "Взаимодействие с рецензиями на фильмы")
+@Tag(name = "Рецензии", description = "Взаимодействие с рецензиями")
 public interface ReviewApi {
 
     @PostMapping
@@ -42,18 +42,18 @@ public interface ReviewApi {
     void deleteById(@PathVariable Long id);
 
     @PutMapping("/{id}/like/{userId}")
-    @Operation(description = "Добавление положительной реакции")
+    @Operation(description = "Добавление положительной оценки")
     void addLike(@PathVariable Long id, @PathVariable Long userId);
 
     @DeleteMapping("/{id}/like/{userId}")
-    @Operation(description = "Удаление положительной реакции")
+    @Operation(description = "Удаление положительной оценки")
     void deleteLike(@PathVariable Long id, @PathVariable Long userId);
 
     @PutMapping("/{id}/dislike/{userId}")
-    @Operation(description = "Добавление отрицательной реакции")
+    @Operation(description = "Добавление отрицательной оценки")
     void addDislike(@PathVariable Long id, @PathVariable Long userId);
 
     @DeleteMapping("/{id}/dislike/{userId}")
-    @Operation(description = "Удаление отрицательной реакции")
+    @Operation(description = "Удаление отрицательной оценки")
     void deleteDislike(@PathVariable Long id, @PathVariable Long userId);
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Получение пользователя со списком друзей.
+     * Получение информации о пользователе, включая всех его друзей.
      * @param id идентификатор пользователя
      */
     @Query(value = FIND_BY_ID_WITH_FRIENDS)

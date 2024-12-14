@@ -16,7 +16,7 @@ public interface EventService {
      * @param userId идентификатор пользователя
      * @param eventType тип действия
      * @param operation тип операции
-     * @param entityId идентификатор сущности, с которой происходит взаимодействие
+     * @param entityId идентификатор сущности
      */
     Event create(Long userId, EventType eventType, Operation operation, Long entityId);
 
