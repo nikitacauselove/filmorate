@@ -11,14 +11,12 @@ import java.util.List;
 @Component
 public class ReviewSpecification {
 
-    private static final String FILM_ID = "filmId";
-
     public Specification<Review> findAll(Long filmId) {
         return ((root, query1, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (filmId != null) {
-                predicates.add(criteriaBuilder.equal(root.get(FILM_ID), filmId));
+                predicates.add(criteriaBuilder.equal(root.get("filmId"), filmId));
             }
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         });

@@ -4,11 +4,12 @@ import com.example.api.dto.UserDto;
 import com.example.api.dto.enums.EventType;
 import com.example.api.dto.enums.Operation;
 import com.example.application.mapper.UserMapper;
+import com.example.application.repository.EventRepository;
+import com.example.application.repository.entity.Event;
 import com.example.application.repository.entity.Film;
 import com.example.application.repository.entity.User;
 import com.example.application.repository.FilmRepository;
 import com.example.application.repository.UserRepository;
-import com.example.application.service.EventService;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final EventService eventService;
+    private final EventRepository eventRepository;
     private final FilmRepository filmRepository;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
@@ -71,7 +72,12 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().add(friend);
-        eventService.create(id, EventType.FRIEND, Operation.ADD, friendId);
+        eventRepository.save(Event.builder()
+                .userId(id)
+                .eventType(EventType.FRIEND)
+                .operation(Operation.ADD)
+                .entityId(friendId)
+                .build());
     }
 
     @Override
@@ -81,7 +87,12 @@ public class UserServiceImpl implements UserService {
         User friend = findById(friendId);
 
         user.getFriends().remove(friend);
-        eventService.create(id, EventType.FRIEND, Operation.REMOVE, friendId);
+        eventRepository.save(Event.builder()
+                .userId(id)
+                .eventType(EventType.FRIEND)
+                .operation(Operation.REMOVE)
+                .entityId(friendId)
+                .build());
     }
 
     @Override

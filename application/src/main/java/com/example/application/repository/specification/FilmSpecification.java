@@ -47,7 +47,7 @@ public class FilmSpecification {
                 director.ifPresent(value -> predicates.add(criteriaBuilder.isMember(value, root.get("directors"))));
             }
             if (by.contains("title")) {
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), criteriaBuilder.lower(criteriaBuilder.literal("%"+ query +"%"))));
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), criteriaBuilder.lower(criteriaBuilder.literal("%" + query + "%"))));
 
                 predicates.add(predicate);
             }
