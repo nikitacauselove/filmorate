@@ -3,6 +3,7 @@ package com.example.application.controller;
 import com.example.api.UserApi;
 import com.example.api.dto.FilmDto;
 import com.example.api.dto.UserDto;
+import com.example.api.dto.enums.Operation;
 import com.example.application.mapper.FilmMapper;
 import com.example.application.mapper.UserMapper;
 import com.example.application.repository.entity.User;
@@ -49,12 +50,12 @@ public class UserController implements UserApi {
 
     @Override
     public void addFriend(Long id, Long friendId) {
-        userService.addFriend(id, friendId);
+        userService.addOrDeleteFriend(id, friendId, Operation.ADD);
     }
 
     @Override
     public void deleteFriend(Long id, Long friendId) {
-        userService.deleteFriend(id, friendId);
+        userService.addOrDeleteFriend(id, friendId, Operation.REMOVE);
     }
 
     @Override

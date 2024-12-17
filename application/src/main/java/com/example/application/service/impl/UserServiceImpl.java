@@ -67,30 +67,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addFriend(Long id, Long friendId) {
+    public void addOrDeleteFriend(Long id, Long friendId, Operation operation) {
         User user = findByIdWithFriends(id);
         User friend = findById(friendId);
 
-        user.getFriends().add(friend);
+        switch (operation) {
+            case ADD -> user.getFriends().add(friend);
+            case REMOVE -> user.getFriends().remove(friend);
+        }
         eventRepository.save(Event.builder()
                 .userId(id)
                 .eventType(EventType.FRIEND)
-                .operation(Operation.ADD)
-                .entityId(friendId)
-                .build());
-    }
-
-    @Override
-    @Transactional
-    public void deleteFriend(Long id, Long friendId) {
-        User user = findByIdWithFriends(id);
-        User friend = findById(friendId);
-
-        user.getFriends().remove(friend);
-        eventRepository.save(Event.builder()
-                .userId(id)
-                .eventType(EventType.FRIEND)
-                .operation(Operation.REMOVE)
+                .operation(operation)
                 .entityId(friendId)
                 .build());
     }

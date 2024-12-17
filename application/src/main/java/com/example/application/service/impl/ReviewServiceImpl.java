@@ -5,6 +5,8 @@ import com.example.api.dto.enums.EventType;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.MarkType;
 import com.example.application.mapper.ReviewMapper;
+import com.example.application.repository.EventRepository;
+import com.example.application.repository.entity.Event;
 import com.example.application.repository.entity.Review;
 import com.example.application.repository.entity.ReviewMark;
 import com.example.application.repository.entity.ReviewMarkId;
@@ -13,7 +15,6 @@ import com.example.application.repository.ReviewMarkRepository;
 import com.example.application.repository.ReviewRepository;
 import com.example.application.repository.UserRepository;
 import com.example.application.repository.specification.ReviewSpecification;
-import com.example.application.service.EventService;
 import com.example.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +32,7 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final EventService eventService;
+    private final EventRepository eventRepository;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
     private final ReviewMapper reviewMapper;
@@ -49,7 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с указанным идентификатором не найден");
         }
         reviewRepository.save(review);
-        eventService.create(review.getUserId(), EventType.REVIEW, Operation.ADD, review.getId());
+        eventRepository.save(Event.builder()
+                .userId(review.getUserId())
+                .eventType(EventType.REVIEW)
+                .operation(Operation.ADD)
+                .entityId(review.getId())
+                .build());
         return review;
     }
 
@@ -59,7 +65,12 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = findById(reviewDto.reviewId());
 
         reviewMapper.updateReview(reviewDto, review);
-        eventService.create(review.getUserId(), EventType.REVIEW, Operation.UPDATE, review.getId());
+        eventRepository.save(Event.builder()
+                .userId(review.getUserId())
+                .eventType(EventType.REVIEW)
+                .operation(Operation.UPDATE)
+                .entityId(review.getId())
+                .build());
         return review;
     }
 
@@ -71,8 +82,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> findAll(Long filmId, Integer count) {
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"));
         Specification<Review> specification = reviewSpecification.findAll(filmId);
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"));
 
         return reviewRepository.findAll(specification, pageable).getContent();
     }
@@ -80,8 +91,13 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void deleteById(Long id, Long userId) {
-        eventService.create(userId, EventType.REVIEW, Operation.REMOVE, id);
         reviewRepository.deleteById(id);
+        eventRepository.save(Event.builder()
+                .userId(userId)
+                .eventType(EventType.REVIEW)
+                .operation(Operation.REMOVE)
+                .entityId(id)
+                .build());
     }
 
     @Override
@@ -93,10 +109,9 @@ public class ReviewServiceImpl implements ReviewService {
                 .userId(userId)
                 .build();
 
-        if (markType == MarkType.LIKE) {
-            review.setUseful(review.getUseful() + 1);
-        } else {
-            review.setUseful(review.getUseful() - 1);
+        switch (markType) {
+            case DISLIKE -> review.setUseful(review.getUseful() - 1);
+            case LIKE -> review.setUseful(review.getUseful() + 1);
         }
         reviewMarkRepository.save(ReviewMark.builder()
                 .id(reviewMarkId)
@@ -113,10 +128,9 @@ public class ReviewServiceImpl implements ReviewService {
                 .userId(userId)
                 .build();
 
-        if (markType == MarkType.LIKE) {
-            review.setUseful(review.getUseful() - 1);
-        } else {
-            review.setUseful(review.getUseful() + 1);
+        switch (markType) {
+            case DISLIKE -> review.setUseful(review.getUseful() + 1);
+            case LIKE -> review.setUseful(review.getUseful() - 1);
         }
         reviewMarkRepository.deleteById(reviewMarkId);
     }

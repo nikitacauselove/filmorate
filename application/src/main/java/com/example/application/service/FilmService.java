@@ -1,6 +1,7 @@
 package com.example.application.service;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.SortBy;
 import com.example.application.repository.entity.Film;
 
@@ -48,18 +49,12 @@ public interface FilmService {
     void deleteById(Long id);
 
     /**
-     * Добавление оценки.
+     * Добавление или удаление оценки.
      * @param id идентификатор фильма
      * @param userId идентификатор пользователя
+     * @param operation тип операции
      */
-    void addLike(Long id, Long userId);
-
-    /**
-     * Удаление оценки.
-     * @param id идентификатор фильма
-     * @param userId идентификатор пользователя
-     */
-    void deleteLike(Long id, Long userId);
+    void addOrDeleteLike(Long id, Long userId, Operation operation);
 
     /**
      * Получение списка всех общих фильмов.

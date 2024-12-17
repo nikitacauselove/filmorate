@@ -45,11 +45,6 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    public List<Director> findAllById(Iterable<Long> ids) {
-        return directorRepository.findAllById(ids);
-    }
-
-    @Override
     public void deleteById(Long id) {
         directorRepository.deleteById(id);
     }

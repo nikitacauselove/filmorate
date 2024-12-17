@@ -50,7 +50,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
     String FIND_RECOMMENDATIONS = """
             SELECT *
             FROM films
-            WHERE id in (
+            WHERE id IN (
                 SELECT film_id
                 FROM film_likes
                 WHERE user_id in :ids
@@ -64,7 +64,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
     String FIND_COMMON = """
             SELECT *
             FROM films
-            WHERE id in (
+            WHERE id IN (
                 SELECT film_id
                 FROM film_likes
                 WHERE user_id = :userId
@@ -77,7 +77,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     String DECREASE_LIKES_AMOUNT = """
             UPDATE films SET likes_amount = likes_amount - 1
-            WHERE id in (
+            WHERE id IN (
                 SELECT film_id
                 FROM film_likes
                 WHERE user_id = :userId

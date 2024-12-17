@@ -47,7 +47,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     String FIND_COMMON_FRIENDS = """
             SELECT *
             FROM users
-            WHERE id in (
+            WHERE id IN (
                 SELECT receiving_user_id
                 FROM friendship
                 WHERE requesting_user_id = :id
@@ -65,7 +65,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 FROM (
                     SELECT user_id, count(film_id) AS count
                     FROM film_likes
-                    WHERE film_id in (
+                    WHERE film_id IN (
                         SELECT film_id
                         FROM film_likes
                         WHERE user_id = :id

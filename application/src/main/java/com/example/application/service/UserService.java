@@ -1,6 +1,7 @@
 package com.example.application.service;
 
 import com.example.api.dto.UserDto;
+import com.example.api.dto.enums.Operation;
 import com.example.application.repository.entity.Film;
 import com.example.application.repository.entity.User;
 
@@ -47,18 +48,12 @@ public interface UserService {
     void deleteById(Long id);
 
     /**
-     * Добавление пользователя в список друзей.
+     * Добавление пользователя в список друзей или удаление пользователя из списка друзей.
      * @param id идентификатор пользователя
      * @param friendId идентификатор пользователя
+     * @param operation тип операции
      */
-    void addFriend(Long id, Long friendId);
-
-    /**
-     * Удаление пользователя из списка друзей.
-     * @param id идентификатор пользователя
-     * @param friendId идентификатор пользователя
-     */
-    void deleteFriend(Long id, Long friendId);
+    void addOrDeleteFriend(Long id, Long friendId, Operation operation);
 
     /**
      * Получение списка всех друзей пользователя.

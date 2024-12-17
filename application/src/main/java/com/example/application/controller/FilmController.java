@@ -2,6 +2,7 @@ package com.example.application.controller;
 
 import com.example.api.FilmApi;
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.SortBy;
 import com.example.application.mapper.FilmMapper;
 import com.example.application.service.FilmService;
@@ -54,12 +55,12 @@ public class FilmController implements FilmApi {
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addLike(Long id, Long userId) {
-        filmService.addLike(id, userId);
+        filmService.addOrDeleteLike(id, userId, Operation.ADD);
     }
 
     @Override
     public void deleteLike(Long id, Long userId) {
-        filmService.deleteLike(id, userId);
+        filmService.addOrDeleteLike(id, userId, Operation.REMOVE);
     }
 
     @Override
