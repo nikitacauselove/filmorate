@@ -1,13 +1,16 @@
 package com.example.application.service.impl;
 
-import com.example.api.dto.DirectorDto;
 import com.example.api.dto.FilmDto;
-import com.example.api.dto.GenreDto;
 import com.example.api.dto.enums.EventType;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.SortBy;
+import com.example.application.mapper.DirectorMapper;
 import com.example.application.mapper.FilmMapper;
+import com.example.application.mapper.GenreMapper;
 import com.example.application.repository.EventRepository;
+import com.example.application.repository.GenreRepository;
+import com.example.application.repository.MpaRepository;
+import com.example.application.repository.UserRepository;
 import com.example.application.repository.entity.Event;
 import com.example.application.repository.entity.Genre;
 import com.example.application.repository.entity.Director;
@@ -18,9 +21,6 @@ import com.example.application.repository.DirectorRepository;
 import com.example.application.repository.FilmRepository;
 import com.example.application.repository.specification.FilmSpecification;
 import com.example.application.service.FilmService;
-import com.example.application.service.GenreService;
-import com.example.application.service.MpaService;
-import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,39 +31,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
 public class FilmServiceImpl implements FilmService {
 
+    private final DirectorMapper directorMapper;
     private final DirectorRepository directorRepository;
     private final EventRepository eventRepository;
     private final FilmMapper filmMapper;
     private final FilmRepository filmRepository;
     private final FilmSpecification filmSpecification;
-    private final UserService userService;
-    private final GenreService genreService;
-    private final MpaService mpaService;
+    private final GenreMapper genreMapper;
+    private final GenreRepository genreRepository;
+    private final MpaRepository mpaRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public Film create(FilmDto filmDto) {
-        Mpa mpa = mpaService.findById(filmDto.mpa().id());
-        Set<Genre> genres = new HashSet<>(genreService.findAllById(Optional.ofNullable(filmDto.genres())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(GenreDto::id)
-                .toList()));
-        Set<Director> directors = new HashSet<>(directorRepository.findAllById(Optional.ofNullable(filmDto.directors())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(DirectorDto::id)
-                .toList()));
+        Mpa mpa = mpaRepository.findById(filmDto.mpa().id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Рейтинг Американской киноассоциации с указанным идентификатором не найден"));
+        Iterable<Long> genreIds = genreMapper.toIds(filmDto.genres());
+        Set<Genre> genres = new HashSet<>(genreRepository.findAllById(genreIds));
+        Iterable<Long> directorIds = directorMapper.toIds(filmDto.directors());
+        Set<Director> directors = new HashSet<>(directorRepository.findAllById(directorIds));
         Film film = filmMapper.toFilm(filmDto, mpa, genres, directors);
 
         return filmRepository.save(film);
@@ -72,17 +67,12 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional
     public Film update(FilmDto filmDto) {
-        Mpa mpa = mpaService.findById(filmDto.mpa().id());
-        Set<Genre> genres = new HashSet<>(genreService.findAllById(Optional.ofNullable(filmDto.genres())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(GenreDto::id)
-                .toList()));
-        Set<Director> directors = new HashSet<>(directorRepository.findAllById(Optional.ofNullable(filmDto.directors())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(DirectorDto::id)
-                .toList()));
+        Mpa mpa = mpaRepository.findById(filmDto.mpa().id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Рейтинг Американской киноассоциации с указанным идентификатором не найден"));
+        Iterable<Long> genreIds = genreMapper.toIds(filmDto.genres());
+        Set<Genre> genres = new HashSet<>(genreRepository.findAllById(genreIds));
+        Iterable<Long> directorIds = directorMapper.toIds(filmDto.directors());
+        Set<Director> directors = new HashSet<>(directorRepository.findAllById(directorIds));
         Film film = findById(filmDto.id());
 
         return filmMapper.updateFilm(filmDto, mpa, genres, directors, film);
@@ -116,7 +106,8 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public void addOrDeleteLike(Long id, Long userId, Operation operation) {
         Film film = findById(id);
-        User user = userService.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден"));
         boolean liked = film.getLikingUsers().contains(user);
 
         switch (operation) {
