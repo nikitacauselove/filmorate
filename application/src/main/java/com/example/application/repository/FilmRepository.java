@@ -53,7 +53,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
             WHERE id IN (
                 SELECT film_id
                 FROM film_likes
-                WHERE user_id in :ids
+                WHERE user_id IN :ids
                 EXCEPT
                 SELECT film_id
                 FROM film_likes
