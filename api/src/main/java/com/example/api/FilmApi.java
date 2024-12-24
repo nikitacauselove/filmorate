@@ -39,9 +39,9 @@ public interface FilmApi {
     List<FilmDto> findAll();
 
     @GetMapping("/director/{directorId}")
-    @Operation(description = "Получение списка всех фильмов определенного режиссёра")
+    @Operation(description = "Получение списка всех фильмов указанного режиссёра")
     List<FilmDto> findAllByDirectorId(@PathVariable Long directorId,
-                                      @Parameter(description = "Критерий поиска", schema = @Schema(allowableValues = {"likes", "year"})) @RequestParam SortBy sortBy);
+                                      @Parameter(description = "Критерий сортировки", schema = @Schema(allowableValues = {"likes", "year"})) @RequestParam SortBy sortBy);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление фильма")
@@ -69,5 +69,5 @@ public interface FilmApi {
     @GetMapping("/search")
     @Operation(description = "Поиск фильмов")
     List<FilmDto> search(@Parameter(description = "Текст для поиска") @RequestParam String query,
-                         @Parameter(description = "Список критериев поиска", schema = @Schema(allowableValues = {"director", "title"}, type = "list")) @RequestParam List<String> by);
+                         @Parameter(description = "Список критериев поиска", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<String> by);
 }

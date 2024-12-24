@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Критерий поиска.
+ * Критерий сортировки.
  */
 @Getter
 @RequiredArgsConstructor

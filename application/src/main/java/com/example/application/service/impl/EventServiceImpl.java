@@ -31,10 +31,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findAllByUserId(Long id) {
-        if (!userRepository.existsById(id)) {
+    public List<Event> findAllByUserId(Long userId) {
+        if (!userRepository.existsById(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным идентификатором не найден");
         }
-        return eventRepository.findAllByUserId(id);
+        return eventRepository.findAllByUserId(userId);
     }
 }

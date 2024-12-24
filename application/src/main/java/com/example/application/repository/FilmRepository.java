@@ -18,7 +18,7 @@ import java.util.List;
 public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificationExecutor<Film> {
 
     /**
-     * Получение списка всех фильмов определенного режиссёра.
+     * Получение списка всех фильмов указанного режиссёра.
      * @param directorId идентификатор режиссёра
      */
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);

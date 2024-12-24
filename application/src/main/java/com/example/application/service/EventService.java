@@ -22,7 +22,7 @@ public interface EventService {
 
     /**
      * Получение списка всех действий пользователя.
-     * @param id идентификатор пользователя
+     * @param userId идентификатор пользователя
      */
-    List<Event> findAllByUserId(Long id);
+    List<Event> findAllByUserId(Long userId);
 }

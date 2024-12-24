@@ -17,7 +17,7 @@ public class EventController implements EventApi {
     private final EventService eventService;
 
     @Override
-    public List<EventDto> findAllByUserId(Long id) {
-        return eventMapper.toEventDto(eventService.findAllByUserId(id));
+    public List<EventDto> findAllByUserId(Long userId) {
+        return eventMapper.toEventDto(eventService.findAllByUserId(userId));
     }
 }
