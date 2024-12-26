@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteById(Long userId) {
-        filmRepository.decreaseLikesAmount(userId);
-        userRepository.deleteById(userId);
+    public void deleteById(Long id) {
+        filmRepository.decreaseLikesAmount(id);
+        userRepository.deleteById(id);
     }
 
     @Override

@@ -86,7 +86,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> findAll() {
-        return filmRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return filmRepository.findAll(Sort.by(Sort.Direction.ASC, Film.Fields.id));
     }
 
     @Override
@@ -140,7 +140,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
         Specification<Film> specification = filmSpecification.findPopular(genreId, year);
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "likesAmount"));
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, Film.Fields.likesAmount));
 
         return filmRepository.findAll(specification, pageable).getContent();
     }
@@ -148,7 +148,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> search(String query, List<String> by) {
         Specification<Film> specification = filmSpecification.search(query, by);
-        List<Sort.Order> orders = List.of(Sort.Order.desc("likesAmount"), Sort.Order.asc("id"));
+        List<Sort.Order> orders = List.of(Sort.Order.desc(Film.Fields.likesAmount), Sort.Order.asc(Film.Fields.id));
 
         return filmRepository.findAll(specification, Sort.by(orders));
     }

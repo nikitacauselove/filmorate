@@ -27,16 +27,16 @@ public interface FilmMapper {
     @Mapping(target = "directors", ignore = true)
     @Mapping(target = "likingUsers", ignore = true)
     @Mapping(target = "likesAmount", constant = "0")
-    Film toFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genres, Set<Director> directors);
+    Film toFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genreSet, Set<Director> directorSet);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "filmDto.name")
     @Mapping(target = "mpa", source = "mpa")
-    @Mapping(target = "genres", source = "genres")
-    @Mapping(target = "directors", source = "directors")
+    @Mapping(target = "genres", source = "genreSet")
+    @Mapping(target = "directors", source = "directorSet")
     @Mapping(target = "likingUsers", ignore = true)
     @Mapping(target = "likesAmount", ignore = true)
-    Film updateFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genres, Set<Director> directors, @MappingTarget Film film);
+    Film updateFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genreSet, Set<Director> directorSet, @MappingTarget Film film);
 
     @Mapping(target = "genres", source = "genres", qualifiedByName = "sortGenresById")
     FilmDto toFilmDto(Film film);

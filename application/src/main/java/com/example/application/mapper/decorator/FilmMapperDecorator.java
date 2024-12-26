@@ -18,12 +18,12 @@ public abstract class FilmMapperDecorator implements FilmMapper {
     private FilmMapper delegate;
 
     @Override
-    public Film toFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genres, Set<Director> directors) {
-        Film film = delegate.toFilm(filmDto, mpa, genres, directors);
+    public Film toFilm(FilmDto filmDto, Mpa mpa, Set<Genre> genreSet, Set<Director> directorSet) {
+        Film film = delegate.toFilm(filmDto, mpa, genreSet, directorSet);
 
         film.setMpa(mpa);
-        film.setGenres(genres);
-        film.setDirectors(directors);
+        film.setGenres(genreSet);
+        film.setDirectors(directorSet);
         film.setLikingUsers(Collections.emptySet());
         return film;
     }

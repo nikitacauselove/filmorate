@@ -16,7 +16,7 @@ public class ReviewSpecification {
             List<Predicate> predicates = new ArrayList<>();
 
             if (filmId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("filmId"), filmId));
+                predicates.add(criteriaBuilder.equal(root.get(Review.Fields.filmId), filmId));
             }
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         });

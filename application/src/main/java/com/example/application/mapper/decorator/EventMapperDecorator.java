@@ -29,8 +29,8 @@ public abstract class EventMapperDecorator implements EventMapper {
     }
 
     @Override
-    public List<EventDto> toEventDto(List<Event> events) {
-        return events.stream()
+    public List<EventDto> toEventDto(List<Event> eventList) {
+        return eventList.stream()
                 .map(this::toEventDto)
                 .toList();
     }

@@ -28,10 +28,10 @@ public class FilmSpecification {
             if (genreId != null) {
                 Genre genre = genreService.findById(genreId);
 
-                predicates.add(criteriaBuilder.isMember(genre, root.get("genres")));
+                predicates.add(criteriaBuilder.isMember(genre, root.get(Film.Fields.genres)));
             }
             if (year != null) {
-                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get("releaseDate")), year));
+                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get(Film.Fields.releaseDate)), year));
             }
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
         });
@@ -44,10 +44,10 @@ public class FilmSpecification {
             if (by.contains("director")) {
                 Optional<Director> director = directorRepository.findByNameContainingIgnoreCase(query);
 
-                director.ifPresent(value -> predicates.add(criteriaBuilder.isMember(value, root.get("directors"))));
+                director.ifPresent(value -> predicates.add(criteriaBuilder.isMember(value, root.get(Film.Fields.directors))));
             }
             if (by.contains("title")) {
-                Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), criteriaBuilder.lower(criteriaBuilder.literal("%" + query + "%"))));
+                Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(Film.Fields.name)), criteriaBuilder.lower(criteriaBuilder.literal("%" + query + "%"))));
 
                 predicates.add(predicate);
             }

@@ -17,5 +17,5 @@ public interface EventMapper {
     @Mapping(target = "timestamp", ignore = true)
     EventDto toEventDto(Event event);
 
-    List<EventDto> toEventDto(List<Event> events);
+    List<EventDto> toEventDto(List<Event> eventList);
 }

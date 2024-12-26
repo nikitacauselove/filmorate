@@ -83,7 +83,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findAll(Long filmId, Integer count) {
         Specification<Review> specification = reviewSpecification.findAll(filmId);
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, "useful"));
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, Review.Fields.useful));
 
         return reviewRepository.findAll(specification, pageable).getContent();
     }
