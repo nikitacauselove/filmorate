@@ -48,7 +48,7 @@ public class User {
     @JoinTable(name = "friendship",
             joinColumns = @JoinColumn(name = "requesting_user_id"),
             inverseJoinColumns = @JoinColumn(name = "receiving_user_id"))
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @OrderBy("id")
     private Set<User> friends;
 }
