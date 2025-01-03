@@ -46,9 +46,7 @@ public class ReviewController implements ReviewApi {
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(Long id) {
-        Review review = reviewService.findById(id);
-
-        reviewService.deleteById(id, review.getUserId());
+        reviewService.deleteById(id);
     }
 
     @Override

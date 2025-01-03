@@ -39,9 +39,8 @@ public interface ReviewService {
     /**
      * Удаление рецензии.
      * @param id идентификатор рецензии
-     * @param userId идентификатор пользователя
      */
-    void deleteById(Long id, Long userId);
+    void deleteById(Long id);
 
     /**
      * Добавление оценки.

@@ -90,10 +90,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void deleteById(Long id, Long userId) {
+    public void deleteById(Long id) {
+        Review review = findById(id);
+
         reviewRepository.deleteById(id);
         eventRepository.save(Event.builder()
-                .userId(userId)
+                .userId(review.getUserId())
                 .eventType(EventType.REVIEW)
                 .operation(Operation.REMOVE)
                 .entityId(id)
