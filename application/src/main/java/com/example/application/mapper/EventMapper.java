@@ -15,6 +15,10 @@ public interface EventMapper {
 
     @Mapping(target = "eventId", ignore = true)
     @Mapping(target = "timestamp", ignore = true)
+    @Mapping(target = "userId", ignore = true)
+    @Mapping(target = "eventType", ignore = true)
+    @Mapping(target = "operation", ignore = true)
+    @Mapping(target = "entityId", ignore = true)
     EventDto toEventDto(Event event);
 
     List<EventDto> toEventDto(List<Event> eventList);
