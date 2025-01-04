@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * Получение информации о пользователе, включая всех его друзей.
      * @param id идентификатор пользователя
      */
-    @Query(value = FIND_BY_ID_WITH_FRIENDS)
+    @Query
     Optional<User> findByIdWithFriends(@Param("id") Long id);
 
     /**
@@ -27,52 +27,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param id идентификатор пользователя
      * @param otherUserId идентификатор пользователя
      */
-    @Query(value = FIND_COMMON_FRIENDS, nativeQuery = true)
+    @Query(nativeQuery = true)
     List<User> findCommonFriends(@Param("id") Long id, @Param("otherUserId") Long otherUserId);
 
     /**
      * Получение списка всех идентификаторов релевантных пользователей.
      * @param id идентификатор пользователя
      */
-    @Query(value = FIND_ALL_FOR_RECOMMENDATIONS, nativeQuery = true)
+    @Query(nativeQuery = true)
     List<Long> findAllForRecommendations(@Param("id") Long id);
-
-    String FIND_BY_ID_WITH_FRIENDS = """
-            SELECT user
-            FROM User AS user
-            LEFT JOIN FETCH user.friends
-            WHERE user.id = :id
-            """;
-
-    String FIND_COMMON_FRIENDS = """
-            SELECT *
-            FROM users
-            WHERE id IN (
-                SELECT receiving_user_id
-                FROM friendship
-                WHERE requesting_user_id = :id
-                INTERSECT
-                SELECT receiving_user_id
-                FROM friendship
-                WHERE requesting_user_id = :otherUserId
-            );
-            """;
-
-    String FIND_ALL_FOR_RECOMMENDATIONS = """
-            SELECT user_id
-            FROM (
-                SELECT user_id, max(count)
-                FROM (
-                    SELECT user_id, count(film_id) AS count
-                    FROM film_likes
-                    WHERE film_id IN (
-                        SELECT film_id
-                        FROM film_likes
-                        WHERE user_id = :id
-                    ) AND user_id <> :id
-                    GROUP BY user_id
-                )
-                GROUP BY user_id
-            );
-            """;
 }

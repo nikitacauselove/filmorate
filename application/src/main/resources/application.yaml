@@ -5,4 +5,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
   jpa:
+    mapping-resources: hbm/user-repository.hbm.xml
     open-in-view: false

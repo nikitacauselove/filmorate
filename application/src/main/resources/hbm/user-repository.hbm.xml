@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <query name="User.findByIdWithFriends">
+        <![CDATA[
+            SELECT user
+            FROM User AS user
+            LEFT JOIN FETCH user.friends
+            WHERE user.id = :id
+        ]]>
+    </query>
+    <sql-query name="User.findCommonFriends">
+        <return alias="user" entity-name="com.example.application.repository.entity.User"/>
+        <![CDATA[
+            SELECT *
+            FROM users
+            WHERE id IN (
+                SELECT receiving_user_id
+                FROM friendship
+                WHERE requesting_user_id = :id
+                INTERSECT
+                SELECT receiving_user_id
+                FROM friendship
+                WHERE requesting_user_id = :otherUserId
+            );
+        ]]>
+    </sql-query>
+    <sql-query name="User.findAllForRecommendations">
+        <return-scalar column="user_id"/>
+        <![CDATA[
+            SELECT user_id
+            FROM (
+                SELECT user_id, max(count)
+                FROM (
+                    SELECT user_id, count(film_id) AS count
+                    FROM film_likes
+                    WHERE film_id IN (
+                        SELECT film_id
+                        FROM film_likes
+                        WHERE user_id = :id
+                    ) AND user_id <> :id
+                    GROUP BY user_id
+                )
+                GROUP BY user_id
+            );
+        ]]>
+    </sql-query>
+</hibernate-mapping>
