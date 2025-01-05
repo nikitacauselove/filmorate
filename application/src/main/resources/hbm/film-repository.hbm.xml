@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="Film.findRecommendations">
+        <![CDATA[
+            SELECT *
+            FROM films
+            WHERE id IN (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id IN :ids
+                EXCEPT
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+            );
+        ]]>
+        <return alias="film" entity-name="com.example.application.repository.entity.Film"/>
+    </sql-query>
+    <sql-query name="Film.findCommon">
+        <![CDATA[
+            SELECT *
+            FROM films
+            WHERE id IN (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+                INTERSECT
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :friendId
+            );
+        ]]>
+        <return alias="film" entity-name="com.example.application.repository.entity.Film"/>
+    </sql-query>
+    <sql-query name="Film.decreaseLikesAmount">
+        <![CDATA[
+            UPDATE films SET likes_amount = likes_amount - 1
+            WHERE id IN (
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+            );
+        ]]>
+    </sql-query>
+</hibernate-mapping>

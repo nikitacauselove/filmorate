@@ -10,7 +10,6 @@
         ]]>
     </query>
     <sql-query name="User.findCommonFriends">
-        <return alias="user" entity-name="com.example.application.repository.entity.User"/>
         <![CDATA[
             SELECT *
             FROM users
@@ -24,9 +23,9 @@
                 WHERE requesting_user_id = :otherUserId
             );
         ]]>
+        <return alias="user" entity-name="com.example.application.repository.entity.User"/>
     </sql-query>
     <sql-query name="User.findAllForRecommendations">
-        <return-scalar column="user_id"/>
         <![CDATA[
             SELECT user_id
             FROM (
@@ -44,5 +43,6 @@
                 GROUP BY user_id
             );
         ]]>
+        <return-scalar column="user_id"/>
     </sql-query>
 </hibernate-mapping>

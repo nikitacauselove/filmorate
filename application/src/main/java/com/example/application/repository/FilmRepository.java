@@ -28,7 +28,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * @param ids список всех идентификаторов релевантных пользователей
      * @param userId идентификатор пользователя
      */
-    @Query(value = FIND_RECOMMENDATIONS, nativeQuery = true)
+    @Query(nativeQuery = true)
     List<Film> findRecommendations(@Param("ids") Iterable<Long> ids, @Param("userId") Long userId);
 
     /**
@@ -36,7 +36,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * @param userId идентификатор пользователя
      * @param friendId идентификатор пользователя
      */
-    @Query(value = FIND_COMMON, nativeQuery = true)
+    @Query(nativeQuery = true)
     List<Film> findCommon(Long userId, Long friendId);
 
     /**
@@ -44,43 +44,6 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * @param userId идентификатор пользователя
      */
     @Modifying
-    @Query(value = DECREASE_LIKES_AMOUNT, nativeQuery = true)
+    @Query(nativeQuery = true)
     void decreaseLikesAmount(@Param("userId") Long userId);
-
-    String FIND_RECOMMENDATIONS = """
-            SELECT *
-            FROM films
-            WHERE id IN (
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id IN :ids
-                EXCEPT
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id = :userId
-            );
-            """;
-
-    String FIND_COMMON = """
-            SELECT *
-            FROM films
-            WHERE id IN (
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id = :userId
-                INTERSECT
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id = :friendId
-            );
-            """;
-
-    String DECREASE_LIKES_AMOUNT = """
-            UPDATE films SET likes_amount = likes_amount - 1
-            WHERE id IN (
-                SELECT film_id
-                FROM film_likes
-                WHERE user_id = :userId
-            );
-            """;
 }
