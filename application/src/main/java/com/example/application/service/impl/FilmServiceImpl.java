@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -55,11 +54,9 @@ public class FilmServiceImpl implements FilmService {
     public Film create(FilmDto filmDto) {
         Mpa mpa = mpaRepository.findById(filmDto.mpa().id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Рейтинг Американской киноассоциации с указанным идентификатором не найден"));
-        Iterable<Long> genreIds = genreMapper.toIds(filmDto.genres());
-        Set<Genre> genres = new HashSet<>(genreRepository.findAllById(genreIds));
-        Iterable<Long> directorIds = directorMapper.toIds(filmDto.directors());
-        Set<Director> directors = new HashSet<>(directorRepository.findAllById(directorIds));
-        Film film = filmMapper.toFilm(filmDto, mpa, genres, directors);
+        List<Genre> genres = genreRepository.findAllById(genreMapper.toIds(filmDto.genres()));
+        List<Director> directors = directorRepository.findAllById(directorMapper.toIds(filmDto.directors()));
+        Film film = filmMapper.toFilm(filmDto, mpa, Set.copyOf(genres), Set.copyOf(directors));
 
         return filmRepository.save(film);
     }
@@ -69,13 +66,11 @@ public class FilmServiceImpl implements FilmService {
     public Film update(FilmDto filmDto) {
         Mpa mpa = mpaRepository.findById(filmDto.mpa().id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Рейтинг Американской киноассоциации с указанным идентификатором не найден"));
-        Iterable<Long> genreIds = genreMapper.toIds(filmDto.genres());
-        Set<Genre> genres = new HashSet<>(genreRepository.findAllById(genreIds));
-        Iterable<Long> directorIds = directorMapper.toIds(filmDto.directors());
-        Set<Director> directors = new HashSet<>(directorRepository.findAllById(directorIds));
+        List<Genre> genres = genreRepository.findAllById(genreMapper.toIds(filmDto.genres()));
+        List<Director> directors = directorRepository.findAllById(directorMapper.toIds(filmDto.directors()));
         Film film = findById(filmDto.id());
 
-        return filmMapper.updateFilm(filmDto, mpa, genres, directors, film);
+        return filmMapper.updateFilm(filmDto, mpa, Set.copyOf(genres), Set.copyOf(directors), film);
     }
 
     @Override
