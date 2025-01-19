@@ -6,6 +6,6 @@ spring:
     username: postgres
   jpa:
     mapping-resources:
-      - hbm/film-repository.hbm.xml
-      - hbm/user-repository.hbm.xml
+      - orm/film-repository.xml
+      - orm/user-repository.xml
     open-in-view: false

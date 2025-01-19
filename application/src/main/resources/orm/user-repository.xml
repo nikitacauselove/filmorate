@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE hibernate-mapping SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>
-    <query name="User.findByIdWithFriends">
-        <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
+                 version="3.0">
+    <named-query name="User.findByIdWithFriends">
+        <query>
             SELECT user
             FROM User AS user
             LEFT JOIN FETCH user.friends
             WHERE user.id = :id
-        ]]>
-    </query>
-    <sql-query name="User.findCommonFriends">
-        <![CDATA[
+        </query>
+    </named-query>
+    <named-native-query name="User.findCommonFriends" result-class="com.example.application.repository.entity.User">
+        <query>
             SELECT *
             FROM users
             WHERE id IN (
@@ -22,11 +24,10 @@
                 FROM friendship
                 WHERE requesting_user_id = :otherUserId
             );
-        ]]>
-        <return alias="user" entity-name="com.example.application.repository.entity.User"/>
-    </sql-query>
-    <sql-query name="User.findAllForRecommendations">
-        <![CDATA[
+        </query>
+    </named-native-query>
+    <named-native-query name="User.findAllForRecommendations">
+        <query>
             SELECT user_id
             FROM (
                 SELECT user_id, max(count)
@@ -37,12 +38,11 @@
                         SELECT film_id
                         FROM film_likes
                         WHERE user_id = :id
-                    ) AND user_id <> :id
+                    ) AND user_id &lt;&gt; :id
                     GROUP BY user_id
                 )
                 GROUP BY user_id
             );
-        ]]>
-        <return-scalar column="user_id"/>
-    </sql-query>
-</hibernate-mapping>
+        </query>
+    </named-native-query>
+</entity-mappings>
