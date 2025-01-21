@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * @param userId идентификатор пользователя
      */
     @Query(nativeQuery = true)
-    List<Film> findRecommendations(@Param("ids") Iterable<Long> ids, @Param("userId") Long userId);
+    List<Film> findRecommendations(Iterable<Long> ids, Long userId);
 
     /**
      * Получение списка всех общих фильмов.
@@ -45,5 +44,5 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      */
     @Modifying
     @Query(nativeQuery = true)
-    void decreaseLikesAmount(@Param("userId") Long userId);
+    void decreaseLikesAmount(Long userId);
 }

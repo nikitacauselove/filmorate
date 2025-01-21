@@ -12,13 +12,13 @@ import java.util.List;
 public class ReviewSpecification {
 
     public Specification<Review> findAll(Long filmId) {
-        return ((root, query1, criteriaBuilder) -> {
+        return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (filmId != null) {
                 predicates.add(criteriaBuilder.equal(root.get(Review.Fields.filmId), filmId));
             }
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
-        });
+        };
     }
 }

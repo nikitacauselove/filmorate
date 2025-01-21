@@ -1,10 +1,8 @@
 package com.example.application.repository.specification;
 
 import com.example.application.repository.DirectorRepository;
-import com.example.application.repository.entity.Director;
+import com.example.application.repository.GenreRepository;
 import com.example.application.repository.entity.Film;
-import com.example.application.repository.entity.Genre;
-import com.example.application.service.GenreService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,39 +10,36 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class FilmSpecification {
 
     private final DirectorRepository directorRepository;
-    private final GenreService genreService;
+    private final GenreRepository genreRepository;
 
     public Specification<Film> findPopular(Long genreId, Integer year) {
-        return ((root, query, criteriaBuilder) -> {
+        return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (genreId != null) {
-                Genre genre = genreService.findById(genreId);
-
-                predicates.add(criteriaBuilder.isMember(genre, root.get(Film.Fields.genres)));
+                genreRepository.findById(genreId).ifPresent(genre -> predicates.add(criteriaBuilder.isMember(genre, root.get(Film.Fields.genres))));
             }
             if (year != null) {
-                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get(Film.Fields.releaseDate)), year));
+                Predicate predicate = criteriaBuilder.equal(criteriaBuilder.function("date_part", Integer.class, criteriaBuilder.literal("year"), root.get(Film.Fields.releaseDate)), year);
+
+                predicates.add(predicate);
             }
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
-        });
+        };
     }
 
     public Specification<Film> search(String query, List<String> by) {
-        return ((root, query1, criteriaBuilder) -> {
+        return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (by.contains("director")) {
-                Optional<Director> director = directorRepository.findByNameContainingIgnoreCase(query);
-
-                director.ifPresent(value -> predicates.add(criteriaBuilder.isMember(value, root.get(Film.Fields.directors))));
+                directorRepository.findByNameContainingIgnoreCase(query).ifPresent(director -> predicates.add(criteriaBuilder.isMember(director, root.get(Film.Fields.directors))));
             }
             if (by.contains("title")) {
                 Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(Film.Fields.name)), criteriaBuilder.lower(criteriaBuilder.literal("%" + query + "%"))));
@@ -52,6 +47,6 @@ public class FilmSpecification {
                 predicates.add(predicate);
             }
             return criteriaBuilder.or(predicates.toArray(Predicate[]::new));
-        });
+        };
     }
 }

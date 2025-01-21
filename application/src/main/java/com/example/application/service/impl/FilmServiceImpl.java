@@ -85,6 +85,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Film> findAllByDirectorId(Long directorId, SortBy sortBy) {
         if (!directorRepository.existsById(directorId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Режиссер с указанным идентификатором не найден");

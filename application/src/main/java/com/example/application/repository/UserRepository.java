@@ -3,7 +3,6 @@ package com.example.application.repository;
 import com.example.application.repository.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param id идентификатор пользователя
      */
     @Query
-    Optional<User> findByIdWithFriends(@Param("id") Long id);
+    Optional<User> findByIdWithFriends(Long id);
 
     /**
      * Получение списка всех общих друзей.
@@ -28,12 +27,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param otherUserId идентификатор пользователя
      */
     @Query(nativeQuery = true)
-    List<User> findCommonFriends(@Param("id") Long id, @Param("otherUserId") Long otherUserId);
+    List<User> findCommonFriends(Long id, Long otherUserId);
 
     /**
      * Получение списка всех идентификаторов релевантных пользователей.
      * @param id идентификатор пользователя
      */
     @Query(nativeQuery = true)
-    List<Long> findAllForRecommendations(@Param("id") Long id);
+    List<Long> findAllForRecommendations(Long id);
 }
