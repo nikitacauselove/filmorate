@@ -32,6 +32,8 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
+    private static final Sort SORT_BY_DESCENDING_USEFUL = Sort.by(Sort.Direction.DESC, Review.Fields.useful);
+
     private final EventRepository eventRepository;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
@@ -83,7 +85,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findAll(Long filmId, Integer count) {
         Specification<Review> specification = reviewSpecification.findAll(filmId);
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, Review.Fields.useful));
+        Pageable pageable = PageRequest.of(0, count, SORT_BY_DESCENDING_USEFUL);
 
         return reviewRepository.findAll(specification, pageable).getContent();
     }

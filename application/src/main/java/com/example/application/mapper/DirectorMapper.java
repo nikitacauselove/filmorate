@@ -18,6 +18,7 @@ public interface DirectorMapper {
     @Mapping(target = "id", ignore = true)
     Director toDirector(DirectorDto directorDto);
 
+    @Mapping(target = "id", ignore = true)
     Director updateDirector(DirectorDto directorDto, @MappingTarget Director director);
 
     DirectorDto toDirectorDto(Director director);

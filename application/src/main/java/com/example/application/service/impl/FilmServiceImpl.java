@@ -1,6 +1,7 @@
 package com.example.application.service.impl;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.By;
 import com.example.api.dto.enums.EventType;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.SortBy;
@@ -37,6 +38,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Service
 public class FilmServiceImpl implements FilmService {
+
+    private static final Sort SORT_BY_ASCENDING_ID = Sort.by(Sort.Direction.ASC, Film.Fields.id);
+    private static final Sort SORT_BY_DESCENDING_LIKES_AMOUNT = Sort.by(Sort.Direction.DESC, Film.Fields.likesAmount);
 
     private final DirectorMapper directorMapper;
     private final DirectorRepository directorRepository;
@@ -81,7 +85,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> findAll() {
-        return filmRepository.findAll(Sort.by(Sort.Direction.ASC, Film.Fields.id));
+        return filmRepository.findAll(SORT_BY_ASCENDING_ID);
     }
 
     @Override
@@ -136,16 +140,16 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
         Specification<Film> specification = filmSpecification.findPopular(genreId, year);
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.DESC, Film.Fields.likesAmount));
+        Pageable pageable = PageRequest.of(0, count, SORT_BY_DESCENDING_LIKES_AMOUNT);
 
         return filmRepository.findAll(specification, pageable).getContent();
     }
 
     @Override
-    public List<Film> search(String query, List<String> by) {
+    public List<Film> search(String query, List<By> by) {
         Specification<Film> specification = filmSpecification.search(query, by);
-        List<Sort.Order> orders = List.of(Sort.Order.desc(Film.Fields.likesAmount), Sort.Order.asc(Film.Fields.id));
+        Sort sort = SORT_BY_DESCENDING_LIKES_AMOUNT.and(SORT_BY_ASCENDING_ID);
 
-        return filmRepository.findAll(specification, Sort.by(orders));
+        return filmRepository.findAll(specification, sort);
     }
 }

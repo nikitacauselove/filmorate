@@ -9,13 +9,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = AfterDateOfFirstFilmValidator.class)
+@Constraint(validatedBy = AfterReleaseDateOfFirstFilmValidator.class)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface AfterDateOfFirstFilm {
+public @interface AfterReleaseDateOfFirstFilm {
 
-    String message() default AfterDateOfFirstFilmValidator.MESSAGE;
+    String message() default AfterReleaseDateOfFirstFilmValidator.MESSAGE;
 
     Class<?>[] groups() default {};
 

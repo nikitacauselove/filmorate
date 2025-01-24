@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
-    @Mapping(target = "id", source = "reviewId")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "useful", constant = "0")
     Review toReview(ReviewDto reviewDto);
 

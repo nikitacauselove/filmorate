@@ -1,6 +1,7 @@
 package com.example.api;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.By;
 import com.example.api.dto.enums.SortBy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -69,5 +70,5 @@ public interface FilmApi {
     @GetMapping("/search")
     @Operation(description = "Поиск фильмов")
     List<FilmDto> search(@Parameter(description = "Текст для поиска") @RequestParam String query,
-                         @Parameter(description = "Список критериев поиска", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<String> by);
+                         @Parameter(description = "Список критериев поиска", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<By> by);
 }

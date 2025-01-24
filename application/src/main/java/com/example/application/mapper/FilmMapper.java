@@ -20,7 +20,7 @@ import java.util.TreeSet;
 @Mapper(componentModel = "spring", uses = {DirectorMapper.class, GenreMapper.class, MpaMapper.class})
 public interface FilmMapper {
 
-    @Mapping(target = "id", source = "filmDto.id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "filmDto.name")
     @Mapping(target = "mpa", ignore = true)
     @Mapping(target = "genres", ignore = true)

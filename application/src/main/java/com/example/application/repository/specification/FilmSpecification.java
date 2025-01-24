@@ -1,5 +1,6 @@
 package com.example.application.repository.specification;
 
+import com.example.api.dto.enums.By;
 import com.example.application.repository.DirectorRepository;
 import com.example.application.repository.GenreRepository;
 import com.example.application.repository.entity.Film;
@@ -34,14 +35,14 @@ public class FilmSpecification {
         };
     }
 
-    public Specification<Film> search(String query, List<String> by) {
+    public Specification<Film> search(String query, List<By> by) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (by.contains("director")) {
+            if (by.contains(By.DIRECTOR)) {
                 directorRepository.findByNameContainingIgnoreCase(query).ifPresent(director -> predicates.add(criteriaBuilder.isMember(director, root.get(Film.Fields.directors))));
             }
-            if (by.contains("title")) {
+            if (by.contains(By.TITLE)) {
                 Predicate predicate = criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(Film.Fields.name)), criteriaBuilder.lower(criteriaBuilder.literal("%" + query + "%"))));
 
                 predicates.add(predicate);

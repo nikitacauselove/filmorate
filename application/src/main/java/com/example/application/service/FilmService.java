@@ -1,6 +1,7 @@
 package com.example.application.service;
 
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.By;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.SortBy;
 import com.example.application.repository.entity.Film;
@@ -76,5 +77,5 @@ public interface FilmService {
      * @param query текст для поиска
      * @param by список критериев поиска
      */
-    List<Film> search(String query, List<String> by);
+    List<Film> search(String query, List<By> by);
 }

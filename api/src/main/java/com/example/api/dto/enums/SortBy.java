@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 public enum SortBy {
 
     /**
-     * Количество положительных оценок фильма.
+     * Сортировка по количеству положительных оценок фильма.
      */
     LIKES("likesAmount"),
 
     /**
-     * Дата выхода фильма.
+     * Сортировка по дате выхода фильма.
      */
     YEAR("releaseDate");
 

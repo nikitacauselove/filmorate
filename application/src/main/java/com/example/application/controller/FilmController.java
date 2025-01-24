@@ -2,6 +2,7 @@ package com.example.application.controller;
 
 import com.example.api.FilmApi;
 import com.example.api.dto.FilmDto;
+import com.example.api.dto.enums.By;
 import com.example.api.dto.enums.Operation;
 import com.example.api.dto.enums.SortBy;
 import com.example.application.mapper.FilmMapper;
@@ -74,7 +75,7 @@ public class FilmController implements FilmApi {
     }
 
     @Override
-    public List<FilmDto> search(String query, List<String> by) {
+    public List<FilmDto> search(String query, List<By> by) {
         return filmMapper.toFilmDto(filmService.search(query, by));
     }
 }
