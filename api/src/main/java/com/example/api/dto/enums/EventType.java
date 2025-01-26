@@ -1,7 +1,7 @@
 package com.example.api.dto.enums;
 
 /**
- * Тип действия.
+ * Тип действия пользователя.
  */
 public enum EventType {
 

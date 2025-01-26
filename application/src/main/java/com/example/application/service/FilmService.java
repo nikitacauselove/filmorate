@@ -39,7 +39,7 @@ public interface FilmService {
     /**
      * Получение списка всех фильмов указанного режиссёра.
      * @param directorId идентификатор режиссёра
-     * @param sortBy критерий сортировки
+     * @param sortBy критерий сортировки фильмов
      */
     List<Film> findAllByDirectorId(Long directorId, SortBy sortBy);
 

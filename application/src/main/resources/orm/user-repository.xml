@@ -7,7 +7,7 @@
         <query>
             SELECT user
             FROM User AS user
-            LEFT JOIN FETCH user.friends
+                LEFT JOIN FETCH user.friends
             WHERE user.id = :id
         </query>
     </named-query>

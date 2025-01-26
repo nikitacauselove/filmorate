@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Критерий сортировки.
+ * Критерий сортировки фильмов.
  */
 @Getter
 @RequiredArgsConstructor

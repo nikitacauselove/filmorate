@@ -42,18 +42,18 @@ public interface FilmApi {
     @GetMapping("/director/{directorId}")
     @Operation(description = "Получение списка всех фильмов указанного режиссёра")
     List<FilmDto> findAllByDirectorId(@PathVariable Long directorId,
-                                      @Parameter(description = "Критерий сортировки", schema = @Schema(allowableValues = {"likes", "year"})) @RequestParam SortBy sortBy);
+                                      @Parameter(description = "Критерий сортировки фильмов", schema = @Schema(allowableValues = {"likes", "year"})) @RequestParam SortBy sortBy);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление фильма")
     void deleteById(@PathVariable Long id);
 
     @PutMapping("/{id}/like/{userId}")
-    @Operation(description = "Добавление реакции")
+    @Operation(description = "Добавление положительной оценки")
     void addLike(@PathVariable Long id, @PathVariable Long userId);
 
     @DeleteMapping("/{id}/like/{userId}")
-    @Operation(description = "Удаление реакции")
+    @Operation(description = "Удаление положительной оценки")
     void deleteLike(@PathVariable Long id, @PathVariable Long userId);
 
     @GetMapping("/common")
@@ -64,11 +64,11 @@ public interface FilmApi {
     @GetMapping("/popular")
     @Operation(description = "Получение списка всех популярных фильмов")
     List<FilmDto> findPopular(@Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count,
-                              @Parameter(description = "Идентификатор жанра") @RequestParam(required = false) Long genreId,
+                              @Parameter(description = "Идентификатор жанра фильма") @RequestParam(required = false) Long genreId,
                               @Parameter(description = "Год выхода фильма") @RequestParam(required = false) Integer year);
 
     @GetMapping("/search")
     @Operation(description = "Поиск фильмов")
-    List<FilmDto> search(@Parameter(description = "Текст для поиска") @RequestParam String query,
-                         @Parameter(description = "Список критериев поиска", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<By> by);
+    List<FilmDto> search(@Parameter(description = "Текст для поиска фильмов") @RequestParam String query,
+                         @Parameter(description = "Список критериев поиска фильмов", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<By> by);
 }
