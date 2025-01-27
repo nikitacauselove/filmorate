@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequestMapping("/v1/directors")
-@Tag(name = "Режиссёры", description = "Взаимодействие с режиссёрами фильмов")
+@Tag(name = "Режиссёры", description = "Взаимодействие с режиссёрами")
 public interface DirectorApi {
 
     @PostMapping

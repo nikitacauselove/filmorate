@@ -15,7 +15,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Получение информации о пользователе, включая всех его друзей.
+     * Получение информации о пользователе.
+     *
      * @param id идентификатор пользователя
      */
     @Query
@@ -23,6 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Получение списка всех общих друзей.
+     *
      * @param id идентификатор пользователя
      * @param otherUserId идентификатор пользователя
      */
@@ -31,6 +33,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Получение списка всех идентификаторов релевантных пользователей.
+     *
      * @param id идентификатор пользователя
      */
     @Query(nativeQuery = true)

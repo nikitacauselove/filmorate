@@ -29,7 +29,7 @@ CREATE TABLE films (
     mpa_id       BIGINT                                  NOT NULL,
     likes_amount INTEGER                                 NOT NULL,
     CONSTRAINT films_pkey PRIMARY KEY (id),
-    FOREIGN KEY (mpa_id) REFERENCES mpa(id) ON DELETE RESTRICT
+    FOREIGN KEY (mpa_id) REFERENCES mpa (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE users (
@@ -49,7 +49,7 @@ CREATE TABLE events (
     operation  TEXT                                    NOT NULL,
     entity_id  BIGINT                                  NOT NULL,
     CONSTRAINT events_pkey PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE reviews (
@@ -60,40 +60,40 @@ CREATE TABLE reviews (
     film_id     BIGINT                                  NOT NULL,
     useful      INTEGER                                 NOT NULL,
     CONSTRAINT reviews_pkey PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE CASCADE
 );
 
 CREATE TABLE film_genres (
     film_id  BIGINT NOT NULL,
     genre_id BIGINT NOT NULL,
     CONSTRAINT film_genres_pkey PRIMARY KEY (film_id, genre_id),
-    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+    FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genres (id) ON DELETE CASCADE
 );
 
 CREATE TABLE film_likes (
     film_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     CONSTRAINT film_likes_pkey PRIMARY KEY (film_id, user_id),
-    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE film_directors (
     film_id     BIGINT NOT NULL,
     director_id BIGINT NOT NULL,
     CONSTRAINT film_directors_pkey PRIMARY KEY (film_id, director_id),
-    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
-    FOREIGN KEY (director_id) REFERENCES directors(id) ON DELETE CASCADE
+    FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE CASCADE,
+    FOREIGN KEY (director_id) REFERENCES directors (id) ON DELETE CASCADE
 );
 
 CREATE TABLE friendship (
     requesting_user_id BIGINT NOT NULL,
     receiving_user_id  BIGINT NOT NULL,
     CONSTRAINT friendship_pkey PRIMARY KEY (requesting_user_id, receiving_user_id),
-    FOREIGN KEY (requesting_user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (receiving_user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (requesting_user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (receiving_user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE review_marks (
@@ -101,8 +101,8 @@ CREATE TABLE review_marks (
     user_id   BIGINT NOT NULL,
     mark_type TEXT   NOT NULL,
     CONSTRAINT review_marks_pkey PRIMARY KEY (review_id, user_id),
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (review_id) REFERENCES reviews (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 --rollback DROP TABLE review_marks;

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfiguration {
 
     private static final String TITLE = "Сервис по подбору фильмов";
-    private static final String DESCRIPTION = "Сервис работает с фильмами и оценками пользователей, а также возвращает фильмы, рекомендованные к просмотру";
+    private static final String DESCRIPTION = "Теперь ни вам, ни вашим друзьям не придётся долго размышлять, что посмотреть вечером";
 
     @Bean
     public OpenApiCustomizer openApiCustomizer() {

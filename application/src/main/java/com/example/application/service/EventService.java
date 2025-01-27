@@ -7,12 +7,13 @@ import com.example.application.repository.entity.Event;
 import java.util.List;
 
 /**
- * Сервис для взаимодействия с действими пользователей.
+ * Сервис для взаимодействия с действиями пользователей.
  */
 public interface EventService {
 
     /**
      * Добавление нового действия пользователя.
+     *
      * @param userId идентификатор пользователя
      * @param eventType тип действия
      * @param operation тип операции
@@ -22,6 +23,7 @@ public interface EventService {
 
     /**
      * Получение списка всех действий пользователя.
+     *
      * @param userId идентификатор пользователя
      */
     List<Event> findAllByUserId(Long userId);

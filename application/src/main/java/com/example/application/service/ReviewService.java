@@ -13,24 +13,28 @@ public interface ReviewService {
 
     /**
      * Добавление новой рецензии.
+     *
      * @param review информация о рецензии
      */
     Review create(Review review);
 
     /**
      * Обновление рецензии.
+     *
      * @param reviewDto информация о рецензии
      */
     Review update(ReviewDto reviewDto);
 
     /**
      * Получение информации о рецензии.
+     *
      * @param id идентификатор рецензии
      */
     Review findById(Long id);
 
     /**
      * Получение списка всех рецензий.
+     *
      * @param filmId идентификатор фильма
      * @param count максимальное количество элементов
      */
@@ -38,12 +42,14 @@ public interface ReviewService {
 
     /**
      * Удаление рецензии.
+     *
      * @param id идентификатор рецензии
      */
     void deleteById(Long id);
 
     /**
      * Добавление оценки.
+     *
      * @param id идентификатор рецензии
      * @param userId идентификатор пользователя
      * @param markType тип оценки
@@ -52,6 +58,7 @@ public interface ReviewService {
 
     /**
      * Удаление оценки.
+     *
      * @param id идентификатор рецензии
      * @param userId идентификатор пользователя
      * @param markType тип оценки

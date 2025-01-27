@@ -7,13 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Репозиторий для взаимодействия с действими пользователей.
+ * Репозиторий для взаимодействия с действиями пользователей.
  */
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     /**
      * Получение списка всех действий пользователя.
+     *
      * @param userId идентификатор пользователя
      */
     List<Event> findAllByUserId(Long userId);

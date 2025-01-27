@@ -14,6 +14,7 @@ public interface DirectorRepository extends JpaRepository<Director, Long> {
 
     /**
      * Получение информации о режиссёре.
+     *
      * @param name имя режиссёра
      */
     Optional<Director> findByNameContainingIgnoreCase(String name);

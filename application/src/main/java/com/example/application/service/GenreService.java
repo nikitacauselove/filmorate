@@ -10,13 +10,14 @@ import java.util.List;
 public interface GenreService {
 
     /**
-     * Получение информации о жанре.
-     * @param id идентификатор жанра
+     * Получение информации о жанре фильма.
+     *
+     * @param id идентификатор жанра фильма
      */
     Genre findById(Long id);
 
     /**
-     * Получение списка всех жанров.
+     * Получение списка всех жанров фильмов.
      */
     List<Genre> findAll();
 }

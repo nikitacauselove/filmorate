@@ -18,13 +18,15 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     /**
      * Получение списка всех фильмов указанного режиссёра.
+     *
      * @param directorId идентификатор режиссёра
      */
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 
     /**
-     * Получение списка всех фильмов, рекомендованных для просмотра.
-     * @param ids список всех идентификаторов релевантных пользователей
+     * Получение списка всех фильмов, рекомендованных к просмотру
+     *
+     * @param ids список идентификаторов релевантных пользователей
      * @param userId идентификатор пользователя
      */
     @Query(nativeQuery = true)
@@ -32,6 +34,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     /**
      * Получение списка всех общих фильмов.
+     *
      * @param userId идентификатор пользователя
      * @param friendId идентификатор пользователя
      */
@@ -40,6 +43,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
 
     /**
      * Обновление количества положительных оценок фильма.
+     *
      * @param userId идентификатор пользователя
      */
     @Modifying

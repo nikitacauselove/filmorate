@@ -70,5 +70,5 @@ public interface FilmApi {
     @GetMapping("/search")
     @Operation(description = "Поиск фильмов")
     List<FilmDto> search(@Parameter(description = "Текст для поиска фильмов") @RequestParam String query,
-                         @Parameter(description = "Список критериев поиска фильмов", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<By> by);
+                         @Parameter(description = "Список критериев для поиска фильмов", schema = @Schema(type = "list", allowableValues = {"director", "title"})) @RequestParam List<By> by);
 }

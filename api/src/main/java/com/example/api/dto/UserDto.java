@@ -12,5 +12,5 @@ public record UserDto(@Schema(description = "Идентификатор поль
                       @Schema(description = "Электронная почта пользователя") @Email String email,
                       @Schema(description = "Идентификатор учётной записи пользователя") @NotBlank String login,
                       @Schema(description = "Имя пользователя") String name,
-                      @Schema(description = "День рождения пользователя") @Past LocalDate birthday) {
+                      @Schema(description = "Дата рождения пользователя") @Past LocalDate birthday) {
 }
