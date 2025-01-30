@@ -1,8 +1,7 @@
 package com.example.application.service;
 
-import com.example.api.dto.ReviewDto;
-import com.example.api.dto.enums.MarkType;
-import com.example.application.repository.entity.Review;
+import com.example.api.model.type.MarkType;
+import com.example.application.domain.Review;
 
 import java.util.List;
 
@@ -21,9 +20,9 @@ public interface ReviewService {
     /**
      * Обновление рецензии.
      *
-     * @param reviewDto информация о рецензии
+     * @param review информация о рецензии
      */
-    Review update(ReviewDto reviewDto);
+    Review update(Review review);
 
     /**
      * Получение информации о рецензии.
@@ -36,7 +35,7 @@ public interface ReviewService {
      * Получение списка всех рецензий.
      *
      * @param filmId идентификатор фильма
-     * @param count максимальное количество элементов
+     * @param count количество элементов для отображения
      */
     List<Review> findAll(Long filmId, Integer count);
 

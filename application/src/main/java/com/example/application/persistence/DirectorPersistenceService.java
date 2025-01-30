@@ -1,0 +1,53 @@
+package com.example.application.persistence;
+
+import com.example.application.domain.Director;
+
+import java.util.List;
+
+/**
+ * Сервис для взаимодействия с режиссёрами.
+ */
+public interface DirectorPersistenceService {
+
+    /**
+     * Добавление нового режиссёра.
+     *
+     * @param director информация о режиссёре
+     */
+    Director create(Director director);
+
+    /**
+     * Обновление информации о режиссёре.
+     *
+     * @param director информация о режиссёре
+     */
+    Director update(Director director);
+
+    /**
+     * Получение информации о режиссёре.
+     *
+     * @param id идентификатор режиссёра
+     */
+    Director findById(Long id);
+
+    /**
+     * Получение списка всех режиссёров.
+     */
+    List<Director> findAll();
+
+    /**
+     * Получение списка всех режиссёров.
+     *
+     * @param ids список идентификаторов режиссёров
+     */
+    List<Director> findAllById(Iterable<Long> ids);
+
+    /**
+     * Удаление режиссёра.
+     *
+     * @param id идентификатор режиссёра
+     */
+    void deleteById(Long id);
+
+    boolean existsById(Long id);
+}

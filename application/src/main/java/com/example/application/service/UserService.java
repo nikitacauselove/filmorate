@@ -1,9 +1,8 @@
 package com.example.application.service;
 
-import com.example.api.dto.UserDto;
-import com.example.api.dto.enums.Operation;
-import com.example.application.repository.entity.Film;
-import com.example.application.repository.entity.User;
+import com.example.api.model.type.Operation;
+import com.example.application.domain.Film;
+import com.example.application.domain.User;
 
 import java.util.List;
 
@@ -22,9 +21,9 @@ public interface UserService {
     /**
      * Обновление информации о пользователе.
      *
-     * @param userDto информация о пользователе
+     * @param user информация о пользователе
      */
-    User update(UserDto userDto);
+    User update(User user);
 
     /**
      * Получение информации о пользователе.
@@ -32,13 +31,6 @@ public interface UserService {
      * @param id идентификатор пользователя
      */
     User findById(Long id);
-
-    /**
-     * Получение пользователя со списком друзей.
-     *
-     * @param id идентификатор пользователя
-     */
-    User findByIdWithFriends(Long id);
 
     /**
      * Получение списка всех пользователей.
@@ -66,7 +58,7 @@ public interface UserService {
      *
      * @param id идентификатор пользователя
      */
-    List<User> findAllFriends(Long id);
+    List<User> findFriends(Long id);
 
     /**
      * Получение списка всех общих друзей.

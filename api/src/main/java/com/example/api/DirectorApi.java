@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.dto.DirectorDto;
+import com.example.api.model.DirectorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

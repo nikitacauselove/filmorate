@@ -1,7 +1,6 @@
 package com.example.application.service;
 
-import com.example.api.dto.DirectorDto;
-import com.example.application.repository.entity.Director;
+import com.example.application.domain.Director;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ public interface DirectorService {
     /**
      * Обновление информации о режиссёре.
      *
-     * @param directorDto информация о режиссёре
+     * @param director информация о режиссёре
      */
-    Director update(DirectorDto directorDto);
+    Director update(Director director);
 
     /**
      * Получение информации о режиссёре.

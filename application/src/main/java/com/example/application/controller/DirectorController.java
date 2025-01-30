@@ -1,9 +1,9 @@
 package com.example.application.controller;
 
 import com.example.api.DirectorApi;
-import com.example.api.dto.DirectorDto;
-import com.example.application.mapper.DirectorMapper;
-import com.example.application.repository.entity.Director;
+import com.example.api.model.DirectorDto;
+import com.example.application.controller.mapper.DirectorDtoMapper;
+import com.example.application.domain.Director;
 import com.example.application.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,30 +16,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DirectorController implements DirectorApi {
 
-    private final DirectorMapper directorMapper;
+    private final DirectorDtoMapper directorDtoMapper;
     private final DirectorService directorService;
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     public DirectorDto create(DirectorDto directorDto) {
-        Director director = directorMapper.toDirector(directorDto);
+        Director director = directorDtoMapper.toDomain(directorDto);
 
-        return directorMapper.toDirectorDto(directorService.create(director));
+        return directorDtoMapper.toDto(directorService.create(director));
     }
 
     @Override
     public DirectorDto update(DirectorDto directorDto) {
-        return directorMapper.toDirectorDto(directorService.update(directorDto));
+        Director director = directorDtoMapper.toDomain(directorDto);
+
+        return directorDtoMapper.toDto(directorService.update(director));
     }
 
     @Override
     public DirectorDto findById(Long id) {
-        return directorMapper.toDirectorDto(directorService.findById(id));
+        return directorDtoMapper.toDto(directorService.findById(id));
     }
 
     @Override
     public List<DirectorDto> findAll() {
-        return directorMapper.toDirectorDto(directorService.findAll());
+        return directorDtoMapper.toDto(directorService.findAll());
     }
 
     @Override

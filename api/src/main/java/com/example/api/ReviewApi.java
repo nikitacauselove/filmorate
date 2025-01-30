@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.dto.ReviewDto;
+import com.example.api.model.ReviewDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public interface ReviewApi {
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
     List<ReviewDto> findAll(@Parameter(description = "Идентификатор фильма") @RequestParam(required = false) Long filmId,
-                            @Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count);
+                            @Parameter(description = "Количество элементов для отображения") @RequestParam(defaultValue = "10") Integer count);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление рецензии")

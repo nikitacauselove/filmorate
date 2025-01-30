@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.dto.EventDto;
+import com.example.api.model.EventDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
 package com.example.application.service;
 
-import com.example.application.repository.entity.Genre;
+import com.example.application.domain.Genre;
 
 import java.util.List;
 

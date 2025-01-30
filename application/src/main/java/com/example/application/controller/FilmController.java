@@ -1,11 +1,12 @@
 package com.example.application.controller;
 
 import com.example.api.FilmApi;
-import com.example.api.dto.FilmDto;
-import com.example.api.dto.enums.By;
-import com.example.api.dto.enums.Operation;
-import com.example.api.dto.enums.SortBy;
-import com.example.application.mapper.FilmMapper;
+import com.example.api.model.FilmDto;
+import com.example.api.model.type.By;
+import com.example.api.model.type.Operation;
+import com.example.api.model.type.SortBy;
+import com.example.application.controller.mapper.FilmDtoMapper;
+import com.example.application.domain.Film;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,33 +19,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController implements FilmApi {
 
-    private final FilmMapper filmMapper;
+    private final FilmDtoMapper filmDtoMapper;
     private final FilmService filmService;
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     public FilmDto create(FilmDto filmDto) {
-        return filmMapper.toFilmDto(filmService.create(filmDto));
+        Film film = filmDtoMapper.toDomain(filmDto);
+
+        return filmDtoMapper.toDto(filmService.create(film));
     }
 
     @Override
     public FilmDto update(FilmDto filmDto) {
-        return filmMapper.toFilmDto(filmService.update(filmDto));
+        Film film = filmDtoMapper.toDomain(filmDto);
+
+        return filmDtoMapper.toDto(filmService.update(film));
     }
 
     @Override
     public FilmDto findById(Long id) {
-        return filmMapper.toFilmDto(filmService.findById(id));
+        return filmDtoMapper.toDto(filmService.findById(id));
     }
 
     @Override
     public List<FilmDto> findAll() {
-        return filmMapper.toFilmDto(filmService.findAll());
+        return filmDtoMapper.toDto(filmService.findAll());
     }
 
     @Override
     public List<FilmDto> findAllByDirectorId(Long directorId, SortBy sortBy) {
-        return filmMapper.toFilmDto(filmService.findAllByDirectorId(directorId, sortBy));
+        return filmDtoMapper.toDto(filmService.findAllByDirectorId(directorId, sortBy));
     }
 
     @Override
@@ -66,16 +71,16 @@ public class FilmController implements FilmApi {
 
     @Override
     public List<FilmDto> findCommon(Long userId, Long friendId) {
-        return filmMapper.toFilmDto(filmService.findCommon(userId, friendId));
+        return filmDtoMapper.toDto(filmService.findCommon(userId, friendId));
     }
 
     @Override
     public List<FilmDto> findPopular(Integer count, Long genreId, Integer year) {
-        return filmMapper.toFilmDto(filmService.findPopular(count, genreId, year));
+        return filmDtoMapper.toDto(filmService.findPopular(count, genreId, year));
     }
 
     @Override
     public List<FilmDto> search(String query, List<By> by) {
-        return filmMapper.toFilmDto(filmService.search(query, by));
+        return filmDtoMapper.toDto(filmService.search(query, by));
     }
 }

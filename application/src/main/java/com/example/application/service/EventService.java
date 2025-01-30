@@ -1,8 +1,8 @@
 package com.example.application.service;
 
-import com.example.api.dto.enums.EventType;
-import com.example.api.dto.enums.Operation;
-import com.example.application.repository.entity.Event;
+import com.example.api.model.type.EventType;
+import com.example.api.model.type.Operation;
+import com.example.application.domain.Event;
 
 import java.util.List;
 

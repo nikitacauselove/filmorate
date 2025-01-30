@@ -1,10 +1,9 @@
 package com.example.application.service;
 
-import com.example.api.dto.FilmDto;
-import com.example.api.dto.enums.By;
-import com.example.api.dto.enums.Operation;
-import com.example.api.dto.enums.SortBy;
-import com.example.application.repository.entity.Film;
+import com.example.api.model.type.By;
+import com.example.api.model.type.Operation;
+import com.example.api.model.type.SortBy;
+import com.example.application.domain.Film;
 
 import java.util.List;
 
@@ -16,16 +15,16 @@ public interface FilmService {
     /**
      * Добавление нового фильма.
      *
-     * @param filmDto информация о фильме
+     * @param film информация о фильме
      */
-    Film create(FilmDto filmDto);
+    Film create(Film film);
 
     /**
      * Обновление информации о фильме.
      *
-     * @param filmDto информация о фильме
+     * @param film информация о фильме
      */
-    Film update(FilmDto filmDto);
+    Film update(Film film);
 
     /**
      * Получение информации о фильме.
@@ -74,7 +73,7 @@ public interface FilmService {
     /**
      * Получение списка всех популярных фильмов.
      *
-     * @param count максимальное количество элементов
+     * @param count количество элементов для отображения
      * @param genreId идентификатор жанра фильма
      * @param year год выхода фильма
      */

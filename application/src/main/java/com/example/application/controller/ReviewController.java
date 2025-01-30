@@ -1,10 +1,10 @@
 package com.example.application.controller;
 
 import com.example.api.ReviewApi;
-import com.example.api.dto.ReviewDto;
-import com.example.api.dto.enums.MarkType;
-import com.example.application.mapper.ReviewMapper;
-import com.example.application.repository.entity.Review;
+import com.example.api.model.ReviewDto;
+import com.example.api.model.type.MarkType;
+import com.example.application.controller.mapper.ReviewDtoMapper;
+import com.example.application.domain.Review;
 import com.example.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,30 +17,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController implements ReviewApi {
 
-    private final ReviewMapper reviewMapper;
+    private final ReviewDtoMapper reviewDtoMapper;
     private final ReviewService reviewService;
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewDto create(ReviewDto reviewDto) {
-        Review review = reviewMapper.toReview(reviewDto);
+        Review review = reviewDtoMapper.toDomain(reviewDto);
 
-        return reviewMapper.toReviewDto(reviewService.create(review));
+        return reviewDtoMapper.toDto(reviewService.create(review));
     }
 
     @Override
     public ReviewDto update(ReviewDto reviewDto) {
-        return reviewMapper.toReviewDto(reviewService.update(reviewDto));
+        Review review = reviewDtoMapper.toDomain(reviewDto);
+
+        return reviewDtoMapper.toDto(reviewService.update(review));
     }
 
     @Override
     public ReviewDto findById(Long id) {
-        return reviewMapper.toReviewDto(reviewService.findById(id));
+        return reviewDtoMapper.toDto(reviewService.findById(id));
     }
 
     @Override
     public List<ReviewDto> findAll(Long filmId, Integer count) {
-        return reviewMapper.toReviewDto(reviewService.findAll(filmId, count));
+        return reviewDtoMapper.toDto(reviewService.findAll(filmId, count));
     }
 
     @Override

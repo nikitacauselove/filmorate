@@ -1,7 +1,7 @@
 package com.example.api;
 
-import com.example.api.dto.FilmDto;
-import com.example.api.dto.UserDto;
+import com.example.api.model.FilmDto;
+import com.example.api.model.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -49,7 +49,7 @@ public interface UserApi {
 
     @GetMapping("/{id}/friends")
     @Operation(description = "Получение списка всех друзей пользователя")
-    List<UserDto> findAllFriends(@PathVariable Long id);
+    List<UserDto> findFriends(@PathVariable Long id);
 
     @GetMapping("/{id}/friends/common/{otherUserId}")
     @Operation(description = "Получение списка всех общих друзей")
