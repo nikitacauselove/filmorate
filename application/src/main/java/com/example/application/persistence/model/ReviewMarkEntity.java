@@ -1,6 +1,6 @@
 package com.example.application.persistence.model;
 
-import com.example.api.model.type.MarkType;
+import com.example.application.domain.MarkType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

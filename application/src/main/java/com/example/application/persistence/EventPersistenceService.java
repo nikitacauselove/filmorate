@@ -1,8 +1,8 @@
 package com.example.application.persistence;
 
-import com.example.api.model.type.EventType;
-import com.example.api.model.type.Operation;
 import com.example.application.domain.Event;
+import com.example.application.domain.EventType;
+import com.example.application.domain.Operation;
 
 import java.util.List;
 

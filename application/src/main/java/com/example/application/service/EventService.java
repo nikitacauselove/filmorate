@@ -1,8 +1,8 @@
 package com.example.application.service;
 
-import com.example.api.model.type.EventType;
-import com.example.api.model.type.Operation;
 import com.example.application.domain.Event;
+import com.example.application.domain.EventType;
+import com.example.application.domain.Operation;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ public interface EventService {
     /**
      * Добавление нового действия пользователя.
      *
-     * @param userId идентификатор пользователя
+     * @param userId    идентификатор пользователя
      * @param eventType тип действия
      * @param operation тип операции
-     * @param entityId идентификатор сущности
+     * @param entityId  идентификатор сущности
      */
     Event create(Long userId, EventType eventType, Operation operation, Long entityId);
 

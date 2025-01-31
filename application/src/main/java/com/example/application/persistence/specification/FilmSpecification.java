@@ -1,10 +1,7 @@
 package com.example.application.persistence.specification;
 
-import com.example.api.model.type.By;
-import com.example.application.persistence.DirectorPersistenceService;
-import com.example.application.persistence.GenrePersistenceService;
+import com.example.application.domain.By;
 import com.example.application.persistence.model.FilmEntity;
-import com.example.application.persistence.model.GenreEntity;
 import com.example.application.persistence.repository.DirectorRepository;
 import com.example.application.persistence.repository.GenreRepository;
 import jakarta.persistence.criteria.Predicate;

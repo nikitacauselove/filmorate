@@ -1,10 +1,7 @@
 package com.example.application.service.impl;
 
-import com.example.api.model.type.EventType;
-import com.example.api.model.type.MarkType;
-import com.example.api.model.type.Operation;
+import com.example.application.domain.MarkType;
 import com.example.application.domain.Review;
-import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.ReviewPersistenceService;
 import com.example.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +12,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ReviewServiceImpl implements ReviewService {
 
-    private final EventPersistenceService eventPersistenceService;
     private final ReviewPersistenceService reviewPersistenceService;
 
     @Override
-    @Transactional
     public Review create(Review review) {
         return reviewPersistenceService.create(review);
     }

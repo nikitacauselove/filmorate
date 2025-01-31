@@ -22,7 +22,6 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
-    @Transactional
     public Director update(Director director) {
         return directorPersistenceService.update(director);
     }

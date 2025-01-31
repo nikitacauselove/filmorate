@@ -1,4 +1,4 @@
-package com.example.api.model.type;
+package com.example.api.model;
 
 /**
  * Тип операции.

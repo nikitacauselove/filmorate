@@ -1,9 +1,9 @@
 package com.example.application.service;
 
-import com.example.api.model.type.By;
-import com.example.api.model.type.Operation;
-import com.example.api.model.type.SortBy;
+import com.example.application.domain.By;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
+import com.example.application.domain.SortBy;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface FilmService {
      * Получение списка всех фильмов указанного режиссёра.
      *
      * @param directorId идентификатор режиссёра
-     * @param sortBy критерий сортировки фильмов
+     * @param sortBy     критерий сортировки фильмов
      */
     List<Film> findAllByDirectorId(Long directorId, SortBy sortBy);
 
@@ -56,8 +56,8 @@ public interface FilmService {
     /**
      * Добавление или удаление оценки.
      *
-     * @param id идентификатор фильма
-     * @param userId идентификатор пользователя
+     * @param id        идентификатор фильма
+     * @param userId    идентификатор пользователя
      * @param operation тип операции
      */
     void addOrDeleteLike(Long id, Long userId, Operation operation);
@@ -65,7 +65,7 @@ public interface FilmService {
     /**
      * Получение списка всех общих фильмов.
      *
-     * @param userId идентификатор пользователя
+     * @param userId   идентификатор пользователя
      * @param friendId идентификатор пользователя
      */
     List<Film> findCommon(Long userId, Long friendId);
@@ -73,9 +73,9 @@ public interface FilmService {
     /**
      * Получение списка всех популярных фильмов.
      *
-     * @param count количество элементов для отображения
+     * @param count   количество элементов для отображения
      * @param genreId идентификатор жанра фильма
-     * @param year год выхода фильма
+     * @param year    год выхода фильма
      */
     List<Film> findPopular(Integer count, Long genreId, Integer year);
 
@@ -83,7 +83,7 @@ public interface FilmService {
      * Поиск фильмов.
      *
      * @param query текст для поиска фильмов
-     * @param by список критериев для поиска фильмов
+     * @param by    список критериев для поиска фильмов
      */
     List<Film> search(String query, List<By> by);
 }

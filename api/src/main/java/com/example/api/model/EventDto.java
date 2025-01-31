@@ -1,7 +1,5 @@
 package com.example.api.model;
 
-import com.example.api.model.type.EventType;
-import com.example.api.model.type.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 

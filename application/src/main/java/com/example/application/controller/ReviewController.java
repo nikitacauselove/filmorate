@@ -2,8 +2,8 @@ package com.example.application.controller;
 
 import com.example.api.ReviewApi;
 import com.example.api.model.ReviewDto;
-import com.example.api.model.type.MarkType;
 import com.example.application.controller.mapper.ReviewDtoMapper;
+import com.example.application.domain.MarkType;
 import com.example.application.domain.Review;
 import com.example.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;

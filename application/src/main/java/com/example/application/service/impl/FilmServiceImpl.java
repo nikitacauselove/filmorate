@@ -1,9 +1,9 @@
 package com.example.application.service.impl;
 
-import com.example.api.model.type.By;
-import com.example.api.model.type.Operation;
-import com.example.api.model.type.SortBy;
+import com.example.application.domain.By;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
+import com.example.application.domain.SortBy;
 import com.example.application.persistence.FilmPersistenceService;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;

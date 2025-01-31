@@ -1,6 +1,6 @@
 package com.example.application.persistence;
 
-import com.example.api.model.type.MarkType;
+import com.example.application.domain.MarkType;
 import com.example.application.domain.Review;
 
 import java.util.List;

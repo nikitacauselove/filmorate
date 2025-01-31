@@ -1,4 +1,4 @@
-package com.example.api.model.type;
+package com.example.application.domain;
 
 /**
  * Критерий поиска фильмов.

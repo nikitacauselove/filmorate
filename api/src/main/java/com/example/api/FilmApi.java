@@ -1,8 +1,8 @@
 package com.example.api;
 
+import com.example.api.model.By;
 import com.example.api.model.FilmDto;
-import com.example.api.model.type.By;
-import com.example.api.model.type.SortBy;
+import com.example.api.model.SortBy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;

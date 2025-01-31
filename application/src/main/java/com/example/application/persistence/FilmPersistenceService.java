@@ -1,9 +1,9 @@
 package com.example.application.persistence;
 
-import com.example.api.model.type.By;
-import com.example.api.model.type.Operation;
-import com.example.api.model.type.SortBy;
+import com.example.application.domain.By;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
+import com.example.application.domain.SortBy;
 
 import java.util.List;
 

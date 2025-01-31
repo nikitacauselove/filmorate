@@ -1,6 +1,6 @@
 package com.example.application.service;
 
-import com.example.api.model.type.MarkType;
+import com.example.application.domain.MarkType;
 import com.example.application.domain.Review;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public interface ReviewService {
      * Получение списка всех рецензий.
      *
      * @param filmId идентификатор фильма
-     * @param count количество элементов для отображения
+     * @param count  количество элементов для отображения
      */
     List<Review> findAll(Long filmId, Integer count);
 
@@ -49,8 +49,8 @@ public interface ReviewService {
     /**
      * Добавление оценки.
      *
-     * @param id идентификатор рецензии
-     * @param userId идентификатор пользователя
+     * @param id       идентификатор рецензии
+     * @param userId   идентификатор пользователя
      * @param markType тип оценки
      */
     void addMark(Long id, Long userId, MarkType markType);
@@ -58,8 +58,8 @@ public interface ReviewService {
     /**
      * Удаление оценки.
      *
-     * @param id идентификатор рецензии
-     * @param userId идентификатор пользователя
+     * @param id       идентификатор рецензии
+     * @param userId   идентификатор пользователя
      * @param markType тип оценки
      */
     void deleteMark(Long id, Long userId, MarkType markType);

@@ -1,7 +1,7 @@
 package com.example.application.persistence;
 
-import com.example.api.model.type.Operation;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
 import com.example.application.domain.User;
 
 import java.util.List;

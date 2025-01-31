@@ -1,7 +1,7 @@
 package com.example.application.service;
 
-import com.example.api.model.type.Operation;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
 import com.example.application.domain.User;
 
 import java.util.List;
@@ -47,8 +47,8 @@ public interface UserService {
     /**
      * Добавление пользователя в список друзей или удаление пользователя из списка друзей.
      *
-     * @param id идентификатор пользователя
-     * @param friendId идентификатор пользователя
+     * @param id        идентификатор пользователя
+     * @param friendId  идентификатор пользователя
      * @param operation тип операции
      */
     void addOrDeleteFriend(Long id, Long friendId, Operation operation);
@@ -63,7 +63,7 @@ public interface UserService {
     /**
      * Получение списка всех общих друзей.
      *
-     * @param id идентификатор пользователя
+     * @param id          идентификатор пользователя
      * @param otherUserId идентификатор пользователя
      */
     List<User> findCommonFriends(Long id, Long otherUserId);

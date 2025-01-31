@@ -1,7 +1,7 @@
 package com.example.application.persistence.model;
 
-import com.example.api.model.type.EventType;
-import com.example.api.model.type.Operation;
+import com.example.application.domain.EventType;
+import com.example.application.domain.Operation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

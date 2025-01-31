@@ -1,14 +1,13 @@
 package com.example.application.persistence.impl;
 
-import com.example.api.model.type.EventType;
-import com.example.api.model.type.Operation;
+import com.example.application.domain.EventType;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
 import com.example.application.domain.User;
 import com.example.application.persistence.UserPersistenceService;
 import com.example.application.persistence.mapper.FilmEntityMapper;
 import com.example.application.persistence.mapper.UserEntityMapper;
 import com.example.application.persistence.model.EventEntity;
-import com.example.application.persistence.model.FilmEntity;
 import com.example.application.persistence.model.UserEntity;
 import com.example.application.persistence.repository.EventRepository;
 import com.example.application.persistence.repository.FilmRepository;

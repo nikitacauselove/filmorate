@@ -1,12 +1,14 @@
 package com.example.application.controller;
 
 import com.example.api.FilmApi;
+import com.example.api.model.By;
 import com.example.api.model.FilmDto;
-import com.example.api.model.type.By;
-import com.example.api.model.type.Operation;
-import com.example.api.model.type.SortBy;
+import com.example.api.model.SortBy;
+import com.example.application.controller.mapper.ByMapper;
 import com.example.application.controller.mapper.FilmDtoMapper;
+import com.example.application.controller.mapper.SortByMapper;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController implements FilmApi {
 
+    private final ByMapper byMapper;
     private final FilmDtoMapper filmDtoMapper;
     private final FilmService filmService;
+    private final SortByMapper sortByMapper;
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,7 +53,7 @@ public class FilmController implements FilmApi {
 
     @Override
     public List<FilmDto> findAllByDirectorId(Long directorId, SortBy sortBy) {
-        return filmDtoMapper.toDto(filmService.findAllByDirectorId(directorId, sortBy));
+        return filmDtoMapper.toDto(filmService.findAllByDirectorId(directorId, sortByMapper.toDomain(sortBy)));
     }
 
     @Override
@@ -81,6 +85,6 @@ public class FilmController implements FilmApi {
 
     @Override
     public List<FilmDto> search(String query, List<By> by) {
-        return filmDtoMapper.toDto(filmService.search(query, by));
+        return filmDtoMapper.toDto(filmService.search(query, byMapper.toDomain(by)));
     }
 }

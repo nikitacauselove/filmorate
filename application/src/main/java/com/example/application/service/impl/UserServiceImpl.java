@@ -1,10 +1,9 @@
 package com.example.application.service.impl;
 
-import com.example.api.model.type.Operation;
 import com.example.application.domain.Film;
+import com.example.application.domain.Operation;
 import com.example.application.domain.User;
 import com.example.application.persistence.UserPersistenceService;
-import com.example.application.persistence.model.FilmEntity;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserPersistenceService userPersistenceService;
@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void addOrDeleteFriend(Long id, Long friendId, Operation operation) {
         userPersistenceService.addOrDeleteFriend(id, friendId, operation);
     }
