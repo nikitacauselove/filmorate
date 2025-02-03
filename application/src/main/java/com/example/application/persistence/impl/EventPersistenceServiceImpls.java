@@ -1,8 +1,6 @@
 package com.example.application.persistence.impl;
 
 import com.example.application.domain.Event;
-import com.example.application.domain.EventType;
-import com.example.application.domain.Operation;
 import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.mapper.EventEntityMapper;
@@ -24,13 +22,8 @@ public class EventPersistenceServiceImpls implements EventPersistenceService {
     private final UserRepository userRepository;
 
     @Override
-    public Event create(Long userId, EventType eventType, Operation operation, Long entityId) {
-        EventEntity eventEntity = EventEntity.builder()
-                .userId(userId)
-                .eventType(eventType)
-                .operation(operation)
-                .entityId(entityId)
-                .build();
+    public Event create(Event event) {
+        EventEntity eventEntity = eventEntityMapper.toEntity(event);
 
         return eventEntityMapper.toDomain(eventRepository.save(eventEntity));
     }

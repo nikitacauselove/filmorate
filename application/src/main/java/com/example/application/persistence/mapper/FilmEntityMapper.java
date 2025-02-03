@@ -19,19 +19,20 @@ public interface FilmEntityMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "film.name")
     @Mapping(target = "mpa", source = "mpa")
-    @Mapping(target = "genres", source = "genreSet")
-    @Mapping(target = "directors", source = "directorSet")
+    @Mapping(target = "genres", source = "genres")
+    @Mapping(target = "directors", source = "directors")
+    @Mapping(target = "likingUsers", source = "likingUsers")
     @Mapping(target = "likesAmount", constant = "0")
-    FilmEntity toEntity(Film film, MpaEntity mpa, Set<GenreEntity> genreSet, Set<DirectorEntity> directorSet, Set<UserEntity> likingUsers);
+    FilmEntity toEntity(Film film, MpaEntity mpa, Set<GenreEntity> genres, Set<DirectorEntity> directors, Set<UserEntity> likingUsers);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "film.name")
     @Mapping(target = "mpa", source = "mpa")
-    @Mapping(target = "genres", source = "genreSet")
-    @Mapping(target = "directors", source = "directorSet")
+    @Mapping(target = "genres", source = "genres")
+    @Mapping(target = "directors", source = "directors")
     @Mapping(target = "likingUsers", ignore = true)
     @Mapping(target = "likesAmount", ignore = true)
-    FilmEntity updateEntity(Film film, MpaEntity mpa, Set<GenreEntity> genreSet, Set<DirectorEntity> directorSet, @MappingTarget FilmEntity filmEntity);
+    FilmEntity updateEntity(Film film, MpaEntity mpa, Set<GenreEntity> genres, Set<DirectorEntity> directors, @MappingTarget FilmEntity filmEntity);
 
     Film toDomain(FilmEntity filmEntity);
 

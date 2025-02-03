@@ -14,6 +14,8 @@ import java.util.TreeSet;
 @Mapper(componentModel = "spring", uses = {DirectorDtoMapper.class, GenreDtoMapper.class, MpaDtoMapper.class})
 public interface FilmDtoMapper {
 
+    @Mapping(target = "likingUsers", ignore = true)
+    @Mapping(target = "likesAmount", ignore = true)
     Film toDomain(FilmDto filmDto);
 
     @Mapping(target = "genres", source = "genres", qualifiedByName = "sortById")

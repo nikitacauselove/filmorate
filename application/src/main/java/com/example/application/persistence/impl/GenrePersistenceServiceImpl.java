@@ -20,7 +20,7 @@ public class GenrePersistenceServiceImpl implements GenrePersistenceService {
 
     @Override
     public Genre findById(Long id) {
-        GenreEntity genreEntity =  genreRepository.findById(id)
+        GenreEntity genreEntity = genreRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(GenreRepository.NOT_FOUND));
 
         return genreEntityMapper.toDomain(genreEntity);
@@ -29,10 +29,5 @@ public class GenrePersistenceServiceImpl implements GenrePersistenceService {
     @Override
     public List<Genre> findAll() {
         return genreEntityMapper.toDomain(genreRepository.findAll());
-    }
-
-    @Override
-    public List<Genre> findAllById(Iterable<Long> ids) {
-        return genreEntityMapper.toDomain(genreRepository.findAllById(ids));
     }
 }

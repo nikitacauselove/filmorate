@@ -1,13 +1,9 @@
 package com.example.application.persistence.impl;
 
 import com.example.application.domain.By;
-import com.example.application.domain.EventType;
 import com.example.application.domain.Film;
-import com.example.application.domain.Operation;
 import com.example.application.domain.SortBy;
 import com.example.application.exception.NotFoundException;
-import com.example.application.persistence.DirectorPersistenceService;
-import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.FilmPersistenceService;
 import com.example.application.persistence.mapper.DirectorEntityMapper;
 import com.example.application.persistence.mapper.FilmEntityMapper;
@@ -43,8 +39,6 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     private static final Sort SORT_BY_DESCENDING_LIKES_AMOUNT = Sort.by(Sort.Direction.DESC, FilmEntity.Fields.likesAmount);
 
     private final DirectorEntityMapper directorEntityMapper;
-    private final DirectorPersistenceService directorPersistenceService;
-    private final EventPersistenceService eventPersistenceService;
     private final FilmRepository filmRepository;
     private final FilmSpecification filmSpecification;
     private final GenreEntityMapper genreEntityMapper;
@@ -69,15 +63,14 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Override
     @Transactional
     public Film update(Film film) {
-        MpaEntity mpa = mpaRepository.findById(film.mpa().id())
+        MpaEntity mpaEntity = mpaRepository.findById(film.mpa().id())
                 .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
-        List<GenreEntity> genres = genreRepository.findAllById(genreEntityMapper.toIds(film.genres()));
-        List<DirectorEntity> directors = directorRepository.findAllById(directorEntityMapper.toIds(film.directors()));
+        List<GenreEntity> genreEntityList = genreRepository.findAllById(genreEntityMapper.toIds(film.genres()));
+        List<DirectorEntity> directorEntityList = directorRepository.findAllById(directorEntityMapper.toIds(film.directors()));
         FilmEntity filmEntity = filmRepository.findById(film.id())
                 .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
-        FilmEntity updatedEntity = filmEntityMapper.updateEntity(film, mpa, Set.copyOf(genres), Set.copyOf(directors), filmEntity);
 
-        return filmEntityMapper.toDomain(updatedEntity);
+        return filmEntityMapper.toDomain(filmEntityMapper.updateEntity(film, mpaEntity, Set.copyOf(genreEntityList), Set.copyOf(directorEntityList), filmEntity));
     }
 
     @Override
@@ -96,7 +89,7 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Override
     @Transactional(readOnly = true)
     public List<Film> findAllByDirectorId(Long directorId, SortBy sortBy) {
-        if (!directorPersistenceService.existsById(directorId)) {
+        if (!directorRepository.existsById(directorId)) {
             throw new NotFoundException(DirectorRepository.NOT_FOUND);
         }
         return filmEntityMapper.toDomain(filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getCriteria())));
@@ -109,28 +102,35 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
 
     @Override
     @Transactional
-    public void addOrDeleteLike(Long id, Long userId, Operation operation) {
-        FilmEntity film = filmRepository.findById(id)
+    public void addLike(Long id, Long userId) {
+        FilmEntity filmEntity = filmRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
-        UserEntity user = userRepository.findById(userId)
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
-        boolean liked = film.getLikingUsers().contains(user);
 
-        switch (operation) {
-            case ADD -> {
-                if (!liked) {
-                    film.getLikingUsers().add(user);
-                    film.setLikesAmount(film.getLikesAmount() + 1);
-                }
-            }
-            case REMOVE -> {
-                if (liked) {
-                    film.getLikingUsers().remove(user);
-                    film.setLikesAmount(film.getLikesAmount() - 1);
-                }
-            }
+        if (!filmEntity.getLikingUsers().contains(userEntity)) {
+            filmEntity.getLikingUsers().add(userEntity);
+            filmEntity.setLikesAmount(filmEntity.getLikesAmount() + 1);
         }
-        eventPersistenceService.create(userId, EventType.LIKE, operation, id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteLike(Long id, Long userId) {
+        FilmEntity filmEntity = filmRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+
+        if (filmEntity.getLikingUsers().contains(userEntity)) {
+            filmEntity.getLikingUsers().remove(userEntity);
+            filmEntity.setLikesAmount(filmEntity.getLikesAmount() - 1);
+        }
+    }
+
+    @Override
+    public void decreaseLikesAmount(Long userId) {
+        filmRepository.decreaseLikesAmount(userId);
     }
 
     @Override
@@ -140,15 +140,25 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
 
     @Override
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
-        Specification<FilmEntity> specification = filmSpecification.findPopular(genreId, year);
+        Specification<FilmEntity> specification = filmSpecification.byGenres(genreId)
+                .and(filmSpecification.byReleaseDate(year));
         Pageable pageable = PageRequest.of(0, count, SORT_BY_DESCENDING_LIKES_AMOUNT);
 
         return filmEntityMapper.toDomain(filmRepository.findAll(specification, pageable).getContent());
     }
 
     @Override
+    @Transactional
+    public List<Film> findRecommendations(Long id) {
+        List<Long> ids = userRepository.findRelevantUserIds(id);
+
+        return filmEntityMapper.toDomain(filmRepository.findRecommendations(id, ids));
+    }
+
+    @Override
     public List<Film> search(String query, List<By> by) {
-        Specification<FilmEntity> specification = filmSpecification.search(query, by);
+        Specification<FilmEntity> specification = filmSpecification.byDirectors(query, by)
+                .or(filmSpecification.byName(query, by));
         Sort sort = SORT_BY_DESCENDING_LIKES_AMOUNT.and(SORT_BY_ASCENDING_ID);
 
         return filmEntityMapper.toDomain(filmRepository.findAll(specification, sort));

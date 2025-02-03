@@ -5,13 +5,11 @@ import com.example.application.persistence.DirectorPersistenceService;
 import com.example.application.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class DirectorServiceImpl implements DirectorService {
 
     private final DirectorPersistenceService directorPersistenceService;

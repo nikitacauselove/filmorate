@@ -29,12 +29,12 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "films_id_seq", allocationSize = 1)
-@Table(name = "films")
+@SequenceGenerator(name = "film_id_seq", allocationSize = 1)
+@Table(name = "film")
 public class FilmEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "films_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_id_seq")
     private Long id;
 
     @Column(name = "name")
@@ -53,20 +53,20 @@ public class FilmEntity {
     @JoinColumn(name = "mpa_id", referencedColumnName = "id")
     private MpaEntity mpa;
 
-    @JoinTable(name = "film_genres",
+    @JoinTable(name = "film_genre",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @OrderBy("name")
     private Set<GenreEntity> genres;
 
-    @JoinTable(name = "film_directors",
+    @JoinTable(name = "film_director",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "director_id"))
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Set<DirectorEntity> directors;
 
-    @JoinTable(name = "film_likes",
+    @JoinTable(name = "film_like",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

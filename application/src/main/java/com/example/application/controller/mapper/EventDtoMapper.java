@@ -15,6 +15,7 @@ public interface EventDtoMapper {
 
     @Mapping(target = "eventId", source = "id")
     @Mapping(target = "timestamp", source = "timestamp", qualifiedByName = "toTimestamp")
+    @Mapping(target = "userId", source = "user.id")
     EventDto toDto(Event event);
 
     List<EventDto> toDto(List<Event> eventList);

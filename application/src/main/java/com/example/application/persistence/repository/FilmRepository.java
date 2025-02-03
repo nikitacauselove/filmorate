@@ -35,7 +35,7 @@ public interface FilmRepository extends JpaRepository<FilmEntity, Long>, JpaSpec
     List<FilmEntity> findCommon(Long userId, Long friendId);
 
     /**
-     * Обновление количества положительных оценок фильма.
+     * Обновление количества положительных оценок фильмов.
      *
      * @param userId идентификатор пользователя
      */

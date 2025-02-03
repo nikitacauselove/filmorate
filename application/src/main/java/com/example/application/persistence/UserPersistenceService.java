@@ -1,7 +1,5 @@
 package com.example.application.persistence;
 
-import com.example.application.domain.Film;
-import com.example.application.domain.Operation;
 import com.example.application.domain.User;
 
 import java.util.List;
@@ -44,16 +42,21 @@ public interface UserPersistenceService {
      */
     void deleteById(Long id);
 
-    boolean existsById(Long id);
+    /**
+     * Добавление пользователя в список друзей.
+     *
+     * @param id       идентификатор пользователя
+     * @param friendId идентификатор пользователя
+     */
+    void addFriend(Long id, Long friendId);
 
     /**
-     * Добавление пользователя в список друзей или удаление пользователя из списка друзей.
+     * Удаление пользователя из списка друзей.
      *
-     * @param id идентификатор пользователя
+     * @param id       идентификатор пользователя
      * @param friendId идентификатор пользователя
-     * @param operation тип операции
      */
-    void addOrDeleteFriend(Long id, Long friendId, Operation operation);
+    void deleteFriend(Long id, Long friendId);
 
     /**
      * Получение списка всех друзей пользователя.
@@ -65,15 +68,8 @@ public interface UserPersistenceService {
     /**
      * Получение списка всех общих друзей.
      *
-     * @param id идентификатор пользователя
+     * @param id          идентификатор пользователя
      * @param otherUserId идентификатор пользователя
      */
     List<User> findCommonFriends(Long id, Long otherUserId);
-
-    /**
-     * Получение списка всех фильмов, рекомендованных к просмотру.
-     *
-     * @param id идентификатор пользователя
-     */
-    List<Film> findRecommendations(Long id);
 }

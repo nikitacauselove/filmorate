@@ -48,6 +48,4 @@ public interface DirectorPersistenceService {
      * @param id идентификатор режиссёра
      */
     void deleteById(Long id);
-
-    boolean existsById(Long id);
 }

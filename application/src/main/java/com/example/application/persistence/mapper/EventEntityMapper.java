@@ -6,8 +6,10 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UserEntityMapper.class)
 public interface EventEntityMapper {
+
+    EventEntity toEntity(Event event);
 
     Event toDomain(EventEntity eventEntity);
 

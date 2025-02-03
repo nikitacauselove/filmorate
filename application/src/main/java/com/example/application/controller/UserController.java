@@ -5,8 +5,8 @@ import com.example.api.model.FilmDto;
 import com.example.api.model.UserDto;
 import com.example.application.controller.mapper.FilmDtoMapper;
 import com.example.application.controller.mapper.UserDtoMapper;
-import com.example.application.domain.Operation;
 import com.example.application.domain.User;
+import com.example.application.service.FilmService;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +18,7 @@ import java.util.List;
 public class UserController implements UserApi {
 
     private final FilmDtoMapper filmDtoMapper;
+    private final FilmService filmService;
     private final UserDtoMapper userDtoMapper;
     private final UserService userService;
 
@@ -52,12 +53,12 @@ public class UserController implements UserApi {
 
     @Override
     public void addFriend(Long id, Long friendId) {
-        userService.addOrDeleteFriend(id, friendId, Operation.ADD);
+        userService.addFriend(id, friendId);
     }
 
     @Override
     public void deleteFriend(Long id, Long friendId) {
-        userService.addOrDeleteFriend(id, friendId, Operation.REMOVE);
+        userService.deleteFriend(id, friendId);
     }
 
     @Override
@@ -72,6 +73,6 @@ public class UserController implements UserApi {
 
     @Override
     public List<FilmDto> findRecommendations(Long id) {
-        return filmDtoMapper.toDto(userService.findRecommendations(id));
+        return filmDtoMapper.toDto(filmService.findRecommendations(id));
     }
 }

@@ -12,7 +12,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserEntityMapper {
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "friends", ignore = true)
     UserEntity toEntity(User user);
 

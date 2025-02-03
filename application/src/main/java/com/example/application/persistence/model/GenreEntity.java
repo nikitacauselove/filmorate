@@ -17,12 +17,12 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "genres_id_seq", allocationSize = 1)
-@Table(name = "genres")
+@SequenceGenerator(name = "genre_id_seq", allocationSize = 1)
+@Table(name = "genre")
 public class GenreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genre_id_seq")
     private Long id;
 
     @Column(name = "name")

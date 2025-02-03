@@ -19,12 +19,12 @@ import lombok.experimental.FieldNameConstants;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "reviews_id_seq", allocationSize = 1)
-@Table(name = "reviews")
+@SequenceGenerator(name = "review_id_seq", allocationSize = 1)
+@Table(name = "review")
 public class ReviewEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviews_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_seq")
     private Long id;
 
     @Column(name = "content")

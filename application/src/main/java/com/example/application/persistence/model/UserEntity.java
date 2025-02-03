@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -49,6 +48,5 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "requesting_user_id"),
             inverseJoinColumns = @JoinColumn(name = "receiving_user_id"))
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @OrderBy("id")
     private Set<UserEntity> friends;
 }

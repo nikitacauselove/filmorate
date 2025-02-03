@@ -1,8 +1,11 @@
 package com.example.application.service.impl;
 
-import com.example.application.domain.Film;
+import com.example.application.domain.Event;
+import com.example.application.domain.EventType;
 import com.example.application.domain.Operation;
 import com.example.application.domain.User;
+import com.example.application.persistence.EventPersistenceService;
+import com.example.application.persistence.FilmPersistenceService;
 import com.example.application.persistence.UserPersistenceService;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +16,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
+    private final EventPersistenceService eventPersistenceService;
+    private final FilmPersistenceService filmPersistenceService;
     private final UserPersistenceService userPersistenceService;
 
     @Override
@@ -39,13 +43,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
+        filmPersistenceService.decreaseLikesAmount(id);
         userPersistenceService.deleteById(id);
     }
 
     @Override
-    public void addOrDeleteFriend(Long id, Long friendId, Operation operation) {
-        userPersistenceService.addOrDeleteFriend(id, friendId, operation);
+    @Transactional
+    public void addFriend(Long id, Long friendId) {
+        User user = userPersistenceService.findById(id);
+
+        userPersistenceService.addFriend(id, friendId);
+        eventPersistenceService.create(Event.builder()
+                .user(user)
+                .eventType(EventType.FRIEND)
+                .operation(Operation.ADD)
+                .entityId(friendId)
+                .build());
+    }
+
+    @Override
+    @Transactional
+    public void deleteFriend(Long id, Long friendId) {
+        User user = userPersistenceService.findById(id);
+
+        userPersistenceService.deleteFriend(id, friendId);
+        eventPersistenceService.create(Event.builder()
+                .user(user)
+                .eventType(EventType.FRIEND)
+                .operation(Operation.REMOVE)
+                .entityId(friendId)
+                .build());
     }
 
     @Override
@@ -56,10 +85,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findCommonFriends(Long id, Long otherUserId) {
         return userPersistenceService.findCommonFriends(id, otherUserId);
-    }
-
-    @Override
-    public List<Film> findRecommendations(Long id) {
-        return userPersistenceService.findRecommendations(id);
     }
 }

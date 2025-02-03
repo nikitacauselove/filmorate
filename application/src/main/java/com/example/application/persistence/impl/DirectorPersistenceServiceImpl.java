@@ -31,9 +31,8 @@ public class DirectorPersistenceServiceImpl implements DirectorPersistenceServic
     public Director update(Director director) {
         DirectorEntity directorEntity = directorRepository.findById(director.id())
                 .orElseThrow(() -> new NotFoundException(DirectorRepository.NOT_FOUND));
-        DirectorEntity updatedEntity = directorEntityMapper.updateEntity(director, directorEntity);
 
-        return directorEntityMapper.toDomain(updatedEntity);
+        return directorEntityMapper.toDomain(directorEntityMapper.updateEntity(director, directorEntity));
     }
 
     @Override
@@ -57,10 +56,5 @@ public class DirectorPersistenceServiceImpl implements DirectorPersistenceServic
     @Override
     public void deleteById(Long id) {
         directorRepository.deleteById(id);
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        return directorRepository.existsById(id);
     }
 }

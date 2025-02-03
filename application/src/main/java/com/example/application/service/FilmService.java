@@ -2,7 +2,6 @@ package com.example.application.service;
 
 import com.example.application.domain.By;
 import com.example.application.domain.Film;
-import com.example.application.domain.Operation;
 import com.example.application.domain.SortBy;
 
 import java.util.List;
@@ -54,13 +53,20 @@ public interface FilmService {
     void deleteById(Long id);
 
     /**
-     * Добавление или удаление оценки.
+     * Добавление положительной оценки.
      *
-     * @param id        идентификатор фильма
-     * @param userId    идентификатор пользователя
-     * @param operation тип операции
+     * @param id     идентификатор фильма
+     * @param userId идентификатор пользователя
      */
-    void addOrDeleteLike(Long id, Long userId, Operation operation);
+    void addLike(Long id, Long userId);
+
+    /**
+     * Удаление положительной оценки.
+     *
+     * @param id     идентификатор фильма
+     * @param userId идентификатор пользователя
+     */
+    void deleteLike(Long id, Long userId);
 
     /**
      * Получение списка всех общих фильмов.
@@ -78,6 +84,13 @@ public interface FilmService {
      * @param year    год выхода фильма
      */
     List<Film> findPopular(Integer count, Long genreId, Integer year);
+
+    /**
+     * Получение списка всех фильмов, рекомендованных к просмотру.
+     *
+     * @param userId идентификатор пользователя
+     */
+    List<Film> findRecommendations(Long userId);
 
     /**
      * Поиск фильмов.

@@ -1,10 +1,14 @@
 package com.example.application.service.impl;
 
 import com.example.application.domain.By;
+import com.example.application.domain.Event;
+import com.example.application.domain.EventType;
 import com.example.application.domain.Film;
 import com.example.application.domain.Operation;
 import com.example.application.domain.SortBy;
+import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.FilmPersistenceService;
+import com.example.application.persistence.UserPersistenceService;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +21,9 @@ import java.util.List;
 @Transactional
 public class FilmServiceImpl implements FilmService {
 
+    private final EventPersistenceService eventPersistenceService;
     private final FilmPersistenceService filmPersistenceService;
+    private final UserPersistenceService userPersistenceService;
 
     @Override
     public Film create(Film film) {
@@ -50,8 +56,27 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void addOrDeleteLike(Long id, Long userId, Operation operation) {
-        filmPersistenceService.addOrDeleteLike(id, userId, operation);
+    @Transactional
+    public void addLike(Long id, Long userId) {
+        filmPersistenceService.addLike(id, userId);
+        eventPersistenceService.create(Event.builder()
+                .user(userPersistenceService.findById(userId))
+                .eventType(EventType.LIKE)
+                .operation(Operation.ADD)
+                .entityId(id)
+                .build());
+    }
+
+    @Override
+    @Transactional
+    public void deleteLike(Long id, Long userId) {
+        filmPersistenceService.deleteLike(id, userId);
+        eventPersistenceService.create(Event.builder()
+                .user(userPersistenceService.findById(userId))
+                .eventType(EventType.LIKE)
+                .operation(Operation.REMOVE)
+                .entityId(id)
+                .build());
     }
 
     @Override
@@ -62,6 +87,11 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
         return filmPersistenceService.findPopular(count, genreId, year);
+    }
+
+    @Override
+    public List<Film> findRecommendations(Long userId) {
+        return filmPersistenceService.findRecommendations(userId);
     }
 
     @Override

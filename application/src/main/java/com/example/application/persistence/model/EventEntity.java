@@ -2,6 +2,7 @@ package com.example.application.persistence.model;
 
 import com.example.application.domain.EventType;
 import com.example.application.domain.Operation;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -28,20 +31,21 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "events_id_seq", allocationSize = 1)
-@Table(name = "events")
+@SequenceGenerator(name = "event_id_seq", allocationSize = 1)
+@Table(name = "event")
 public class EventEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_id_seq")
     private Long id;
 
     @Column(name = "created")
     @CreationTimestamp
     private LocalDateTime timestamp;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private UserEntity user;
 
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)

@@ -8,7 +8,6 @@ import com.example.application.controller.mapper.ByMapper;
 import com.example.application.controller.mapper.FilmDtoMapper;
 import com.example.application.controller.mapper.SortByMapper;
 import com.example.application.domain.Film;
-import com.example.application.domain.Operation;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -65,12 +64,12 @@ public class FilmController implements FilmApi {
     @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addLike(Long id, Long userId) {
-        filmService.addOrDeleteLike(id, userId, Operation.ADD);
+        filmService.addLike(id, userId);
     }
 
     @Override
     public void deleteLike(Long id, Long userId) {
-        filmService.addOrDeleteLike(id, userId, Operation.REMOVE);
+        filmService.deleteLike(id, userId);
     }
 
     @Override

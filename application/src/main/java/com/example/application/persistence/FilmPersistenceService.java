@@ -2,7 +2,6 @@ package com.example.application.persistence;
 
 import com.example.application.domain.By;
 import com.example.application.domain.Film;
-import com.example.application.domain.Operation;
 import com.example.application.domain.SortBy;
 
 import java.util.List;
@@ -42,7 +41,7 @@ public interface FilmPersistenceService {
      * Получение списка всех фильмов указанного режиссёра.
      *
      * @param directorId идентификатор режиссёра
-     * @param sortBy критерий сортировки фильмов
+     * @param sortBy     критерий сортировки фильмов
      */
     List<Film> findAllByDirectorId(Long directorId, SortBy sortBy);
 
@@ -54,18 +53,32 @@ public interface FilmPersistenceService {
     void deleteById(Long id);
 
     /**
-     * Добавление или удаление оценки.
+     * Добавление положительной оценки.
      *
-     * @param id идентификатор фильма
+     * @param id     идентификатор фильма
      * @param userId идентификатор пользователя
-     * @param operation тип операции
      */
-    void addOrDeleteLike(Long id, Long userId, Operation operation);
+    void addLike(Long id, Long userId);
+
+    /**
+     * Удаление положительной оценки.
+     *
+     * @param id     идентификатор фильма
+     * @param userId идентификатор пользователя
+     */
+    void deleteLike(Long id, Long userId);
+
+    /**
+     * Обновление количества положительных оценок фильмов.
+     *
+     * @param userId идентификатор пользователя
+     */
+    void decreaseLikesAmount(Long userId);
 
     /**
      * Получение списка всех общих фильмов.
      *
-     * @param userId идентификатор пользователя
+     * @param userId   идентификатор пользователя
      * @param friendId идентификатор пользователя
      */
     List<Film> findCommon(Long userId, Long friendId);
@@ -73,17 +86,24 @@ public interface FilmPersistenceService {
     /**
      * Получение списка всех популярных фильмов.
      *
-     * @param count количество элементов для отображения
+     * @param count   количество элементов для отображения
      * @param genreId идентификатор жанра фильма
-     * @param year год выхода фильма
+     * @param year    год выхода фильма
      */
     List<Film> findPopular(Integer count, Long genreId, Integer year);
+
+    /**
+     * Получение списка всех фильмов, рекомендованных к просмотру.
+     *
+     * @param id идентификатор пользователя
+     */
+    List<Film> findRecommendations(Long id);
 
     /**
      * Поиск фильмов.
      *
      * @param query текст для поиска фильмов
-     * @param by список критериев для поиска фильмов
+     * @param by    список критериев для поиска фильмов
      */
     List<Film> search(String query, List<By> by);
 }
