@@ -5,11 +5,10 @@ import com.example.application.domain.EventType;
 import com.example.application.domain.Film;
 import com.example.application.domain.Operation;
 import com.example.application.domain.SortBy;
+import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.DirectorPersistenceService;
 import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.FilmPersistenceService;
-import com.example.application.persistence.GenrePersistenceService;
-import com.example.application.persistence.MpaPersistenceService;
 import com.example.application.persistence.mapper.DirectorEntityMapper;
 import com.example.application.persistence.mapper.FilmEntityMapper;
 import com.example.application.persistence.mapper.GenreEntityMapper;
@@ -29,10 +28,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,8 +48,6 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     private final FilmRepository filmRepository;
     private final FilmSpecification filmSpecification;
     private final GenreEntityMapper genreEntityMapper;
-    private final GenrePersistenceService genrePersistenceService;
-    private final MpaPersistenceService mpaPersistenceService;
     private final UserRepository userRepository;
     private final FilmEntityMapper filmEntityMapper;
     private final MpaRepository mpaRepository;
@@ -63,7 +58,7 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Transactional
     public Film create(Film film) {
         MpaEntity mpa = mpaRepository.findById(film.mpa().id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, MpaRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
         List<GenreEntity> genres = genreRepository.findAllById(genreEntityMapper.toIds(film.genres()));
         List<DirectorEntity> directors = directorRepository.findAllById(directorEntityMapper.toIds(film.directors()));
         FilmEntity filmEntity = filmEntityMapper.toEntity(film, mpa, Set.copyOf(genres), Set.copyOf(directors), Collections.emptySet());
@@ -75,11 +70,11 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Transactional
     public Film update(Film film) {
         MpaEntity mpa = mpaRepository.findById(film.mpa().id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, MpaRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
         List<GenreEntity> genres = genreRepository.findAllById(genreEntityMapper.toIds(film.genres()));
         List<DirectorEntity> directors = directorRepository.findAllById(directorEntityMapper.toIds(film.directors()));
         FilmEntity filmEntity = filmRepository.findById(film.id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, FilmRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
         FilmEntity updatedEntity = filmEntityMapper.updateEntity(film, mpa, Set.copyOf(genres), Set.copyOf(directors), filmEntity);
 
         return filmEntityMapper.toDomain(updatedEntity);
@@ -88,7 +83,7 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Override
     public Film findById(Long id) {
         FilmEntity filmEntity = filmRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, FilmRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
 
         return filmEntityMapper.toDomain(filmEntity);
     }
@@ -102,7 +97,7 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Transactional(readOnly = true)
     public List<Film> findAllByDirectorId(Long directorId, SortBy sortBy) {
         if (!directorPersistenceService.existsById(directorId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, DirectorRepository.NOT_FOUND);
+            throw new NotFoundException(DirectorRepository.NOT_FOUND);
         }
         return filmEntityMapper.toDomain(filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getCriteria())));
     }
@@ -116,9 +111,9 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Transactional
     public void addOrDeleteLike(Long id, Long userId, Operation operation) {
         FilmEntity film = filmRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, FilmRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
         UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
         boolean liked = film.getLikingUsers().contains(user);
 
         switch (operation) {

@@ -4,6 +4,7 @@ import com.example.application.domain.EventType;
 import com.example.application.domain.Film;
 import com.example.application.domain.Operation;
 import com.example.application.domain.User;
+import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.UserPersistenceService;
 import com.example.application.persistence.mapper.FilmEntityMapper;
 import com.example.application.persistence.mapper.UserEntityMapper;
@@ -13,10 +14,8 @@ import com.example.application.persistence.repository.EventRepository;
 import com.example.application.persistence.repository.FilmRepository;
 import com.example.application.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
     @Override
     public User update(User user) {
         UserEntity userEntity = userRepository.findById(user.id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
         UserEntity updatedEntity = userEntityMapper.updateEntity(user, userEntity);
 
         return userEntityMapper.toDomain(updatedEntity);
@@ -50,7 +49,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
     @Override
     public User findById(Long id) {
         UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
 
         return userEntityMapper.toDomain(userEntity);
     }
@@ -74,9 +73,9 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
     @Override
     public void addOrDeleteFriend(Long id, Long friendId, Operation operation) {
         UserEntity userEntity = userRepository.findByIdWithFriends(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
         UserEntity friendEntity = userRepository.findById(friendId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
 
         switch (operation) {
             case ADD -> userEntity.getFriends().add(friendEntity);
@@ -93,7 +92,7 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
     @Override
     public List<User> findFriends(Long id) {
         List<UserEntity> userEntityList = userRepository.findByIdWithFriends(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND))
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND))
                 .getFriends().stream()
                 .toList();
 

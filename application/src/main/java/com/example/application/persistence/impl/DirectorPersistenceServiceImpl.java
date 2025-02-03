@@ -1,15 +1,14 @@
 package com.example.application.persistence.impl;
 
 import com.example.application.domain.Director;
+import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.DirectorPersistenceService;
 import com.example.application.persistence.mapper.DirectorEntityMapper;
 import com.example.application.persistence.model.DirectorEntity;
 import com.example.application.persistence.repository.DirectorRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class DirectorPersistenceServiceImpl implements DirectorPersistenceServic
     @Transactional
     public Director update(Director director) {
         DirectorEntity directorEntity = directorRepository.findById(director.id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, DirectorRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(DirectorRepository.NOT_FOUND));
         DirectorEntity updatedEntity = directorEntityMapper.updateEntity(director, directorEntity);
 
         return directorEntityMapper.toDomain(updatedEntity);
@@ -40,7 +39,7 @@ public class DirectorPersistenceServiceImpl implements DirectorPersistenceServic
     @Override
     public Director findById(Long id) {
         DirectorEntity directorEntity = directorRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, DirectorRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(DirectorRepository.NOT_FOUND));
 
         return directorEntityMapper.toDomain(directorEntity);
     }

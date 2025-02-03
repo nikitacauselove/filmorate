@@ -3,16 +3,15 @@ package com.example.application.persistence.impl;
 import com.example.application.domain.Event;
 import com.example.application.domain.EventType;
 import com.example.application.domain.Operation;
+import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.mapper.EventEntityMapper;
 import com.example.application.persistence.model.EventEntity;
 import com.example.application.persistence.repository.EventRepository;
 import com.example.application.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class EventPersistenceServiceImpls implements EventPersistenceService {
     @Transactional(readOnly = true)
     public List<Event> findAllByUserId(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND);
+            throw new NotFoundException(UserRepository.NOT_FOUND);
         }
         return eventEntityMapper.toDomain(eventRepository.findAllByUserId(userId));
     }

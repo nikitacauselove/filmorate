@@ -4,6 +4,7 @@ import com.example.application.domain.EventType;
 import com.example.application.domain.MarkType;
 import com.example.application.domain.Operation;
 import com.example.application.domain.Review;
+import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.ReviewPersistenceService;
 import com.example.application.persistence.UserPersistenceService;
@@ -21,10 +22,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -48,10 +47,10 @@ public class ReviewPersistenceServiceImpl implements ReviewPersistenceService {
         ReviewEntity reviewEntity = reviewEntityMapper.toEntity(review);
 
         if (!userPersistenceService.existsById(review.userId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, UserRepository.NOT_FOUND);
+            throw new NotFoundException(UserRepository.NOT_FOUND);
         }
         if (!filmRepository.existsById(review.filmId())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, FilmRepository.NOT_FOUND);
+            throw new NotFoundException(FilmRepository.NOT_FOUND);
         }
         ReviewEntity savedEntity = reviewRepository.save(reviewEntity);
         eventPersistenceService.create(savedEntity.getUserId(), EventType.REVIEW, Operation.ADD, savedEntity.getId());
@@ -62,7 +61,7 @@ public class ReviewPersistenceServiceImpl implements ReviewPersistenceService {
     @Override
     public Review update(Review review) {
         ReviewEntity reviewEntity = reviewRepository.findById(review.id())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ReviewRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ReviewRepository.NOT_FOUND));
         ReviewEntity updatedEntity = reviewEntityMapper.updateEntity(review, reviewEntity);
 
         eventPersistenceService.create(updatedEntity.getUserId(), EventType.REVIEW, Operation.UPDATE, updatedEntity.getId());
@@ -72,7 +71,7 @@ public class ReviewPersistenceServiceImpl implements ReviewPersistenceService {
     @Override
     public Review findById(Long id) {
         ReviewEntity reviewEntity = reviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ReviewRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ReviewRepository.NOT_FOUND));
 
         return reviewEntityMapper.toDomain(reviewEntity);
     }
@@ -89,7 +88,7 @@ public class ReviewPersistenceServiceImpl implements ReviewPersistenceService {
     @Override
     public void deleteById(Long id) {
         ReviewEntity reviewEntity = reviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ReviewRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ReviewRepository.NOT_FOUND));
 
         reviewRepository.deleteById(id);
         eventPersistenceService.create(reviewEntity.getUserId(), EventType.REVIEW, Operation.REMOVE, id);
@@ -98,7 +97,7 @@ public class ReviewPersistenceServiceImpl implements ReviewPersistenceService {
     @Override
     public void addMark(Long id, Long userId, MarkType markType) {
         ReviewEntity reviewEntity = reviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ReviewRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ReviewRepository.NOT_FOUND));
         ReviewMarkEntityId reviewMarkId = ReviewMarkEntityId.builder()
                 .reviewId(id)
                 .userId(userId)
@@ -117,7 +116,7 @@ public class ReviewPersistenceServiceImpl implements ReviewPersistenceService {
     @Override
     public void deleteMark(Long id, Long userId, MarkType markType) {
         ReviewEntity reviewEntity = reviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ReviewRepository.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ReviewRepository.NOT_FOUND));
         ReviewMarkEntityId reviewMarkId = ReviewMarkEntityId.builder()
                 .reviewId(id)
                 .userId(userId)
