@@ -52,11 +52,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void addFriend(Long id, Long friendId) {
-        User user = userPersistenceService.findById(id);
-
         userPersistenceService.addFriend(id, friendId);
         eventPersistenceService.create(Event.builder()
-                .user(user)
+                .userId(id)
                 .eventType(EventType.FRIEND)
                 .operation(Operation.ADD)
                 .entityId(friendId)
@@ -66,11 +64,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteFriend(Long id, Long friendId) {
-        User user = userPersistenceService.findById(id);
-
         userPersistenceService.deleteFriend(id, friendId);
         eventPersistenceService.create(Event.builder()
-                .user(user)
+                .userId(id)
                 .eventType(EventType.FRIEND)
                 .operation(Operation.REMOVE)
                 .entityId(friendId)

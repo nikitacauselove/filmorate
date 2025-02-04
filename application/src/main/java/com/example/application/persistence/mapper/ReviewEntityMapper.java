@@ -11,10 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ReviewEntityMapper {
 
-    @Mapping(target = "id", ignore = true)
     ReviewEntity toEntity(Review review);
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "userId", ignore = true)
     @Mapping(target = "filmId", ignore = true)
     @Mapping(target = "useful", ignore = true)

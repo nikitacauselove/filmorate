@@ -8,7 +8,6 @@ import com.example.application.domain.Operation;
 import com.example.application.domain.SortBy;
 import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.FilmPersistenceService;
-import com.example.application.persistence.UserPersistenceService;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class FilmServiceImpl implements FilmService {
 
     private final EventPersistenceService eventPersistenceService;
     private final FilmPersistenceService filmPersistenceService;
-    private final UserPersistenceService userPersistenceService;
 
     @Override
     public Film create(Film film) {
@@ -60,7 +58,7 @@ public class FilmServiceImpl implements FilmService {
     public void addLike(Long id, Long userId) {
         filmPersistenceService.addLike(id, userId);
         eventPersistenceService.create(Event.builder()
-                .user(userPersistenceService.findById(userId))
+                .userId(userId)
                 .eventType(EventType.LIKE)
                 .operation(Operation.ADD)
                 .entityId(id)
@@ -72,7 +70,7 @@ public class FilmServiceImpl implements FilmService {
     public void deleteLike(Long id, Long userId) {
         filmPersistenceService.deleteLike(id, userId);
         eventPersistenceService.create(Event.builder()
-                .user(userPersistenceService.findById(userId))
+                .userId(userId)
                 .eventType(EventType.LIKE)
                 .operation(Operation.REMOVE)
                 .entityId(id)

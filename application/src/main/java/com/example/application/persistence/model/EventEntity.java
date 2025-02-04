@@ -2,7 +2,6 @@ package com.example.application.persistence.model;
 
 import com.example.application.domain.EventType;
 import com.example.application.domain.Operation;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,8 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -43,9 +40,8 @@ public class EventEntity {
     @CreationTimestamp
     private LocalDateTime timestamp;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne(cascade = CascadeType.MERGE)
-    private UserEntity user;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)

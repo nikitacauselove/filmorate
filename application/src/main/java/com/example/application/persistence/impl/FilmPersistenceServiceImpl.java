@@ -7,16 +7,11 @@ import com.example.application.exception.NotFoundException;
 import com.example.application.persistence.FilmPersistenceService;
 import com.example.application.persistence.mapper.DirectorEntityMapper;
 import com.example.application.persistence.mapper.FilmEntityMapper;
-import com.example.application.persistence.mapper.GenreEntityMapper;
 import com.example.application.persistence.model.DirectorEntity;
 import com.example.application.persistence.model.FilmEntity;
-import com.example.application.persistence.model.GenreEntity;
-import com.example.application.persistence.model.MpaEntity;
 import com.example.application.persistence.model.UserEntity;
 import com.example.application.persistence.repository.DirectorRepository;
 import com.example.application.persistence.repository.FilmRepository;
-import com.example.application.persistence.repository.GenreRepository;
-import com.example.application.persistence.repository.MpaRepository;
 import com.example.application.persistence.repository.UserRepository;
 import com.example.application.persistence.specification.FilmSpecification;
 import lombok.RequiredArgsConstructor;
@@ -41,21 +36,15 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     private final DirectorEntityMapper directorEntityMapper;
     private final FilmRepository filmRepository;
     private final FilmSpecification filmSpecification;
-    private final GenreEntityMapper genreEntityMapper;
     private final UserRepository userRepository;
     private final FilmEntityMapper filmEntityMapper;
-    private final MpaRepository mpaRepository;
-    private final GenreRepository genreRepository;
     private final DirectorRepository directorRepository;
 
     @Override
     @Transactional
     public Film create(Film film) {
-        MpaEntity mpa = mpaRepository.findById(film.mpa().id())
-                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
-        List<GenreEntity> genres = genreRepository.findAllById(genreEntityMapper.toIds(film.genres()));
         List<DirectorEntity> directors = directorRepository.findAllById(directorEntityMapper.toIds(film.directors()));
-        FilmEntity filmEntity = filmEntityMapper.toEntity(film, mpa, Set.copyOf(genres), Set.copyOf(directors), Collections.emptySet());
+        FilmEntity filmEntity = filmEntityMapper.toEntity(film, Set.copyOf(directors), Collections.emptySet());
 
         return filmEntityMapper.toDomain(filmRepository.save(filmEntity));
     }
@@ -63,14 +52,11 @@ public class FilmPersistenceServiceImpl implements FilmPersistenceService {
     @Override
     @Transactional
     public Film update(Film film) {
-        MpaEntity mpaEntity = mpaRepository.findById(film.mpa().id())
-                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
-        List<GenreEntity> genreEntityList = genreRepository.findAllById(genreEntityMapper.toIds(film.genres()));
         List<DirectorEntity> directorEntityList = directorRepository.findAllById(directorEntityMapper.toIds(film.directors()));
         FilmEntity filmEntity = filmRepository.findById(film.id())
                 .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
 
-        return filmEntityMapper.toDomain(filmEntityMapper.updateEntity(film, mpaEntity, Set.copyOf(genreEntityList), Set.copyOf(directorEntityList), filmEntity));
+        return filmEntityMapper.toDomain(filmEntityMapper.updateEntity(film, Set.copyOf(directorEntityList), filmEntity));
     }
 
     @Override

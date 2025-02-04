@@ -49,11 +49,6 @@ public class DirectorPersistenceServiceImpl implements DirectorPersistenceServic
     }
 
     @Override
-    public List<Director> findAllById(Iterable<Long> ids) {
-        return directorEntityMapper.toDomain(directorRepository.findAllById(ids));
-    }
-
-    @Override
     public void deleteById(Long id) {
         directorRepository.deleteById(id);
     }

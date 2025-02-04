@@ -18,7 +18,6 @@ public interface DirectorEntityMapper {
     @Mapping(target = "id", ignore = true)
     DirectorEntity toEntity(Director director);
 
-    @Mapping(target = "id", ignore = true)
     DirectorEntity updateEntity(Director director, @MappingTarget DirectorEntity directorEntity);
 
     Director toDomain(DirectorEntity directorEntity);

@@ -7,7 +7,6 @@ import com.example.application.domain.Operation;
 import com.example.application.domain.Review;
 import com.example.application.persistence.EventPersistenceService;
 import com.example.application.persistence.ReviewPersistenceService;
-import com.example.application.persistence.UserPersistenceService;
 import com.example.application.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final EventPersistenceService eventPersistenceService;
     private final ReviewPersistenceService reviewPersistenceService;
-    private final UserPersistenceService userPersistenceService;
 
     @Override
     @Transactional
@@ -29,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review createdReview = reviewPersistenceService.create(review);
 
         eventPersistenceService.create(Event.builder()
-                .user(userPersistenceService.findById(createdReview.userId()))
+                .userId(createdReview.userId())
                 .eventType(EventType.REVIEW)
                 .operation(Operation.ADD)
                 .entityId(createdReview.id())
@@ -42,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review updatedReview = reviewPersistenceService.update(review);
 
         eventPersistenceService.create(Event.builder()
-                .user(userPersistenceService.findById(updatedReview.userId()))
+                .userId(updatedReview.userId())
                 .eventType(EventType.REVIEW)
                 .operation(Operation.UPDATE)
                 .entityId(updatedReview.id())
@@ -67,7 +65,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewPersistenceService.deleteById(id);
         eventPersistenceService.create(Event.builder()
-                .user(userPersistenceService.findById(review.userId()))
+                .userId(review.userId())
                 .eventType(EventType.REVIEW)
                 .operation(Operation.REMOVE)
                 .entityId(review.id())

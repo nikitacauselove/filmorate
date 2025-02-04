@@ -15,7 +15,6 @@ public interface UserEntityMapper {
     @Mapping(target = "friends", ignore = true)
     UserEntity toEntity(User user);
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "friends", ignore = true)
     UserEntity updateEntity(User user, @MappingTarget UserEntity userEntity);

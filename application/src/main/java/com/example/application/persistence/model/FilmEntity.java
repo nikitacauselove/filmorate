@@ -50,14 +50,13 @@ public class FilmEntity {
     private Integer duration;
 
     @OneToOne
-    @JoinColumn(name = "mpa_id", referencedColumnName = "id")
+    @JoinColumn(name = "mpa_id")
     private MpaEntity mpa;
 
     @JoinTable(name = "film_genre",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @OrderBy("name")
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Set<GenreEntity> genres;
 
     @JoinTable(name = "film_director",
