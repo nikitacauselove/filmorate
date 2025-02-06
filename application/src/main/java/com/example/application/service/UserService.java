@@ -1,6 +1,7 @@
 package com.example.application.service;
 
-import com.example.application.domain.User;
+import com.example.api.model.UserDto;
+import com.example.application.entity.User;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public interface UserService {
     /**
      * Обновление информации о пользователе.
      *
-     * @param user информация о пользователе
+     * @param userDto информация о пользователе
      */
-    User update(User user);
+    User update(UserDto userDto);
 
     /**
      * Получение информации о пользователе.

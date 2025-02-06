@@ -1,7 +1,7 @@
 package com.example.api;
 
-import com.example.api.model.By;
 import com.example.api.model.FilmDto;
+import com.example.api.model.By;
 import com.example.api.model.SortBy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,7 +63,7 @@ public interface FilmApi {
 
     @GetMapping("/popular")
     @Operation(description = "Получение списка всех популярных фильмов")
-    List<FilmDto> findPopular(@Parameter(description = "Количество элементов для отображения") @RequestParam(defaultValue = "10") Integer count,
+    List<FilmDto> findPopular(@Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count,
                               @Parameter(description = "Идентификатор жанра фильма") @RequestParam(required = false) Long genreId,
                               @Parameter(description = "Год выхода фильма") @RequestParam(required = false) Integer year);
 

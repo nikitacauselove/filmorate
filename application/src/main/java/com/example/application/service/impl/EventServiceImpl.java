@@ -1,10 +1,13 @@
 package com.example.application.service.impl;
 
-import com.example.application.domain.Event;
-import com.example.application.persistence.EventPersistenceService;
+import com.example.application.entity.Event;
+import com.example.application.exception.NotFoundException;
+import com.example.application.repository.EventRepository;
+import com.example.application.repository.UserRepository;
 import com.example.application.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,15 +15,15 @@ import java.util.List;
 @Service
 public class EventServiceImpl implements EventService {
 
-    private final EventPersistenceService eventPersistenceService;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public Event create(Event event) {
-        return eventPersistenceService.create(event);
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public List<Event> findAllByUserId(Long userId) {
-        return eventPersistenceService.findAllByUserId(userId);
+        if (!userRepository.existsById(userId)) {
+            throw new NotFoundException(UserRepository.NOT_FOUND);
+        }
+        return eventRepository.findAllByUserId(userId);
     }
 }

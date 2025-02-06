@@ -1,7 +1,8 @@
 package com.example.application.service;
 
-import com.example.application.domain.MarkType;
-import com.example.application.domain.Review;
+import com.example.api.model.ReviewDto;
+import com.example.application.entity.MarkType;
+import com.example.application.entity.Review;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ public interface ReviewService {
     /**
      * Обновление рецензии.
      *
-     * @param review информация о рецензии
+     * @param reviewDto информация о рецензии
      */
-    Review update(Review review);
+    Review update(ReviewDto reviewDto);
 
     /**
      * Получение информации о рецензии.
@@ -35,7 +36,7 @@ public interface ReviewService {
      * Получение списка всех рецензий.
      *
      * @param filmId идентификатор фильма
-     * @param count  количество элементов для отображения
+     * @param count  максимальное количество элементов
      */
     List<Review> findAll(Long filmId, Integer count);
 

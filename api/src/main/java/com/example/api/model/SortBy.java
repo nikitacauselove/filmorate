@@ -1,17 +1,24 @@
 package com.example.api.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
  * Критерий сортировки фильмов.
  */
+@Getter
+@RequiredArgsConstructor
 public enum SortBy {
 
     /**
      * Сортировка по количеству положительных оценок фильма.
      */
-    LIKES,
+    LIKES("likesAmount"),
 
     /**
      * Сортировка по дате выхода фильма.
      */
-    YEAR
+    YEAR("releaseDate");
+
+    private final String criteria;
 }

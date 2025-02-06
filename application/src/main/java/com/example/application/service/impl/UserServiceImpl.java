@@ -1,12 +1,15 @@
 package com.example.application.service.impl;
 
-import com.example.application.domain.Event;
-import com.example.application.domain.EventType;
-import com.example.application.domain.Operation;
-import com.example.application.domain.User;
-import com.example.application.persistence.EventPersistenceService;
-import com.example.application.persistence.FilmPersistenceService;
-import com.example.application.persistence.UserPersistenceService;
+import com.example.api.model.UserDto;
+import com.example.application.entity.Event;
+import com.example.application.entity.EventType;
+import com.example.application.entity.Operation;
+import com.example.application.entity.User;
+import com.example.application.exception.NotFoundException;
+import com.example.application.mapper.UserMapper;
+import com.example.application.repository.EventRepository;
+import com.example.application.repository.FilmRepository;
+import com.example.application.repository.UserRepository;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,42 +21,51 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final EventPersistenceService eventPersistenceService;
-    private final FilmPersistenceService filmPersistenceService;
-    private final UserPersistenceService userPersistenceService;
+    private final EventRepository eventRepository;
+    private final FilmRepository filmRepository;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
     @Override
     public User create(User user) {
-        return userPersistenceService.create(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public User update(User user) {
-        return userPersistenceService.update(user);
+    @Transactional
+    public User update(UserDto userDto) {
+        User user = findById(userDto.id());
+
+        return userMapper.updateEntity(userDto, user);
     }
 
     @Override
     public User findById(Long id) {
-        return userPersistenceService.findById(id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
     }
 
     @Override
     public List<User> findAll() {
-        return userPersistenceService.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        filmPersistenceService.decreaseLikesAmount(id);
-        userPersistenceService.deleteById(id);
+        userRepository.deleteById(id);
+        filmRepository.decreaseLikesAmount(id);
     }
 
     @Override
     @Transactional
     public void addFriend(Long id, Long friendId) {
-        userPersistenceService.addFriend(id, friendId);
-        eventPersistenceService.create(Event.builder()
+        User user = userRepository.findByIdWithFriends(id)
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User friend = findById(friendId);
+
+        user.getFriends().add(friend);
+        eventRepository.save(Event.builder()
                 .userId(id)
                 .eventType(EventType.FRIEND)
                 .operation(Operation.ADD)
@@ -64,8 +76,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteFriend(Long id, Long friendId) {
-        userPersistenceService.deleteFriend(id, friendId);
-        eventPersistenceService.create(Event.builder()
+        User user = userRepository.findByIdWithFriends(id)
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User friend = findById(friendId);
+
+        user.getFriends().remove(friend);
+        eventRepository.save(Event.builder()
                 .userId(id)
                 .eventType(EventType.FRIEND)
                 .operation(Operation.REMOVE)
@@ -75,11 +91,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findFriends(Long id) {
-        return userPersistenceService.findFriends(id);
+        User user = userRepository.findByIdWithFriends(id)
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+
+        return user.getFriends().stream()
+                .toList();
     }
 
     @Override
     public List<User> findCommonFriends(Long id, Long otherUserId) {
-        return userPersistenceService.findCommonFriends(id, otherUserId);
+        return userRepository.findCommonFriends(id, otherUserId);
     }
 }

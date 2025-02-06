@@ -35,7 +35,7 @@ public interface ReviewApi {
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
     List<ReviewDto> findAll(@Parameter(description = "Идентификатор фильма") @RequestParam(required = false) Long filmId,
-                            @Parameter(description = "Количество элементов для отображения") @RequestParam(defaultValue = "10") Integer count);
+                            @Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление рецензии")

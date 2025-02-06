@@ -1,8 +1,9 @@
 package com.example.application.service;
 
-import com.example.application.domain.By;
-import com.example.application.domain.Film;
-import com.example.application.domain.SortBy;
+import com.example.api.model.By;
+import com.example.api.model.FilmDto;
+import com.example.api.model.SortBy;
+import com.example.application.entity.Film;
 
 import java.util.List;
 
@@ -14,16 +15,16 @@ public interface FilmService {
     /**
      * Добавление нового фильма.
      *
-     * @param film информация о фильме
+     * @param filmDto информация о фильме
      */
-    Film create(Film film);
+    Film create(FilmDto filmDto);
 
     /**
      * Обновление информации о фильме.
      *
-     * @param film информация о фильме
+     * @param filmDto информация о фильме
      */
-    Film update(Film film);
+    Film update(FilmDto filmDto);
 
     /**
      * Получение информации о фильме.
@@ -53,7 +54,7 @@ public interface FilmService {
     void deleteById(Long id);
 
     /**
-     * Добавление положительной оценки.
+     * Добавление или удаление оценки.
      *
      * @param id     идентификатор фильма
      * @param userId идентификатор пользователя
@@ -61,7 +62,7 @@ public interface FilmService {
     void addLike(Long id, Long userId);
 
     /**
-     * Удаление положительной оценки.
+     * Добавление или удаление оценки.
      *
      * @param id     идентификатор фильма
      * @param userId идентификатор пользователя
@@ -79,7 +80,7 @@ public interface FilmService {
     /**
      * Получение списка всех популярных фильмов.
      *
-     * @param count   количество элементов для отображения
+     * @param count   максимальное количество элементов
      * @param genreId идентификатор жанра фильма
      * @param year    год выхода фильма
      */

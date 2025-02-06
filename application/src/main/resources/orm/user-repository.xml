@@ -3,15 +3,15 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
                  version="3.0">
-    <named-query name="UserEntity.findByIdWithFriends">
+    <named-query name="User.findByIdWithFriends">
         <query>
             SELECT user
-            FROM UserEntity AS user
+            FROM User AS user
                 LEFT JOIN FETCH user.friends
             WHERE user.id = :id
         </query>
     </named-query>
-    <named-native-query name="UserEntity.findCommonFriends" result-class="com.example.application.persistence.model.UserEntity">
+    <named-native-query name="User.findCommonFriends" result-class="com.example.application.entity.User">
         <query>
             SELECT *
             FROM users
@@ -26,17 +26,17 @@
             );
         </query>
     </named-native-query>
-    <named-native-query name="UserEntity.findRelevantUserIds">
+    <named-native-query name="User.findAllForRecommendations">
         <query>
             SELECT user_id
             FROM (
                 SELECT user_id, max(count)
                 FROM (
                     SELECT user_id, count(film_id) AS count
-                    FROM film_like
+                    FROM film_likes
                     WHERE film_id IN (
                         SELECT film_id
-                        FROM film_like
+                        FROM film_likes
                         WHERE user_id = :id
                     ) AND user_id &lt;&gt; :id
                     GROUP BY user_id

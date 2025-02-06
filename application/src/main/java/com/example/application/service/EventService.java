@@ -1,6 +1,6 @@
 package com.example.application.service;
 
-import com.example.application.domain.Event;
+import com.example.application.entity.Event;
 
 import java.util.List;
 
@@ -8,13 +8,6 @@ import java.util.List;
  * Сервис для взаимодействия с действиями пользователей.
  */
 public interface EventService {
-
-    /**
-     * Добавление нового действия пользователя.
-     *
-     * @param event информация о действии пользователя
-     */
-    Event create(Event event);
 
     /**
      * Получение списка всех действий пользователя.

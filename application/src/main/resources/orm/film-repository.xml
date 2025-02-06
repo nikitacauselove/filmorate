@@ -3,42 +3,42 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
                  version="3.0">
-    <named-native-query name="FilmEntity.findCommon" result-class="com.example.application.persistence.model.FilmEntity">
+    <named-native-query name="Film.findRecommendations" result-class="com.example.application.entity.Film">
         <query>
             SELECT *
-            FROM film
+            FROM films
             WHERE id IN (
                 SELECT film_id
-                FROM film_like
+                FROM film_likes
+                WHERE user_id IN :ids
+                EXCEPT
+                SELECT film_id
+                FROM film_likes
+                WHERE user_id = :userId
+            );
+        </query>
+    </named-native-query>
+    <named-native-query name="Film.findCommon" result-class="com.example.application.entity.Film">
+        <query>
+            SELECT *
+            FROM films
+            WHERE id IN (
+                SELECT film_id
+                FROM film_likes
                 WHERE user_id = :userId
                 INTERSECT
                 SELECT film_id
-                FROM film_like
+                FROM film_likes
                 WHERE user_id = :friendId
             );
         </query>
     </named-native-query>
-    <named-native-query name="FilmEntity.decreaseLikesAmount" result-class="com.example.application.persistence.model.FilmEntity">
+    <named-native-query name="Film.decreaseLikesAmount" result-class="com.example.application.entity.Film">
         <query>
-            UPDATE film SET likes_amount = likes_amount - 1
+            UPDATE films SET likes_amount = likes_amount - 1
             WHERE id IN (
                 SELECT film_id
-                FROM film_like
-                WHERE user_id = :userId
-            );
-        </query>
-    </named-native-query>
-    <named-native-query name="FilmEntity.findRecommendations" result-class="com.example.application.persistence.model.FilmEntity">
-        <query>
-            SELECT *
-            FROM film
-            WHERE id IN (
-                SELECT film_id
-                FROM film_like
-                WHERE user_id IN :ids
-                EXCEPT
-                SELECT film_id
-                FROM film_like
+                FROM film_likes
                 WHERE user_id = :userId
             );
         </query>

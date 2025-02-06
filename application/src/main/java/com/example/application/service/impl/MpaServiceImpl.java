@@ -1,7 +1,8 @@
 package com.example.application.service.impl;
 
-import com.example.application.domain.Mpa;
-import com.example.application.persistence.MpaPersistenceService;
+import com.example.application.entity.Mpa;
+import com.example.application.exception.NotFoundException;
+import com.example.application.repository.MpaRepository;
 import com.example.application.service.MpaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,15 +13,16 @@ import java.util.List;
 @Service
 public class MpaServiceImpl implements MpaService {
 
-    private final MpaPersistenceService mpaPersistenceService;
+    private final MpaRepository mpaRepository;
 
     @Override
     public Mpa findById(Long id) {
-        return mpaPersistenceService.findById(id);
+        return mpaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
     }
 
     @Override
     public List<Mpa> findAll() {
-        return mpaPersistenceService.findAll();
+        return mpaRepository.findAll();
     }
 }

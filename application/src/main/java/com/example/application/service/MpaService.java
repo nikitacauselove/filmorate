@@ -1,6 +1,6 @@
 package com.example.application.service;
 
-import com.example.application.domain.Mpa;
+import com.example.application.entity.Mpa;
 
 import java.util.List;
 

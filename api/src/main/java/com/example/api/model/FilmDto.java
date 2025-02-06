@@ -20,5 +20,5 @@ public record FilmDto(@Schema(description = "Идентификатор филь
                       @Schema(description = "Длительность фильма") @Positive Integer duration,
                       @Schema(description = "Рейтинг Американской киноассоциации") @NotNull MpaDto mpa,
                       @Schema(description = "Список жанров фильма") Set<GenreDto> genres,
-                      @Schema(description = "Список режиссёров") Set<DirectorDto> directors) {
+                      @Schema(description = "Список режиссёров фильма") Set<DirectorDto> directors) {
 }
