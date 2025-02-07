@@ -79,13 +79,13 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Film findById(Long id) {
-        return filmRepository.findById(id)
+        return filmRepository.findByIdWithGenresAndDirectors(id)
                 .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
     }
 
     @Override
     public List<Film> findAll() {
-        return filmRepository.findAll(SORT_BY_ASCENDING_ID);
+        return filmRepository.findAllWithGenresAndDirectors();
     }
 
     @Override
@@ -147,7 +147,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
-        Specification<Film> specification = filmSpecification.byGenres(genreId)
+        Specification<Film> specification = filmSpecification.fetchGenres(true)
+                .and(filmSpecification.fetchDirectors(true))
+                .and(filmSpecification.byGenres(genreId))
                 .and(filmSpecification.byReleaseDate(year));
         Pageable pageable = PageRequest.of(0, count, SORT_BY_DESCENDING_LIKES_AMOUNT);
 
@@ -163,7 +165,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> search(String query, List<By> by) {
-        Specification<Film> specification = filmSpecification.byName(query, by)
+        Specification<Film> specification = filmSpecification.fetchGenres(false)
+                .or(filmSpecification.fetchDirectors(false))
+                .or(filmSpecification.byName(query, by))
                 .or(filmSpecification.byDirectors(query, by));
         Sort sort = SORT_BY_DESCENDING_LIKES_AMOUNT.and(SORT_BY_ASCENDING_ID);
 

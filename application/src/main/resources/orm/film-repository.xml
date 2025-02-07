@@ -3,10 +3,30 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
                  version="3.0">
+    <named-query name="Film.findByIdWithGenresAndDirectors">
+        <query>
+            SELECT film
+            FROM Film AS film
+                LEFT JOIN FETCH film.genres
+                LEFT JOIN FETCH film.directors
+            WHERE film.id = :id
+        </query>
+    </named-query>
+    <named-query name="Film.findAllWithGenresAndDirectors">
+        <query>
+            SELECT film
+            FROM Film AS film
+                LEFT JOIN FETCH film.genres
+                LEFT JOIN FETCH film.directors
+            ORDER BY film.id
+        </query>
+    </named-query>
     <named-native-query name="Film.findRecommendations" result-class="com.example.application.entity.Film">
         <query>
             SELECT *
             FROM films
+                LEFT JOIN film_genres ON films.id = film_genres.film_id
+                LEFT JOIN film_directors ON films.id = film_directors.film_id
             WHERE id IN (
                 SELECT film_id
                 FROM film_likes
@@ -22,6 +42,8 @@
         <query>
             SELECT *
             FROM films
+                LEFT JOIN film_genres ON films.id = film_genres.film_id
+                LEFT JOIN film_directors ON films.id = film_directors.film_id
             WHERE id IN (
                 SELECT film_id
                 FROM film_likes
