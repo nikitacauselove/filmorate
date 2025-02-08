@@ -51,8 +51,8 @@ public class Film {
     @Column(name = "duration")
     private Integer duration;
 
-    @OneToOne
     @JoinColumn(name = "mpa_id")
+    @OneToOne
     private Mpa mpa;
 
     @JoinTable(name = "film_genres",

@@ -37,5 +37,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param id идентификатор пользователя
      */
     @Query(nativeQuery = true)
-    List<Long> findAllForRecommendations(Long id);
+    List<Long> findRelevant(Long id);
 }

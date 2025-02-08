@@ -23,31 +23,31 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      *
      * @param id идентификатор фильма
      */
-    @Query
-    Optional<Film> findByIdWithGenresAndDirectors(Long id);
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    @Override
+    Optional<Film> findById(Long id);
 
     /**
      * Получение списка всех фильмов.
      */
-    @Query
-    List<Film> findAllWithGenresAndDirectors();
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    @Override
+    List<Film> findAll(Sort sort);
+
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    @Override
+    List<Film> findAllById(Iterable<Long> ids);
 
     /**
      * Получение списка всех фильмов указанного режиссёра.
      *
      * @param directorId идентификатор режиссёра
      */
-    @EntityGraph(attributePaths = {Film.Fields.mpa, Film.Fields.genres, Film.Fields.directors})
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 
-    /**
-     * Получение списка всех фильмов, рекомендованных к просмотру
-     *
-     * @param userId идентификатор пользователя
-     * @param ids    список идентификаторов релевантных пользователей
-     */
     @Query(nativeQuery = true)
-    List<Film> findRecommendations(Long userId, Iterable<Long> ids);
+    List<Long> findRecommendations(Long userId, Iterable<Long> ids);
 
     /**
      * Получение списка всех общих фильмов.
@@ -56,7 +56,7 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * @param friendId идентификатор пользователя
      */
     @Query(nativeQuery = true)
-    List<Film> findCommon(Long userId, Long friendId);
+    List<Long> findCommon(Long userId, Long friendId);
 
     /**
      * Обновление количества положительных оценок фильмов.

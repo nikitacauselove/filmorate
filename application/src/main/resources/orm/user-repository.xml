@@ -26,7 +26,7 @@
             );
         </query>
     </named-native-query>
-    <named-native-query name="User.findAllForRecommendations">
+    <named-native-query name="User.findRelevant">
         <query>
             SELECT user_id
             FROM (

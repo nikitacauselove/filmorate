@@ -79,13 +79,13 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Film findById(Long id) {
-        return filmRepository.findByIdWithGenresAndDirectors(id)
+        return filmRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(FilmRepository.NOT_FOUND));
     }
 
     @Override
     public List<Film> findAll() {
-        return filmRepository.findAllWithGenresAndDirectors();
+        return filmRepository.findAll(SORT_BY_ASCENDING_ID);
     }
 
     @Override
@@ -142,7 +142,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> findCommon(Long userId, Long friendId) {
-        return filmRepository.findCommon(userId, friendId);
+        List<Long> ids = filmRepository.findCommon(userId, friendId);
+
+        return filmRepository.findAllById(ids);
     }
 
     @Override
@@ -158,9 +160,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> findRecommendations(Long userId) {
-        List<Long> ids = userRepository.findAllForRecommendations(userId);
+        List<Long> ids = filmRepository.findRecommendations(userId, userRepository.findRelevant(userId));
 
-        return filmRepository.findRecommendations(userId, ids);
+        return filmRepository.findAllById(ids);
     }
 
     @Override
