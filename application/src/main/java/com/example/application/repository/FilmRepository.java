@@ -2,11 +2,13 @@ package com.example.application.repository;
 
 import com.example.application.entity.Film;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,18 +25,35 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      *
      * @param id идентификатор фильма
      */
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    @EntityGraph(attributePaths = {Film.Fields.mpa, Film.Fields.genres, Film.Fields.directors})
     @Override
     Optional<Film> findById(Long id);
 
     /**
      * Получение списка всех фильмов.
+     *
+     * @param sort критерий сортировки
      */
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    @EntityGraph(attributePaths = {Film.Fields.mpa, Film.Fields.genres, Film.Fields.directors})
     @Override
     List<Film> findAll(Sort sort);
 
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    /**
+     * Получение списка всех фильмов.
+     *
+     * @param spec спецификация
+     * @param sort критерий сортировки
+     */
+    @EntityGraph(attributePaths = {Film.Fields.mpa, Film.Fields.genres, Film.Fields.directors})
+    @Override
+    List<Film> findAll(@Nullable Specification<Film> spec, Sort sort);
+
+    /**
+     * Получение списка всех фильмов.
+     *
+     * @param ids список идентификаторов фильмов
+     */
+    @EntityGraph(attributePaths = {Film.Fields.mpa, Film.Fields.genres, Film.Fields.directors})
     @Override
     List<Film> findAllById(Iterable<Long> ids);
 
@@ -42,21 +61,28 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
      * Получение списка всех фильмов указанного режиссёра.
      *
      * @param directorId идентификатор режиссёра
+     * @param sort       критерий сортировки
      */
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = {Film.Fields.genres, Film.Fields.directors})
+    @EntityGraph(attributePaths = {Film.Fields.mpa, Film.Fields.genres, Film.Fields.directors})
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 
-    @Query(nativeQuery = true)
-    List<Long> findRecommendations(Long userId, Iterable<Long> ids);
-
     /**
-     * Получение списка всех общих фильмов.
+     * Получение списка всех идентификаторов общих фильмов.
      *
      * @param userId   идентификатор пользователя
      * @param friendId идентификатор пользователя
      */
     @Query(nativeQuery = true)
     List<Long> findCommon(Long userId, Long friendId);
+
+    /**
+     * Получение списка всех идентификаторов фильмов, рекомендованных к просмотру.
+     *
+     * @param userId  идентификатор пользователя
+     * @param userIds список идентификаторов релевантных пользователей
+     */
+    @Query(nativeQuery = true)
+    List<Long> findRecommendations(Long userId, Iterable<Long> userIds);
 
     /**
      * Обновление количества положительных оценок фильмов.

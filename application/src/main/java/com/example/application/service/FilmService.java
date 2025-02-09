@@ -2,7 +2,7 @@ package com.example.application.service;
 
 import com.example.api.model.By;
 import com.example.api.model.FilmDto;
-import com.example.api.model.SortBy;
+import com.example.application.entity.SortBy;
 import com.example.application.entity.Film;
 
 import java.util.List;

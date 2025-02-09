@@ -3,8 +3,8 @@ package com.example.application.controller;
 import com.example.api.FilmApi;
 import com.example.api.model.By;
 import com.example.api.model.FilmDto;
-import com.example.api.model.SortBy;
 import com.example.application.mapper.FilmMapper;
+import com.example.application.mapper.SortByMapper;
 import com.example.application.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +19,7 @@ public class FilmController implements FilmApi {
 
     private final FilmMapper filmMapper;
     private final FilmService filmService;
+    private final SortByMapper sortByMapper;
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,8 +43,8 @@ public class FilmController implements FilmApi {
     }
 
     @Override
-    public List<FilmDto> findAllByDirectorId(Long directorId, SortBy sortBy) {
-        return filmMapper.toDto(filmService.findAllByDirectorId(directorId, sortBy));
+    public List<FilmDto> findAllByDirectorId(Long directorId, com.example.api.model.SortBy sortBy) {
+        return filmMapper.toDto(filmService.findAllByDirectorId(directorId, sortByMapper.toEntity(sortBy)));
     }
 
     @Override

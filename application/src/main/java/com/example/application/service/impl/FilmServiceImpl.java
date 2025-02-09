@@ -2,7 +2,6 @@ package com.example.application.service.impl;
 
 import com.example.api.model.By;
 import com.example.api.model.FilmDto;
-import com.example.api.model.SortBy;
 import com.example.application.entity.Director;
 import com.example.application.entity.Event;
 import com.example.application.entity.EventType;
@@ -10,6 +9,7 @@ import com.example.application.entity.Film;
 import com.example.application.entity.Genre;
 import com.example.application.entity.Mpa;
 import com.example.application.entity.Operation;
+import com.example.application.entity.SortBy;
 import com.example.application.entity.User;
 import com.example.application.exception.NotFoundException;
 import com.example.application.mapper.DirectorMapper;
@@ -149,28 +149,26 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
-        Specification<Film> specification = filmSpecification.fetchGenres(true)
-                .and(filmSpecification.fetchDirectors(true))
-                .and(filmSpecification.byGenres(genreId))
-                .and(filmSpecification.byReleaseDate(year));
+        Specification<Film> specification = filmSpecification.byGenres(genreId).and(filmSpecification.byReleaseDate(year));
         Pageable pageable = PageRequest.of(0, count, SORT_BY_DESCENDING_LIKES_AMOUNT);
+        Iterable<Long> ids = filmRepository.findAll(specification, pageable).getContent().stream()
+                .map(Film::getId)
+                .toList();
 
-        return filmRepository.findAll(specification, pageable).getContent();
+        return filmRepository.findAllById(ids);
     }
 
     @Override
     public List<Film> findRecommendations(Long userId) {
-        List<Long> ids = filmRepository.findRecommendations(userId, userRepository.findRelevant(userId));
+        List<Long> userIds = userRepository.findRelevant(userId);
+        List<Long> ids = filmRepository.findRecommendations(userId, userIds);
 
         return filmRepository.findAllById(ids);
     }
 
     @Override
     public List<Film> search(String query, List<By> by) {
-        Specification<Film> specification = filmSpecification.fetchGenres(false)
-                .or(filmSpecification.fetchDirectors(false))
-                .or(filmSpecification.byName(query, by))
-                .or(filmSpecification.byDirectors(query, by));
+        Specification<Film> specification = filmSpecification.byName(query, by).or(filmSpecification.byDirectors(query, by));
         Sort sort = SORT_BY_DESCENDING_LIKES_AMOUNT.and(SORT_BY_ASCENDING_ID);
 
         return filmRepository.findAll(specification, sort);
