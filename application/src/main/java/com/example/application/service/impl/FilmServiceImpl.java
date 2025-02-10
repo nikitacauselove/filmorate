@@ -94,7 +94,7 @@ public class FilmServiceImpl implements FilmService {
         if (!directorRepository.existsById(directorId)) {
             throw new NotFoundException(DirectorRepository.NOT_FOUND);
         }
-        return filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getCriteria()));
+        return filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getProperty()));
     }
 
     @Override

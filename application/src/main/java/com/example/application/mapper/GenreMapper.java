@@ -17,8 +17,6 @@ public interface GenreMapper {
 
     List<GenreDto> toDto(List<Genre> genreList);
 
-    Set<GenreDto> toDto(Set<Genre> genreSet);
-
     @IterableMapping(qualifiedByName = "toId", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
     Iterable<Long> toIds(Set<GenreDto> genreDtoSet);
 

@@ -20,5 +20,5 @@ public enum SortBy {
      */
     YEAR(Film.Fields.releaseDate);
 
-    private final String criteria;
+    private final String property;
 }

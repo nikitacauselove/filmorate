@@ -28,12 +28,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "events_id_seq", allocationSize = 1)
-@Table(name = "events")
+@SequenceGenerator(name = "event_id_seq", allocationSize = 1)
+@Table(name = "event")
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "events_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_id_seq")
     private Long id;
 
     @Column(name = "created")

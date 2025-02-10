@@ -6,31 +6,31 @@
     <named-native-query name="Film.findCommon">
         <query>
             SELECT film_id
-            FROM film_likes
+            FROM film_like
             WHERE user_id = :userId
             INTERSECT
             SELECT film_id
-            FROM film_likes
+            FROM film_like
             WHERE user_id = :friendId;
         </query>
     </named-native-query>
     <named-native-query name="Film.findRecommendations">
         <query>
             SELECT film_id
-            FROM film_likes
+            FROM film_like
             WHERE user_id IN :userIds
             EXCEPT
             SELECT film_id
-            FROM film_likes
+            FROM film_like
             WHERE user_id = :userId;
         </query>
     </named-native-query>
     <named-native-query name="Film.decreaseLikesAmount">
         <query>
-            UPDATE films SET likes_amount = likes_amount - 1
+            UPDATE film SET likes_amount = likes_amount - 1
             WHERE id IN (
                 SELECT film_id
-                FROM film_likes
+                FROM film_like
                 WHERE user_id = :userId
             );
         </query>

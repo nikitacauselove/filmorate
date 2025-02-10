@@ -9,11 +9,9 @@ import com.example.application.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
 
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Mapper(componentModel = "spring", uses = {DirectorMapper.class, GenreMapper.class, MpaMapper.class})
 public interface FilmMapper {
@@ -36,13 +34,7 @@ public interface FilmMapper {
     @Mapping(target = "likesAmount", ignore = true)
     Film updateEntity(FilmDto filmDto, Mpa mpa, Set<Genre> genreSet, Set<Director> directorSet, @MappingTarget Film film);
 
-    @Mapping(target = "genres", source = "genres", qualifiedByName = "sortById")
     FilmDto toDto(Film film);
 
     List<FilmDto> toDto(List<Film> filmList);
-
-    @Named("sortById")
-    default Set<Genre> sortById(Set<Genre> genreSet) {
-        return new TreeSet<>(genreSet);
-    }
 }

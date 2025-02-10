@@ -23,12 +23,12 @@ import lombok.experimental.FieldNameConstants;
 @Getter
 @NoArgsConstructor
 @Setter
-@SequenceGenerator(name = "directors_id_seq", allocationSize = 1)
-@Table(name = "directors")
+@SequenceGenerator(name = "director_id_seq", allocationSize = 1)
+@Table(name = "director")
 public class Director {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "directors_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "director_id_seq")
     private Long id;
 
     @Column(name = "name")

@@ -22,7 +22,7 @@ import lombok.experimental.FieldNameConstants;
 @Getter
 @NoArgsConstructor
 @Setter
-@Table(name = "review_marks")
+@Table(name = "review_mark")
 public class ReviewMark {
 
     @EmbeddedId

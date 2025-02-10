@@ -30,13 +30,13 @@
         <query>
             SELECT user_id
             FROM (
-                SELECT user_id, max(count)
+                SELECT user_id, MAX(count)
                 FROM (
-                    SELECT user_id, count(film_id) AS count
-                    FROM film_likes
+                    SELECT user_id, COUNT(film_id) AS count
+                    FROM film_like
                     WHERE film_id IN (
                         SELECT film_id
-                        FROM film_likes
+                        FROM film_like
                         WHERE user_id = :id
                     ) AND user_id &lt;&gt; :id
                     GROUP BY user_id
