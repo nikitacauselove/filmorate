@@ -1,18 +1,25 @@
-version: '3.8'
 services:
-  postgres:
-    container_name: postgres
-    image: postgres
+  application:
+    build: application/
+    container_name: application
+    depends_on:
+      - database
+      - liquibase
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      - HOST=database
+    ports:
+      - "8080:8080"
+  database:
+    container_name: database
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    image: postgres
     ports:
       - "5432:5432"
-#  liquibase:
-#    container_name: liquibase
-#    depends_on:
-#      - postgres
-#    image: liquibase
-#    volumes:
-#      - ./liquibase/db/changelog/:/liquibase/changelog/
-#    command: update --url=jdbc:postgresql://postgres:5432/postgres --username=postgres --password=postgres --changeLogFile=master.yaml
+  liquibase:
+    build: liquibase/
+    container_name: liquibase
+    depends_on:
+      - database
+    environment:
+      - HOST=database
