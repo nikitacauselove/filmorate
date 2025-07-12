@@ -46,7 +46,7 @@ CREATE TABLE film (
     mpa_id       bigint                                  NOT NULL,
     likes_amount integer                                 NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (mpa_id) REFERENCES mpa (id) ON DELETE RESTRICT
+    FOREIGN KEY (mpa_id) REFERENCES mpa (id)
 );
 
 CREATE TABLE film_genre (
