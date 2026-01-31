@@ -8,4 +8,4 @@ spring:
     hibernate:
       ddl-auto: none
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-root.yaml
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
