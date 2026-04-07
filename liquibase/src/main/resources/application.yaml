@@ -4,8 +4,5 @@ spring:
     password: postgres
     url: jdbc:postgresql://${HOST}:5432/postgres
     username: postgres
-  jpa:
-    hibernate:
-      ddl-auto: none
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
