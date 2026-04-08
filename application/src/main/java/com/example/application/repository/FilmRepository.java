@@ -67,7 +67,16 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
     List<Film> findAllByDirectors_Id(Long directorId, Sort sort);
 
     /**
-     * Получение списка всех идентификаторов общих фильмов.
+     * Обновление количества положительных оценок фильмов.
+     *
+     * @param userId идентификатор пользователя
+     */
+    @Modifying
+    @Query(nativeQuery = true)
+    void decreaseLikesAmount(Long userId);
+
+    /**
+     * Получение списка идентификаторов всех общих фильмов.
      *
      * @param userId   идентификатор пользователя
      * @param friendId идентификатор пользователя
@@ -76,20 +85,11 @@ public interface FilmRepository extends JpaRepository<Film, Long>, JpaSpecificat
     List<Long> findCommon(Long userId, Long friendId);
 
     /**
-     * Получение списка всех идентификаторов фильмов, рекомендованных к просмотру.
+     * Получение списка идентификаторов всех фильмов, рекомендованных к просмотру.
      *
      * @param userId  идентификатор пользователя
      * @param userIds список идентификаторов релевантных пользователей
      */
     @Query(nativeQuery = true)
     List<Long> findRecommendations(Long userId, Iterable<Long> userIds);
-
-    /**
-     * Обновление количества положительных оценок фильмов.
-     *
-     * @param userId идентификатор пользователя
-     */
-    @Modifying
-    @Query(nativeQuery = true)
-    void decreaseLikesAmount(Long userId);
 }

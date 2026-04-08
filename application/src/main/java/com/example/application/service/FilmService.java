@@ -70,6 +70,13 @@ public interface FilmService {
     void deleteLike(Long id, Long userId);
 
     /**
+     * Обновление количества положительных оценок фильмов.
+     *
+     * @param userId идентификатор пользователя
+     */
+    void decreaseLikesAmount(Long userId);
+
+    /**
      * Получение списка всех общих фильмов.
      *
      * @param userId   идентификатор пользователя
@@ -97,7 +104,7 @@ public interface FilmService {
      * Поиск фильмов.
      *
      * @param query текст для поиска фильмов
-     * @param by    список критериев для поиска фильмов
+     * @param by    список критериев поиска фильмов
      */
     List<Film> search(String query, List<By> by);
 }

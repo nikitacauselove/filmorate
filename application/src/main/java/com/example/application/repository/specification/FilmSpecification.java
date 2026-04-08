@@ -20,12 +20,11 @@ public class FilmSpecification {
     private final static String YEAR = "YEAR";
 
     private final DirectorRepository directorRepository;
-    private final GenreRepository genreRepository;
 
     public Specification<Film> byGenres(Long genreId) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             if (genreId != null) {
-                return criteriaBuilder.isMember(genreRepository.getReferenceById(genreId), root.get(Film.Fields.genres));
+                return criteriaBuilder.equal(root.join(Film.Fields.genres).get("id"), genreId);
             }
             return criteriaBuilder.conjunction();
         };

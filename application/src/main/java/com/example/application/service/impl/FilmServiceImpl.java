@@ -15,15 +15,16 @@ import com.example.application.exception.NotFoundException;
 import com.example.application.mapper.DirectorMapper;
 import com.example.application.mapper.FilmMapper;
 import com.example.application.mapper.GenreMapper;
-import com.example.application.repository.DirectorRepository;
-import com.example.application.repository.EventRepository;
 import com.example.application.repository.FilmRepository;
-import com.example.application.repository.GenreRepository;
-import com.example.application.repository.MpaRepository;
-import com.example.application.repository.UserRepository;
 import com.example.application.repository.specification.FilmSpecification;
+import com.example.application.service.DirectorService;
+import com.example.application.service.EventService;
 import com.example.application.service.FilmService;
+import com.example.application.service.GenreService;
+import com.example.application.service.MpaService;
+import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -43,23 +44,23 @@ public class FilmServiceImpl implements FilmService {
     private static final Sort SORT_BY_DESCENDING_LIKES_AMOUNT = Sort.by(Sort.Direction.DESC, Film.Fields.likesAmount);
 
     private final DirectorMapper directorMapper;
-    private final DirectorRepository directorRepository;
-    private final EventRepository eventRepository;
+    private final DirectorService directorService;
+    private final EventService eventService;
     private final FilmMapper filmMapper;
     private final FilmRepository filmRepository;
     private final FilmSpecification filmSpecification;
     private final GenreMapper genreMapper;
-    private final GenreRepository genreRepository;
-    private final MpaRepository mpaRepository;
-    private final UserRepository userRepository;
+    private final GenreService genreService;
+    private final MpaService mpaService;
+    @Lazy
+    private final UserService userService;
 
     @Override
     @Transactional
     public Film create(FilmDto filmDto) {
-        Mpa mpa = mpaRepository.findById(filmDto.mpa().id())
-                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
-        List<Genre> genres = genreRepository.findAllById(genreMapper.toIds(filmDto.genres()));
-        List<Director> directors = directorRepository.findAllById(directorMapper.toIds(filmDto.directors()));
+        Mpa mpa = mpaService.findById(filmDto.mpa().id());
+        List<Genre> genres = genreService.findAllById(genreMapper.toIds(filmDto.genres()));
+        List<Director> directors = directorService.findAllById(directorMapper.toIds(filmDto.directors()));
         Film film = filmMapper.toEntity(filmDto, mpa, Set.copyOf(genres), Set.copyOf(directors), Collections.emptySet());
 
         return filmRepository.save(film);
@@ -68,10 +69,9 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional
     public Film update(FilmDto filmDto) {
-        Mpa mpa = mpaRepository.findById(filmDto.mpa().id())
-                .orElseThrow(() -> new NotFoundException(MpaRepository.NOT_FOUND));
-        List<Genre> genres = genreRepository.findAllById(genreMapper.toIds(filmDto.genres()));
-        List<Director> directors = directorRepository.findAllById(directorMapper.toIds(filmDto.directors()));
+        Mpa mpa = mpaService.findById(filmDto.mpa().id());
+        List<Genre> genres = genreService.findAllById(genreMapper.toIds(filmDto.genres()));
+        List<Director> directors = directorService.findAllById(directorMapper.toIds(filmDto.directors()));
         Film film = findById(filmDto.id());
 
         return filmMapper.updateEntity(filmDto, mpa, Set.copyOf(genres), Set.copyOf(directors), film);
@@ -91,10 +91,9 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional(readOnly = true)
     public List<Film> findAllByDirectorId(Long directorId, SortBy sortBy) {
-        if (!directorRepository.existsById(directorId)) {
-            throw new NotFoundException(DirectorRepository.NOT_FOUND);
-        }
-        return filmRepository.findAllByDirectors_Id(directorId, Sort.by(sortBy.getProperty()));
+        Director director = directorService.findById(directorId);
+
+        return filmRepository.findAllByDirectors_Id(director.getId(), Sort.by(sortBy.getProperty()));
     }
 
     @Override
@@ -106,14 +105,13 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public void addLike(Long id, Long userId) {
         Film film = findById(id);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User user = userService.findById(userId);
 
         if (!film.getLikingUsers().contains(user)) {
             film.getLikingUsers().add(user);
             film.setLikesAmount(film.getLikesAmount() + 1);
         }
-        eventRepository.save(Event.builder()
+        eventService.create(Event.builder()
                 .userId(userId)
                 .eventType(EventType.LIKE)
                 .operation(Operation.ADD)
@@ -125,14 +123,13 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     public void deleteLike(Long id, Long userId) {
         Film film = findById(id);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User user = userService.findById(userId);
 
         if (film.getLikingUsers().contains(user)) {
             film.getLikingUsers().remove(user);
             film.setLikesAmount(film.getLikesAmount() - 1);
         }
-        eventRepository.save(Event.builder()
+        eventService.create(Event.builder()
                 .userId(userId)
                 .eventType(EventType.LIKE)
                 .operation(Operation.REMOVE)
@@ -141,6 +138,12 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    public void decreaseLikesAmount(Long userId) {
+        filmRepository.decreaseLikesAmount(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Film> findCommon(Long userId, Long friendId) {
         List<Long> ids = filmRepository.findCommon(userId, friendId);
 
@@ -148,10 +151,11 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Film> findPopular(Integer count, Long genreId, Integer year) {
         Specification<Film> specification = filmSpecification.byGenres(genreId).and(filmSpecification.byReleaseDate(year));
         Pageable pageable = PageRequest.of(0, count, SORT_BY_DESCENDING_LIKES_AMOUNT);
-        Iterable<Long> ids = filmRepository.findAll(specification, pageable).getContent().stream()
+        List<Long> ids = filmRepository.findAll(specification, pageable).getContent().stream()
                 .map(Film::getId)
                 .toList();
 
@@ -159,8 +163,9 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Film> findRecommendations(Long userId) {
-        List<Long> userIds = userRepository.findRelevant(userId);
+        List<Long> userIds = userService.findRelevant(userId);
         List<Long> ids = filmRepository.findRecommendations(userId, userIds);
 
         return filmRepository.findAllById(ids);

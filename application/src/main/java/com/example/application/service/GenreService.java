@@ -20,4 +20,11 @@ public interface GenreService {
      * Получение списка всех жанров фильмов.
      */
     List<Genre> findAll();
+
+    /**
+     * Получение списка всех жанров фильмов.
+     *
+     * @param ids список идентификаторов жанров фильмов
+     */
+    List<Genre> findAllById(Iterable<Long> ids);
 }

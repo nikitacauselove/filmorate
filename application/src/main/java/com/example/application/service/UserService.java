@@ -32,6 +32,13 @@ public interface UserService {
     User findById(Long id);
 
     /**
+     * Получение информации о пользователе.
+     *
+     * @param id идентификатор пользователя
+     */
+    User findByIdWithFriends(Long id);
+
+    /**
      * Получение списка всех пользователей.
      */
     List<User> findAll();
@@ -73,4 +80,11 @@ public interface UserService {
      * @param otherUserId идентификатор пользователя
      */
     List<User> findCommonFriends(Long id, Long otherUserId);
+
+    /**
+     * Получение списка идентификаторов всех релевантных пользователей.
+     *
+     * @param id идентификатор пользователя
+     */
+    List<Long> findRelevant(Long id);
 }

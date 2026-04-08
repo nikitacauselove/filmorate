@@ -10,6 +10,13 @@ import java.util.List;
 public interface EventService {
 
     /**
+     * Добавление нового действия пользователя.
+     *
+     * @param event информация о действии пользователя
+     */
+    Event create(Event event);
+
+    /**
      * Получение списка всех действий пользователя.
      *
      * @param userId идентификатор пользователя

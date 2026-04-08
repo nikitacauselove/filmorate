@@ -38,7 +38,7 @@ public interface ReviewService {
      * @param filmId идентификатор фильма
      * @param count  максимальное количество элементов
      */
-    List<Review> findAll(Long filmId, Integer count);
+    List<Review> findAllByFilmId(Long filmId, Integer count);
 
     /**
      * Удаление рецензии.

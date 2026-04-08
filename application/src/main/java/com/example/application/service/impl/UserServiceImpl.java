@@ -7,9 +7,9 @@ import com.example.application.entity.Operation;
 import com.example.application.entity.User;
 import com.example.application.exception.NotFoundException;
 import com.example.application.mapper.UserMapper;
-import com.example.application.repository.EventRepository;
-import com.example.application.repository.FilmRepository;
 import com.example.application.repository.UserRepository;
+import com.example.application.service.EventService;
+import com.example.application.service.FilmService;
 import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final EventRepository eventRepository;
-    private final FilmRepository filmRepository;
+    private final EventService eventService;
+    private final FilmService filmService;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByIdWithFriends(Long id) {
+        return userRepository.findByIdWithFriends(id)
+                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -53,19 +59,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        filmService.decreaseLikesAmount(id);
         userRepository.deleteById(id);
-        filmRepository.decreaseLikesAmount(id);
     }
 
     @Override
     @Transactional
     public void addFriend(Long id, Long friendId) {
-        User user = userRepository.findByIdWithFriends(id)
-                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User user = findByIdWithFriends(id);
         User friend = findById(friendId);
 
         user.getFriends().add(friend);
-        eventRepository.save(Event.builder()
+        eventService.create(Event.builder()
                 .userId(id)
                 .eventType(EventType.FRIEND)
                 .operation(Operation.ADD)
@@ -76,12 +81,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteFriend(Long id, Long friendId) {
-        User user = userRepository.findByIdWithFriends(id)
-                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User user = findByIdWithFriends(id);
         User friend = findById(friendId);
 
         user.getFriends().remove(friend);
-        eventRepository.save(Event.builder()
+        eventService.create(Event.builder()
                 .userId(id)
                 .eventType(EventType.FRIEND)
                 .operation(Operation.REMOVE)
@@ -91,8 +95,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findFriends(Long id) {
-        User user = userRepository.findByIdWithFriends(id)
-                .orElseThrow(() -> new NotFoundException(UserRepository.NOT_FOUND));
+        User user = findByIdWithFriends(id);
 
         return user.getFriends().stream()
                 .toList();
@@ -101,5 +104,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findCommonFriends(Long id, Long otherUserId) {
         return userRepository.findCommonFriends(id, otherUserId);
+    }
+
+    @Override
+    public List<Long> findRelevant(Long id) {
+        return userRepository.findRelevant(id);
     }
 }

@@ -39,8 +39,8 @@ public class ReviewController implements ReviewApi {
     }
 
     @Override
-    public List<ReviewDto> findAll(Long filmId, Integer count) {
-        return reviewMapper.toDto(reviewService.findAll(filmId, count));
+    public List<ReviewDto> findAllFilmId(Long filmId, Integer count) {
+        return reviewMapper.toDto(reviewService.findAllByFilmId(filmId, count));
     }
 
     @Override
@@ -55,13 +55,13 @@ public class ReviewController implements ReviewApi {
     }
 
     @Override
-    public void deleteLike(Long id, Long userId) {
-        reviewService.deleteMark(id, userId, MarkType.LIKE);
+    public void addDislike(Long id, Long userId) {
+        reviewService.addMark(id, userId, MarkType.DISLIKE);
     }
 
     @Override
-    public void addDislike(Long id, Long userId) {
-        reviewService.addMark(id, userId, MarkType.DISLIKE);
+    public void deleteLike(Long id, Long userId) {
+        reviewService.deleteMark(id, userId, MarkType.LIKE);
     }
 
     @Override

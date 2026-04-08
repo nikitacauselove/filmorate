@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findCommonFriends(Long id, Long otherUserId);
 
     /**
-     * Получение списка всех идентификаторов релевантных пользователей.
+     * Получение списка идентификаторов всех релевантных пользователей.
      *
      * @param id идентификатор пользователя
      */

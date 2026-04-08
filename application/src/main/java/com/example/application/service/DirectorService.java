@@ -37,6 +37,13 @@ public interface DirectorService {
     List<Director> findAll();
 
     /**
+     * Получение списка всех режиссёров.
+     *
+     * @param ids список идентификаторов режиссёров
+     */
+    List<Director> findAllById(Iterable<Long> ids);
+
+    /**
      * Удаление режиссёра.
      *
      * @param id идентификатор режиссёра

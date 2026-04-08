@@ -34,8 +34,8 @@ public interface ReviewApi {
 
     @GetMapping
     @Operation(description = "Получение списка всех рецензий")
-    List<ReviewDto> findAll(@Parameter(description = "Идентификатор фильма") @RequestParam(required = false) Long filmId,
-                            @Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count);
+    List<ReviewDto> findAllFilmId(@Parameter(description = "Идентификатор фильма") @RequestParam(required = false) Long filmId,
+                                  @Parameter(description = "Максимальное количество элементов") @RequestParam(defaultValue = "10") Integer count);
 
     @DeleteMapping("/{id}")
     @Operation(description = "Удаление рецензии")
@@ -45,13 +45,13 @@ public interface ReviewApi {
     @Operation(description = "Добавление положительной оценки")
     void addLike(@PathVariable Long id, @PathVariable Long userId);
 
-    @DeleteMapping("/{id}/like/{userId}")
-    @Operation(description = "Удаление положительной оценки")
-    void deleteLike(@PathVariable Long id, @PathVariable Long userId);
-
     @PutMapping("/{id}/dislike/{userId}")
     @Operation(description = "Добавление отрицательной оценки")
     void addDislike(@PathVariable Long id, @PathVariable Long userId);
+
+    @DeleteMapping("/{id}/like/{userId}")
+    @Operation(description = "Удаление положительной оценки")
+    void deleteLike(@PathVariable Long id, @PathVariable Long userId);
 
     @DeleteMapping("/{id}/dislike/{userId}")
     @Operation(description = "Удаление отрицательной оценки")

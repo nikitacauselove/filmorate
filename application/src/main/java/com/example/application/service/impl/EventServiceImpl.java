@@ -1,11 +1,12 @@
 package com.example.application.service.impl;
 
 import com.example.application.entity.Event;
-import com.example.application.exception.NotFoundException;
+import com.example.application.entity.User;
 import com.example.application.repository.EventRepository;
-import com.example.application.repository.UserRepository;
 import com.example.application.service.EventService;
+import com.example.application.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +17,19 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
-    private final UserRepository userRepository;
+    @Lazy
+    private final UserService userService;
+
+    @Override
+    public Event create(Event event) {
+        return eventRepository.save(event);
+    }
 
     @Override
     @Transactional(readOnly = true)
     public List<Event> findAllByUserId(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new NotFoundException(UserRepository.NOT_FOUND);
-        }
-        return eventRepository.findAllByUserId(userId);
+        User user = userService.findById(userId);
+
+        return eventRepository.findAllByUserId(user.getId());
     }
 }
